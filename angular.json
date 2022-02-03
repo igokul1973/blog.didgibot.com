@@ -83,7 +83,10 @@
               "port": 80
             },
             "development": {
-              "browserTarget": "manhattanman:build:development"
+              "browserTarget": "manhattanman:build:development",
+              "host": "192.168.10.250",
+              "disableHostCheck": true,
+              "port": 4200
             }
           },
           "defaultConfiguration": "development"
