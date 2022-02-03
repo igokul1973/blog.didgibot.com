@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "manhattanman.site": {
+    "manhattanman": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/manhattanman.site",
+            "outputPath": "dist/manhattanman",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -58,6 +58,12 @@
               "outputHashing": "all"
             },
             "development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ],
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -72,10 +78,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "manhattanman.site:build:production"
+              "browserTarget": "manhattanman:build:production",
+              "publicHost": "http://manhattanman.site",
+              "port": 80
             },
             "development": {
-              "browserTarget": "manhattanman.site:build:development"
+              "browserTarget": "manhattanman:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +91,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "manhattanman.site:build"
+            "browserTarget": "manhattanman:build"
           }
         },
         "test": {
@@ -107,5 +115,5 @@
       }
     }
   },
-  "defaultProject": "manhattanman.site"
+  "defaultProject": "manhattanman"
 }
