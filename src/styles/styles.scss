@@ -1,0 +1,92 @@
+/* Light theme */
+@use "sass:color";
+@use "@angular/material" as mat;
+@use "fonts";
+@use "variables" as vars;
+@use "lightTheme" as lt;
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: mat.get-color-from-palette(lt.$manhattanman-accent, 100);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: mat.get-color-from-palette(lt.$manhattanman-primary);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mat-card.mat-card {
+  padding: 16px;
+  width: 85%;
+
+  @media screen and (min-width: vars.$tablet-width) {
+    padding: vars.$card-padding;
+  }
+
+  .mat-toolbar.mat-toolbar {
+    background-color: white;
+  }
+
+  .mat-headline {
+    color: mat.get-color-from-palette(lt.$manhattanman-primary);
+    font-size: vars.$h2-font-size;
+    padding: 15px 0 10px;
+
+    @media screen and (min-width: vars.$tablet-width) {
+      font-size: vars.$h1-font-size;
+    }
+  }
+
+  .mat-title {
+    color: mat.get-color-from-palette(lt.$manhattanman-accent);
+    font-size: vars.$h3-font-size;
+  }
+
+  .mat-card-subtitle {
+    font-size: 1.5rem;
+  }
+
+  .mat-card-content {
+    padding-bottom: 16px;
+  }
+
+  .mat-card-header {
+    display: block;
+  }
+
+  .mat-card-header-text {
+    margin: 0;
+  }
+
+  .mat-card-actions {
+    padding-top: 24px;
+  }
+}
+
+.mat-card.introduction {
+  border: 1px solid rgb(0 0 0 / 12%);
+  border-radius: 4px;
+  box-shadow: none;
+
+  .mat-card-actions {
+    display: flex;
+    justify-content: center;
+
+    button {
+      text-transform: uppercase;
+    }
+  }
+}

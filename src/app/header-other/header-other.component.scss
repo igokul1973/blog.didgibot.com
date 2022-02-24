@@ -1,0 +1,34 @@
+@use "@angular/material" as mat;
+@use "../../styles/variables" as vars;
+@use "../../styles/lightTheme" as lt;
+@use "../../styles/home" as home;
+
+.other {
+  .mat-toolbar.mat-toolbar-single-row {
+    .logo {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: left;
+
+      .head {
+        color: mat.get-color-from-palette(lt.$manhattanman-primary);
+        font-size: 2.2rem;
+        transform: translateY(4px);
+      }
+
+      .motto {
+        color: mat.get-color-from-palette(lt.$manhattanman-accent);
+        transform: translate(104px, -2px);
+        font-size: 1rem;
+
+        @media screen and (min-width: vars.$tablet-width) {
+          transform: translate(204px, -2px);
+        }
+      }
+    }
+  }
+
+  @include home.toolbar-icons;
+}

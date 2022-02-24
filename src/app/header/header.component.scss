@@ -1,0 +1,41 @@
+@use "@angular/material" as mat;
+@use "../../styles/lightTheme" as lt;
+@use "../../styles/variables" as vars;
+
+:host {
+  position: relative;
+  background-color: yellow;
+}
+
+.mat-toolbar {
+  position: relative;
+  z-index: 10;
+  margin-bottom: vars.$header-tablet-margin-bottom;
+  height: vars.$header-height;
+
+  @media screen and (min-width: vars.$tablet-width) {
+    margin-bottom: vars.$header-margin-bottom;
+  }
+}
+
+.tablet-menu {
+  transform: translateY(-300px);
+  position: absolute;
+  top: vars.$header-height;
+  width: 100vw;
+  z-index: 9;
+  background-color: mat.get-color-from-palette(lt.$manhattanman-primary);
+  transition: transform 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  &.open {
+    transform: translateY(0);
+  }
+
+  @media screen and (min-width: vars.$tablet-width) {
+    display: none;
+  }
+
+  .mat-list-option {
+    color: white;
+  }
+}
