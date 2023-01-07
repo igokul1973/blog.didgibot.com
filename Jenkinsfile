@@ -2,8 +2,9 @@
 pipeline {
     agent {
       kubernetes {
-        defaultContainer 'node'
-        yaml '''apiVersion: v1
+        defaultContainer 'node-16'
+        yaml '''
+    apiVersion: v1
     kind: Pod
     metadata:
       labels:
@@ -15,7 +16,8 @@ pipeline {
         name: node-16
         resources: {}
       dnsPolicy: ClusterFirst
-      restartPolicy: Always'''
+      restartPolicy: Always
+    '''
       }
     }
     // agent { docker { image 'node:16.17.1-alpine' } }
