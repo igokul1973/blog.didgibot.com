@@ -2,7 +2,6 @@
 pipeline {
     agent {
       kubernetes {
-        defaultContainer 'node-git-chromium'
         yamlFile 'cicd/node-git-chromium-pod.yaml'
       }
     }
@@ -15,14 +14,20 @@ pipeline {
         // }
         stage('Bump version') {
           steps {
-            sh "git config --global --add safe.directory ${env.WORKSPACE}"
-            sh "git branch"
-            sh 'npm version patch -m "Upgrade to %s commit"'
-          }
-        }
-        stage('Commit version') {
-          steps {
-              sh 'git add --all && git push origin HEAD:main'
+              container('node-git-chromium') {
+                withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
+                    sh """
+                      git config --global --add safe.directory ${env.WORKSPACE}
+                      git checkout main
+                      npm version patch -m  "Upgrade to new version"
+                    """
+                }
+              }
+              withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
+                  sshagent(credentials: ['bitbucket-ssh-creds']) {
+                      sh "git push"
+                  }
+              }
           }
         }
         stage('build') {
@@ -34,6 +39,7 @@ pipeline {
             }
         }
     }
+
     post {
       success {
         archiveArtifacts 'test-results.txt'
