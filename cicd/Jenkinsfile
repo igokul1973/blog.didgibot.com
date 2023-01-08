@@ -2,16 +2,15 @@
 pipeline {
     agent {
       kubernetes {
-        yamlFile 'node-pod.yaml'
+        yamlFile 'cicd/node-pod.yaml'
       }
     }
     stages {
         stage('Test') {
           steps {
             container('node') {
-                sh 'npm install -g yarn'
                 sh 'yarn'
-                sh 'yarn test'
+                sh 'yarn test:headless'
             }
           }
         }
@@ -25,7 +24,7 @@ pipeline {
         stage('Commit version') {
           agent {
             kubernetes {
-              yamlFile 'git-pod.yaml'
+              yamlFile 'cicd/git-pod.yaml'
             }
           }
           steps {
