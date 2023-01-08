@@ -2,40 +2,33 @@
 pipeline {
     agent {
       kubernetes {
+        defaultContainer 'node-git-chromium'
         yamlFile 'cicd/node-git-chromium-pod.yaml'
       }
     }
     stages {
         stage('Test') {
           steps {
-            container('node') {
-                sh 'yarn'
-                sh 'yarn test:headless'
-            }
+              sh 'yarn'
+              sh 'yarn test:headless'
           }
         }
         stage('Bump version') {
           steps {
-            container('node') {
-                sh 'npm version patch -m "Upgrade to %s commit"'
-            }
+              sh 'npm version patch -m "Upgrade to %s commit"'
           }
         }
         stage('Commit version') {
           steps {
-            container('git') {
-                sh 'git add -all && git push'
-            }
+              sh 'git add -all && git push'
           }
         }
         stage('build') {
             steps {
-                container('node') {
-                  sh 'node --version'
-                  sh 'Building the app...'
-                  sh 'yarn build'
-                  writeFile file: 'test-results.txt', text: 'The build is finished executing'
-                }
+                sh 'node --version'
+                sh 'Building the app...'
+                sh 'yarn build'
+                writeFile file: 'test-results.txt', text: 'The build is finished executing'
             }
         }
     }
