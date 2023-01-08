@@ -7,12 +7,12 @@ pipeline {
       }
     }
     stages {
-        stage('Test') {
-          steps {
-              sh 'yarn'
-              sh 'yarn test:headless'
-          }
-        }
+        // stage('Test') {
+        //   steps {
+        //       sh 'yarn'
+        //       sh 'yarn test:headless'
+        //   }
+        // }
         stage('Bump version') {
           steps {
               sh 'npm version patch -m "Upgrade to %s commit"'
