@@ -8,4 +8,7 @@ RUN apk update && apk add --no-cache nmap && \
   apk add --no-cache git chromium
 RUN git config --global user.email "igk19@me.com"
 RUN git config --global user.name "Igor K."
+RUN touch /root/.gitattributes
+RUN git config --global core.attributesfile /root/.gitattributes
+ENV XDG_CONFIG_HOME=/root/.gitattributes
 

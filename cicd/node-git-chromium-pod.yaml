@@ -4,7 +4,7 @@ metadata:
   name: node-git-chromium-pod
 spec:
   containers:
-    - image: igk19/node-git-chromium:1.0.2
+    - image: igk19/node-git-chromium:1.0.3
       name: node-git-chromium
       command:
         - sleep
