@@ -38,6 +38,12 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
+    customLaunchers: {
+      chromeHeadless: {
+          base: "ChromeHeadless",
+          flags: ["--disable-gpu", "--no-sandbox", "--disable-accelerated-video-decode", "--disable-accelerated-mjpeg-decode"],
+      },
+    },
     singleRun: false,
     restartOnFileChange: true
   });
