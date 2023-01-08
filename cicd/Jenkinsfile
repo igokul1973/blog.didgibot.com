@@ -2,7 +2,7 @@
 pipeline {
     agent {
       kubernetes {
-        yamlFile: 'node-pod.yaml'
+        yamlFile 'node-pod.yaml'
       }
     }
     stages {
@@ -25,7 +25,7 @@ pipeline {
         stage('Commit version') {
           agent {
             kubernetes {
-              yamlFile: 'git-pod.yaml'
+              yamlFile 'git-pod.yaml'
             }
           }
           steps {
