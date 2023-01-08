@@ -1,0 +1,43 @@
+/* Requires the Kubernetes Pipeline plugin */
+pipeline {
+    agent {
+      kubernetes {
+        yamlFile: 'git-pod.yaml'
+        yamlFile: 'node-pod.yaml'
+      }
+    }
+    stages {
+        stage('Test') {
+          container('node') {
+              sh 'npm install -g yarn'
+              sh 'yarn'
+              sh 'yarn test'
+          }
+        }
+        stage('Bump version') {
+          container('node') {
+              sh 'npm version patch -m "Upgrade to %s commit"'
+          }
+        }
+        stage('Commit version') {
+          container('git') {
+              sh 'git add -all && git push'
+          }
+        }
+        stage('build') {
+            steps {
+                container('node') {
+                  sh 'node --version'
+                  sh 'Building the app...'
+                  sh 'yarn build'
+                  writeFile file: 'test-results.txt', text: 'The build is finished executing'
+                }
+            }
+        }
+    }
+    post {
+      success {
+        archiveArtifacts 'test-results.txt'
+      }
+    }
+}

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-16-pod
+spec:
+  containers:
+    - image: node:16.17.1-alpine
+      name: node
+      command:
+        - sleep
+      args:
+        - infinity
