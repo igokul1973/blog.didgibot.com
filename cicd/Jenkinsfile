@@ -2,7 +2,7 @@
 pipeline {
     agent {
       kubernetes {
-        yamlFile 'cicd/node-pod.yaml'
+        yamlFile 'cicd/node-git-chromium-pod.yaml'
       }
     }
     stages {
@@ -22,11 +22,6 @@ pipeline {
           }
         }
         stage('Commit version') {
-          agent {
-            kubernetes {
-              yamlFile 'cicd/git-pod.yaml'
-            }
-          }
           steps {
             container('git') {
                 sh 'git add -all && git push'

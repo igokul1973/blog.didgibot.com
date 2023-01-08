@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: node-16-pod
+  name: git-pod
 spec:
   containers:
-    - image: node:16.17.1-alpine
-      name: node
+    - image: igk19/node-git-chromium:1.0.0
+      name: node-git-chromium
       command:
         - sleep
       args:
