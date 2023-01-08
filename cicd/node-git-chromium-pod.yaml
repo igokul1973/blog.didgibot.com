@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: git-pod
+  name: node-git-chromium-pod
 spec:
   containers:
     - image: igk19/node-git-chromium:1.0.0
