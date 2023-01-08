@@ -10,7 +10,7 @@ RUN su node
 RUN cd ~
 RUN mkdir -p /home/node/.config/git
 RUN touch /home/node/.config/git/attributes
+ENV XDG_CONFIG_HOME=/home/node/.config/git/attributes
 RUN git config --global user.email "igk19@me.com"
 RUN git config --global user.name "Igor K."
-ENV XDG_CONFIG_HOME=/home/node/.config/git/attributes
 
