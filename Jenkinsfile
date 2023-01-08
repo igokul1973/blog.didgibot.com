@@ -4,12 +4,6 @@ pipeline {
       kubernetes {
         defaultContainer 'node-16'
         yaml '''
-    apiVersion: v1
-    kind: Pod
-    metadata:
-      labels:
-        app: node-16
-      name: node-16
     spec:
       containers:
       - image: node:16.17.1-alpine
