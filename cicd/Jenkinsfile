@@ -16,12 +16,13 @@ pipeline {
         stage('Bump version') {
           steps {
             sh "git config --global --add safe.directory ${env.WORKSPACE}"
+            sh "git branch"
             sh 'npm version patch -m "Upgrade to %s commit"'
           }
         }
         stage('Commit version') {
           steps {
-              sh 'git add --all && git push'
+              sh 'git add --all && git push origin HEAD:main'
           }
         }
         stage('build') {
