@@ -30,7 +30,7 @@ pipeline {
         }
     }
     post {
-      failure {
+      success {
         archiveArtifacts 'test-results.txt'
       }
     }
