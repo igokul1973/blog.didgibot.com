@@ -25,7 +25,13 @@ pipeline {
         stage('build') {
             steps {
                 sh 'node --version'
+                writeFile file: 'test-results.txt', text: 'The build is finished executing'
             }
         }
+    }
+    post {
+      failure {
+        archiveArtifacts 'test-results.txt'
+      }
     }
 }
