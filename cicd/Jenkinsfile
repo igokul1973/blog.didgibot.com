@@ -15,7 +15,9 @@ pipeline {
         // }
         stage('Bump version') {
           steps {
-              sh 'npm version patch -m "Upgrade to %s commit"'
+            sh 'git config --global user.email "igk19@me.com"'
+            sh 'git config --global user.name "Igor K"'
+            sh 'npm version patch -m "Upgrade to %s commit"'
           }
         }
         stage('Commit version') {
