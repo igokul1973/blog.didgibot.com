@@ -16,7 +16,7 @@ pipeline {
     //     }
     // }
     stages {
-        stage('prepare') { steps { ciSkip action: 'check' } }
+        stage('prepare') { steps { check() } }
         // stage('Test') {
         //   steps {
         //       sh 'yarn'
@@ -59,24 +59,14 @@ pipeline {
 
     post {
       always {
-          ciSkip action: 'postProcess'
+          postProcess()
           writeFile file: RESULTS_FILE_NAME, text: "The build result: ${env.BUILD_RESULT}"
           archiveArtifacts RESULTS_FILE_NAME
       }
     }
 }
 
-String call(Map args) {
-    if (args.action == 'check') {
-        return check()
-    }
-    if (args.action == 'postProcess') {
-        return postProcess()
-    }
-    error 'ciSkip has been called without valid arguments'
-}
-
-String check() {
+void check() {
     result = sh (script: "git log -1 | grep '.*\\[ci skip\\].*'", returnStatus: true)
     if (result == 0) {
         env.CI_SKIP = "true"
