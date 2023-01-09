@@ -1,6 +1,6 @@
 {
   "name": "manhattanman",
-  "version": "0.0.2",
+  "version": "0.0.28",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --hmr --configure=development",
