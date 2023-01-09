@@ -1,11 +1,22 @@
 /* Requires the Kubernetes Pipeline plugin */
 pipeline {
+    environment {
+      CI_SKIP = "false"
+      BUILD_RESULT = 'ABORTED'
+      RESULTS_FILE_NAME = 'job-results.txt'
+    }
     agent {
       kubernetes {
         yamlFile 'cicd/node-git-chromium-pod.yaml'
       }
     }
+    // when {
+    //     not {
+    //       changelog '.*^\\[ci skip\\] .+$'
+    //     }
+    // }
     stages {
+        stage('prepare') { steps { ciSkip action: 'check' } }
         // stage('Test') {
         //   steps {
         //       sh 'yarn'
@@ -15,34 +26,66 @@ pipeline {
         stage('Bump version') {
           steps {
               container('node-git-chromium') {
-                withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
+                // withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
+                  sshagent(credentials: ['bitbucket-ssh-creds']) {
                     sh """
                       git config --global --add safe.directory ${env.WORKSPACE}
                       git checkout main
-                      npm version patch -m  "Upgrade to new version"
+                      npm version patch -m  "Upgrade to new version [ci skip\\]"
                     """
-                }
-              }
-              withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
-                  sshagent(credentials: ['bitbucket-ssh-creds']) {
-                      sh "git push"
                   }
+                // }
               }
+              // withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
+              //     sshagent(credentials: ['bitbucket-ssh-creds']) {
+              //         sh "git push"
+              //     }
+              // }
           }
         }
         stage('build') {
             steps {
-                sh 'node --version'
-                sh 'Building the app...'
-                sh 'yarn build'
-                writeFile file: 'test-results.txt', text: 'The build is finished executing'
+                sh '''
+                  node --version
+                  echo 'Building the app...'
+                  'yarn build'
+                '''
+                script {
+                  env.BUILD_RESULT = 'SUCCESSFULLY BUILT'
+                }
             }
         }
     }
 
     post {
-      success {
-        archiveArtifacts 'test-results.txt'
+      always {
+          ciSkip action: 'postProcess'
+          writeFile file: RESULTS_FILE_NAME, text: "The build result: ${env.BUILD_RESULT}"
+          archiveArtifacts RESULTS_FILE_NAME
       }
+    }
+}
+
+String call(Map args) {
+    if (args.action == 'check') {
+        return check()
+    }
+    if (args.action == 'postProcess') {
+        return postProcess()
+    }
+    error 'ciSkip has been called without valid arguments'
+}
+
+String check() {
+    result = sh (script: "git log -1 | grep '.*\\[ci skip\\].*'", returnStatus: true)
+    if (result == 0) {
+        env.CI_SKIP = "true"
+        error "'[ci skip]' found in git commit message. Aborting."
+    }
+}
+
+void postProcess() {
+    if (env.CI_SKIP == "true") {
+        env.result = 'SKIPPED'
     }
 }

@@ -18,6 +18,8 @@
     "importHelpers": true,
     "target": "es2017",
     "module": "es2022",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "lib": [
       "es2021",
       "dom"
