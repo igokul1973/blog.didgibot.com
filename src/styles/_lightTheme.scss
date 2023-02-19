@@ -9,51 +9,51 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$manhattanman-primary: mat.define-palette(mat.$indigo-palette);
-$manhattanman-accent: mat.define-palette(mat.$teal-palette);
+$didgibot-primary: mat.define-palette(mat.$indigo-palette);
+$didgibot-accent: mat.define-palette(mat.$teal-palette);
 
 // The warn palette is optional (defaults to red).
-$manhattanman-warn: mat.define-palette(mat.$red-palette);
+$didgibot-warn: mat.define-palette(mat.$red-palette);
 
 // Toolbar palettes
 $toolbar-primary: mat.define-palette(palettes.$white-palette);
 $toolbar-accent: mat.define-palette(mat.$teal-palette);
 
 // Defining manhattan project typography levels
-$manhattanman-headline-level: mat.define-typography-level(
+$didgibot-headline-level: mat.define-typography-level(
   $font-family: vars.$header-font-family,
   $font-size: vars.$h1-font-size
 );
-$manhattanman-title-level: mat.define-typography-level(
+$didgibot-title-level: mat.define-typography-level(
   $font-family: vars.$header-font-family,
   $font-size: vars.$h2-font-size
 );
-$manhattanman-body-1-level: mat.define-typography-level(
+$didgibot-body-1-level: mat.define-typography-level(
   $font-size: 1.3rem,
   $line-height: 1.8rem
 );
-$manhattanman-body-2-level: mat.define-typography-level(
+$didgibot-body-2-level: mat.define-typography-level(
   $font-size: 1.3rem,
   $font-weight: bold,
   $line-height: 1.8rem
 );
 
-// Defining manhattanman project typography config
-$manhattanman-typography: mat.define-typography-config(
-  $headline: $manhattanman-headline-level,
-  $title: $manhattanman-title-level,
-  $body-1: $manhattanman-body-1-level,
-  $body-2: $manhattanman-body-2-level
+// Defining didgibot project typography config
+$didgibot-typography: mat.define-typography-config(
+  $headline: $didgibot-headline-level,
+  $title: $didgibot-title-level,
+  $body-1: $didgibot-body-1-level,
+  $body-2: $didgibot-body-2-level
 );
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$manhattanman-theme: mat.define-light-theme(
+$didgibot-theme: mat.define-light-theme(
   (
     color: (
-      primary: $manhattanman-primary,
-      accent: $manhattanman-accent,
-      warn: $manhattanman-warn,
+      primary: $didgibot-primary,
+      accent: $didgibot-accent,
+      warn: $didgibot-warn,
     )
   )
 );
@@ -69,15 +69,15 @@ $toolbar-theme: mat.define-light-theme(
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-// @include mat.all-component-themes($manhattanman-theme);
-@include mat.core-theme($manhattanman-theme);
+// @include mat.all-component-themes($didgibot-theme);
+@include mat.core-theme($didgibot-theme);
 @include mat.toolbar-theme($toolbar-theme);
-@include mat.button-theme($manhattanman-theme);
-@include mat.icon-theme($manhattanman-theme);
-@include mat.card-theme($manhattanman-theme);
-@include mat.list-theme($manhattanman-theme);
+@include mat.button-theme($didgibot-theme);
+@include mat.icon-theme($didgibot-theme);
+@include mat.card-theme($didgibot-theme);
+@include mat.list-theme($didgibot-theme);
 
 // Including typography to each component
-@include mat.core($manhattanman-typography);
+@include mat.core($didgibot-typography);
 
-// @include mat.all-component-typographies($manhattanman-typography);
+// @include mat.all-component-typographies($didgibot-typography);

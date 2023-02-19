@@ -21,7 +21,7 @@
         text-align: center;
         text-transform: lowercase;
         font-size: 2.2rem;
-        color: mat.get-color-from-palette(lt.$manhattanman-primary);
+        color: mat.get-color-from-palette(lt.$didgibot-primary);
         padding: 0.5rem;
         opacity: 0;
         overflow: hidden;
@@ -38,7 +38,7 @@
         text-align: center;
         font-size: 1.7rem;
         padding: 0.5rem;
-        color: mat.get-color-from-palette(lt.$manhattanman-accent);
+        color: mat.get-color-from-palette(lt.$didgibot-accent);
         opacity: 0;
         overflow: hidden;
         border-right: 2px solid home.$cursor-color;

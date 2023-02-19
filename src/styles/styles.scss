@@ -12,7 +12,7 @@ body {
   height: 100%;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: mat.get-color-from-palette(lt.$manhattanman-accent, 100);
+  background-color: mat.get-color-from-palette(lt.$didgibot-accent, 100);
 }
 
 h1,
@@ -21,7 +21,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: mat.get-color-from-palette(lt.$manhattanman-primary);
+  color: mat.get-color-from-palette(lt.$didgibot-primary);
 }
 
 .spacer {
@@ -41,7 +41,7 @@ h6 {
   }
 
   .mat-headline {
-    color: mat.get-color-from-palette(lt.$manhattanman-primary);
+    color: mat.get-color-from-palette(lt.$didgibot-primary);
     font-size: vars.$h2-font-size;
     padding: 15px 0 10px;
 
@@ -51,7 +51,7 @@ h6 {
   }
 
   .mat-title {
-    color: mat.get-color-from-palette(lt.$manhattanman-accent);
+    color: mat.get-color-from-palette(lt.$didgibot-accent);
     font-size: vars.$h3-font-size;
   }
 

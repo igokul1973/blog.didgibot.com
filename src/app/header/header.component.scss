@@ -24,7 +24,7 @@
   top: vars.$header-height;
   width: 100vw;
   z-index: 9;
-  background-color: mat.get-color-from-palette(lt.$manhattanman-primary);
+  background-color: mat.get-color-from-palette(lt.$didgibot-primary);
   transition: transform 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
 
   &.open {

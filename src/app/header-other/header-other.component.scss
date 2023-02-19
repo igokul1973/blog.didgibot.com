@@ -13,13 +13,13 @@
       align-items: left;
 
       .head {
-        color: mat.get-color-from-palette(lt.$manhattanman-primary);
+        color: mat.get-color-from-palette(lt.$didgibot-primary);
         font-size: 2.2rem;
         transform: translateY(4px);
       }
 
       .motto {
-        color: mat.get-color-from-palette(lt.$manhattanman-accent);
+        color: mat.get-color-from-palette(lt.$didgibot-accent);
         transform: translate(104px, -2px);
         font-size: 1rem;
 
