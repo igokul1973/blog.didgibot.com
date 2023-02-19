@@ -37,7 +37,7 @@ pipeline {
                         git add --all
                       """
                       def new_app_version = readJSON text: sh(returnStdout: true, script: "npm version")
-                      env.NEW_APP_VERSION = new_app_version.didgibot
+                      env.NEW_APP_VERSION = new_app_version["didgibot.com"]
                       def commit_message = "Upgrade to new application version - ${env.NEW_APP_VERSION} - [version bump]"
                       sh "git commit -m '${commit_message}'"
                     }
