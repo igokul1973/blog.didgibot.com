@@ -2,6 +2,7 @@
 pipeline {
     environment {
       RESULTS_FILE_NAME = 'job-results.txt'
+      IMAGE_TAG_NUMBER = "${BUILD_NUMBER}"
       DOCKER_IMAGE_NAME = "igk19/blog:${BUILD_NUMBER}"
     }
     agent {
@@ -81,7 +82,7 @@ pipeline {
                   """
         }
         script {
-          env.BUILD_RESULT = "SUCCESSFULLY BUILT DOCKER IMAGE FOR BLOG.DIDGIBOT.COM - ${env.DOCKER_IMAGE_NAME} - AND PUSHED TO DOCKER REPOSITORY"
+          env.BUILD_RESULT = "SUCCESSFULLY BUILT DOCKER IMAGE FOR BLOG.DIDGIBOT.COM WITH VERSION - ${env.DOCKER_IMAGE_NAME} - AND PUSHED TO DOCKER REPOSITORY"
         }
       }
         }
@@ -92,7 +93,7 @@ pipeline {
       }
       steps {
         build job: 'change-image-name-in-didgibot-com/main', parameters: [
-                  string(name: 'IMAGE_NAME', value: env.DOCKER_IMAGE_NAME)
+                  string(name: 'IMAGE_TAG_NUMBER', value: env.IMAGE_TAG_NUMBER)
                 ]
       }
         }
