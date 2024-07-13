@@ -2,7 +2,7 @@
 pipeline {
     environment {
       RESULTS_FILE_NAME = 'job-results.txt'
-      DOCKER_IMAGE_NAME = "igk19/frontend:${BUILD_NUMBER}"
+      DOCKER_IMAGE_NAME = "igk19/blog:${BUILD_NUMBER}"
     }
     agent {
       kubernetes {
@@ -37,7 +37,7 @@ pipeline {
                         git add --all
                       """
               def new_app_version = readJSON text: sh(returnStdout: true, script: 'npm version')
-              env.NEW_APP_VERSION = new_app_version['didgibot.com']
+              env.NEW_APP_VERSION = new_app_version['blog.didgibot.com']
               def commit_message = "Upgrade to new application version - ${env.NEW_APP_VERSION} - [version bump]"
               sh "git commit -m '${commit_message}'"
             }
@@ -81,7 +81,7 @@ pipeline {
                   """
         }
         script {
-          env.BUILD_RESULT = "SUCCESSFULLY BUILT DOCKER IMAGE FOR DIDGIBOT.COM BLOG - ${env.DOCKER_IMAGE_NAME} - AND PUSHED TO DOCKER REPOSITORY"
+          env.BUILD_RESULT = "SUCCESSFULLY BUILT DOCKER IMAGE FOR BLOG.DIDGIBOT.COM - ${env.DOCKER_IMAGE_NAME} - AND PUSHED TO DOCKER REPOSITORY"
         }
       }
         }
