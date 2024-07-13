@@ -23,55 +23,55 @@ pipeline {
         //   }
         // }
         stage('Bump version') {
-            when {
-                environment name: 'SHOULD_BUMP_VERSION', value: 'true'
-            }
-            steps {
-                container('node-git-chromium') {
-                  withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
-                    script {
-                      sh """
+      when {
+        environment name: 'SHOULD_BUMP_VERSION', value: 'true'
+      }
+      steps {
+        container('node-git-chromium') {
+          withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
+            script {
+              sh """
                         git config --global --add safe.directory ${env.WORKSPACE}
                         git checkout ${env.BRANCH_NAME}
                         npm version --no-git-tag-version patch
                         git add --all
                       """
-                      def new_app_version = readJSON text: sh(returnStdout: true, script: "npm version")
-                      env.NEW_APP_VERSION = new_app_version["didgibot.com"]
-                      def commit_message = "Upgrade to new application version - ${env.NEW_APP_VERSION} - [version bump]"
-                      sh "git commit -m '${commit_message}'"
-                    }
-                  }
-                }
-                withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
-                    sshagent(credentials: ['bitbucket-ssh-creds']) {
-                        sh "git push"
-                    }
-                }
+              def new_app_version = readJSON text: sh(returnStdout: true, script: 'npm version')
+              env.NEW_APP_VERSION = new_app_version['didgibot.com']
+              def commit_message = "Upgrade to new application version - ${env.NEW_APP_VERSION} - [version bump]"
+              sh "git commit -m '${commit_message}'"
             }
+          }
+        }
+        withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
+          sshagent(credentials: ['bitbucket-ssh-creds']) {
+            sh 'git push'
+          }
+        }
+      }
         }
         stage('Build') {
-            when {
-                environment name: 'SHOULD_BUMP_VERSION', value: 'false'
-            }
-            steps {
-              container('node-git-chromium') {
-                sh '''
+      when {
+        environment name: 'SHOULD_BUMP_VERSION', value: 'false'
+      }
+      steps {
+        container('node-git-chromium') {
+          sh '''
                   echo 'Building the app...'
                   yarn
                   yarn build
                 '''
-              }
-            }
+        }
+      }
         }
         // Build image and push it to Docker Hub
         stage('Kaniko') {
-            when {
-                environment name: 'SHOULD_BUMP_VERSION', value: 'false'
-            }
-            steps {
-                container('kaniko') {
-                  sh """
+      when {
+        environment name: 'SHOULD_BUMP_VERSION', value: 'false'
+      }
+      steps {
+        container('kaniko') {
+          sh """
                     echo 'Starting Kaniko build...'
                     pwd
                     ls -lah
@@ -79,22 +79,22 @@ pipeline {
                                       --context `pwd`/cicd \
                                       --destination=${env.DOCKER_IMAGE_NAME}
                   """
-                }
-                script {
-                  env.BUILD_RESULT = "SUCCESSFULLY BUILT DOCKER IMAGE - ${env.DOCKER_IMAGE_NAME} - AND PUSHED TO DOCKER REPOSITORY"
-                }
-            }
+        }
+        script {
+          env.BUILD_RESULT = "SUCCESSFULLY BUILT DOCKER IMAGE FOR DIDGIBOT.COM BLOG - ${env.DOCKER_IMAGE_NAME} - AND PUSHED TO DOCKER REPOSITORY"
+        }
+      }
         }
         // Start another job
-        stage ('Change image in Didgibot.com deployment') {
-            when {
-                environment name: 'SHOULD_BUMP_VERSION', value: 'false'
-            }
-            steps {
-                build job: 'change-image-name-in-didgibot-com/main', parameters: [
+        stage('Change image in blog.didgibot.com deployment') {
+      when {
+        environment name: 'SHOULD_BUMP_VERSION', value: 'false'
+      }
+      steps {
+        build job: 'change-image-name-in-didgibot-com/main', parameters: [
                   string(name: 'IMAGE_NAME', value: env.DOCKER_IMAGE_NAME)
                 ]
-            }
+      }
         }
     }
 
@@ -106,18 +106,18 @@ pipeline {
 }
 
 void check() {
-    env.BUILD_RESULT = 'ABORTED'
-    env.SHOULD_BUMP_VERSION = "false"
-    result = sh (script: "git log -1 | grep '.*\\[version bump\\].*'", returnStatus: true)
-    if (result != 0) {
-        env.SHOULD_BUMP_VERSION = "true"
-    }
+  env.BUILD_RESULT = 'ABORTED'
+  env.SHOULD_BUMP_VERSION = 'false'
+  result = sh(script: "git log -1 | grep '.*\\[version bump\\].*'", returnStatus: true)
+  if (result != 0) {
+    env.SHOULD_BUMP_VERSION = 'true'
+  }
 }
 
 void postProcess() {
-    if (env.SHOULD_BUMP_VERSION == "true") {
-        env.BUILD_RESULT = "BUMPED APPLICATION VERSION TO ${env.NEW_APP_VERSION}"
-    }
-    writeFile file: env.RESULTS_FILE_NAME, text: "The job build result: ${env.BUILD_RESULT}"
-    archiveArtifacts env.RESULTS_FILE_NAME
+  if (env.SHOULD_BUMP_VERSION == 'true') {
+    env.BUILD_RESULT = "BUMPED APPLICATION VERSION TO ${env.NEW_APP_VERSION}"
+  }
+  writeFile file: env.RESULTS_FILE_NAME, text: "The job build result: ${env.BUILD_RESULT}"
+  archiveArtifacts env.RESULTS_FILE_NAME
 }

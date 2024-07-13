@@ -82,7 +82,7 @@
           "configurations": {
             "production": {
               "browserTarget": "didgibot:build:production",
-              "publicHost": "https://didgibot.com",
+              "publicHost": "https://blog.didgibot.com",
               "port": 80
             },
             "development": {

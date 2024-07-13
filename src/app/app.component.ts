@@ -9,7 +9,7 @@ import { InitializationService } from './initialization.service';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    title = 'didgibot.com';
+    title = 'Didgibot.com Blog';
     public url = '/';
     private routerEventsSubscription: Subscription | null = null;
     private animationFinishedSubscription: Subscription | null = null;
