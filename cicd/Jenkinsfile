@@ -24,32 +24,32 @@ pipeline {
         //   }
         // }
         stage('Bump version') {
-      when {
-        environment name: 'SHOULD_BUMP_VERSION', value: 'true'
-      }
-      steps {
-        container('node-git-chromium') {
-          withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
-            script {
-              sh """
-                        git config --global --add safe.directory ${env.WORKSPACE}
-                        git checkout ${env.BRANCH_NAME}
-                        npm version --no-git-tag-version patch
-                        git add --all
-                      """
-              def new_app_version = readJSON text: sh(returnStdout: true, script: 'npm version')
-              env.NEW_APP_VERSION = new_app_version['blog.didgibot.com']
-              def commit_message = "Upgrade to new application version - ${env.NEW_APP_VERSION} - [version bump]"
-              sh "git commit -m '${commit_message}'"
+          when {
+            environment name: 'SHOULD_BUMP_VERSION', value: 'true'
+          }
+          steps {
+            container('node-git-chromium') {
+              withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
+                script {
+                  sh """
+                            git config --global --add safe.directory ${env.WORKSPACE}
+                            git checkout ${env.BRANCH_NAME}
+                            npm version --no-git-tag-version patch
+                            git add --all
+                          """
+                  def new_app_version = readJSON text: sh(returnStdout: true, script: 'npm version')
+                  env.NEW_APP_VERSION = new_app_version['blog.didgibot.com']
+                  def commit_message = "Upgrade to new application version - ${env.NEW_APP_VERSION} - [version bump]"
+                  sh "git commit -m '${commit_message}'"
+                }
+              }
+            }
+            withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
+              sshagent(credentials: ['bitbucket-ssh-creds']) {
+                sh 'git push'
+              }
             }
           }
-        }
-        withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
-          sshagent(credentials: ['bitbucket-ssh-creds']) {
-            sh 'git push'
-          }
-        }
-      }
         }
         stage('Build') {
       when {
@@ -58,44 +58,44 @@ pipeline {
       steps {
         container('node-git-chromium') {
           sh '''
-                  echo 'Building the app...'
-                  yarn
-                  yarn build
-                '''
+                        echo 'Building the app...'
+                        yarn
+                        yarn build
+                      '''
         }
       }
         }
         // Build image and push it to Docker Hub
         stage('Kaniko') {
-      when {
-        environment name: 'SHOULD_BUMP_VERSION', value: 'false'
-      }
-      steps {
-        container('kaniko') {
-          sh """
-                    echo 'Starting Kaniko build...'
-                    pwd
-                    ls -lah
-                    /kaniko/executor --dockerfile `pwd`/cicd/Dockerfile \
-                                      --context `pwd`/cicd \
-                                      --destination=${env.DOCKER_IMAGE_NAME}
-                  """
-        }
-        script {
-          env.BUILD_RESULT = "SUCCESSFULLY BUILT DOCKER IMAGE FOR BLOG.DIDGIBOT.COM WITH VERSION - ${env.DOCKER_IMAGE_NAME} - AND PUSHED TO DOCKER REPOSITORY"
-        }
-      }
+          when {
+            environment name: 'SHOULD_BUMP_VERSION', value: 'false'
+          }
+          steps {
+            container('kaniko') {
+              sh """
+                        echo 'Starting Kaniko build...'
+                        pwd
+                        ls -lah
+                        /kaniko/executor --dockerfile `pwd`/cicd/Dockerfile \
+                                          --context `pwd`/cicd \
+                                          --destination=${env.DOCKER_IMAGE_NAME}
+                      """
+            }
+            script {
+              env.BUILD_RESULT = "SUCCESSFULLY BUILT DOCKER IMAGE FOR BLOG.DIDGIBOT.COM WITH VERSION - ${env.DOCKER_IMAGE_NAME} - AND PUSHED TO DOCKER REPOSITORY"
+            }
+          }
         }
         // Start another job
         stage('Change image in blog.didgibot.com deployment') {
-      when {
-        environment name: 'SHOULD_BUMP_VERSION', value: 'false'
-      }
-      steps {
-        build job: 'change-image-name-in-didgibot-com/main', parameters: [
-                  string(name: 'IMAGE_TAG_NUMBER', value: env.IMAGE_TAG_NUMBER)
-                ]
-      }
+          when {
+            environment name: 'SHOULD_BUMP_VERSION', value: 'false'
+          }
+          steps {
+            build job: 'change-image-name-in-didgibot-com/main', parameters: [
+                      string(name: 'IMAGE_TAG_NUMBER', value: env.IMAGE_TAG_NUMBER)
+                    ]
+          }
         }
     }
 

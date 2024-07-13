@@ -1,3 +1,5 @@
+# This file is needed to create a pod with node and git and chromium
+# I'll probably change it later
 FROM node:16.17.1-alpine
 
 ENV CHROME_BIN=/usr/bin/chromium-browser
