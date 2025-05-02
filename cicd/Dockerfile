@@ -1,4 +1,4 @@
-FROM nginx:1.23.3-alpine
+FROM nginx:1.28-alpine3.21
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ../dist/didgibot /var/www/app
