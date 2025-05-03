@@ -21,8 +21,7 @@ pipeline {
         //         sh 'yarn'
         //         sh 'yarn test:headless'
         //       }
-        //   }
-        // }
+        //   } // }
         stage('Bump version') {
           when {
             environment name: 'SHOULD_BUMP_VERSION', value: 'true'
@@ -92,9 +91,9 @@ pipeline {
             environment name: 'SHOULD_BUMP_VERSION', value: 'false'
           }
           steps {
-            build job: 'change-image-name-in-didgibot-com/main', parameters: [
-                      string(name: 'IMAGE_TAG_NUMBER', value: env.IMAGE_TAG_NUMBER)
-                    ]
+            build job: 'change-image-name-in-blog-didgibot-com/' + env.BRANCH_NAME, parameters: [
+              string(name: 'IMAGE_TAG_NUMBER', value: env.IMAGE_TAG_NUMBER)
+            ]
           }
         }
     }
