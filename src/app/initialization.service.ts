@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class InitializationService {
-    private initializedSubject = new BehaviorSubject(false);
+    private readonly initializedSubject = new BehaviorSubject(false);
     public initialized$ = this.initializedSubject.asObservable();
-    private animationFinishedSubject = new BehaviorSubject(false);
+    private readonly animationFinishedSubject = new BehaviorSubject(false);
     public animationFinished$ = this.animationFinishedSubject.asObservable();
 
     setInitialized() {

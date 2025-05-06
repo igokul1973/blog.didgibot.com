@@ -1,19 +1,11 @@
-/* Light theme */
-@use "sass:color";
-@use "@angular/material" as mat;
-@use "fonts";
-@use "variables" as vars;
-@use "lightTheme" as lt;
+/* Theme */
+@use 'sass:color';
+@use '@angular/material' as mat;
+@use 'fonts';
+@use 'variables' as vars;
+@use 'theme' as t;
 
 /* You can add global styles to this file, and also import other style files */
-
-html,
-body {
-  height: 100%;
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: mat.get-color-from-palette(lt.$didgibot-accent, 100);
-}
 
 h1,
 h2,
@@ -21,72 +13,72 @@ h3,
 h4,
 h5,
 h6 {
-  color: mat.get-color-from-palette(lt.$didgibot-primary);
+    color: var(--mat-sys-primary-container);
 }
 
 .spacer {
-  flex: 1 1 auto;
+    flex: 1 1 auto;
 }
 
-.mat-card.mat-card {
-  padding: 16px;
-  width: 85%;
-
-  @media screen and (min-width: vars.$tablet-width) {
-    padding: vars.$card-padding;
-  }
-
-  .mat-toolbar.mat-toolbar {
-    background-color: white;
-  }
-
-  .mat-headline {
-    color: mat.get-color-from-palette(lt.$didgibot-primary);
-    font-size: vars.$h2-font-size;
-    padding: 15px 0 10px;
+.mdc-card {
+    padding: 16px;
 
     @media screen and (min-width: vars.$tablet-width) {
-      font-size: vars.$h1-font-size;
+        padding: vars.$card-padding;
     }
-  }
 
-  .mat-title {
-    color: mat.get-color-from-palette(lt.$didgibot-accent);
-    font-size: vars.$h3-font-size;
-  }
+    .mat-toolbar {
+        background-color: white;
+    }
 
-  .mat-card-subtitle {
-    font-size: 1.5rem;
-  }
+    .mat-headline {
+        color: var(--mat-sys-primary);
+        font-size: vars.$h2-font-size;
+        padding: 1rem 0;
 
-  .mat-card-content {
-    padding-bottom: 16px;
-  }
+        @media screen and (min-width: vars.$tablet-width) {
+            font-size: vars.$h1-font-size;
+        }
+    }
 
-  .mat-card-header {
-    display: block;
-  }
+    .mat-title {
+        color: var(--mat-sys-secondary);
+        font-size: vars.$h4-font-size;
+        padding: 1rem 0;
+    }
 
-  .mat-card-header-text {
-    margin: 0;
-  }
+    .mat-card-subtitle {
+        font-size: 1.5rem;
+    }
 
-  .mat-card-actions {
-    padding-top: 24px;
-  }
+    .mat-card-content {
+        padding-bottom: 16px;
+    }
+
+    .mat-card-header {
+        display: block;
+    }
+
+    .mat-card-header-text {
+        margin: 0;
+    }
+
+    .mat-card-actions {
+        padding: 1rem 0;
+    }
 }
 
 .mat-card.introduction {
-  border: 1px solid rgb(0 0 0 / 12%);
-  border-radius: 4px;
-  box-shadow: none;
+    border: 1px solid rgb(0 0 0 / 12%);
+    border-radius: 4px;
+    box-shadow: none;
 
-  .mat-card-actions {
-    display: flex;
-    justify-content: center;
+    .mat-card-actions {
+        display: flex;
+        justify-content: center;
 
-    button {
-      text-transform: uppercase;
+        button {
+            text-transform: uppercase;
+        }
     }
-  }
 }

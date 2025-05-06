@@ -1,0 +1,162 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use 'variables' as vars;
+@use 'palettes' as p;
+@use 'mixins' as m;
+
+html,
+body {
+    color-scheme: light dark;
+    height: 100%;
+    margin: 0;
+    background-color: var(--mat-sys-secondary-container);
+
+    @include mat.theme(
+        (
+            color: (
+                theme-type: light,
+                primary: p.$primary-palette,
+                tertiary: p.$tertiary-palette
+            ),
+            typography: Alegreya,
+            density: 0
+        )
+    );
+    @include m.my-typography-hierarchy;
+    // @include mat.card-overrides(
+    //     (
+    //         bla: '4rem'
+    //     )
+    // );
+}
+
+body.dark {
+    color-scheme: dark;
+
+    @include mat.theme(
+        (
+            high-contrast: high-contrast-overrides(dark)
+        )
+    );
+}
+
+.info {
+    @include mat.theme(
+        (
+            color: (
+                primary: p.$info-palette
+            )
+        )
+    );
+    @include mat.button-overrides(
+        (
+            filled-container-color: var(--mat-sys-primary),
+            filled-label-text-color: var(--mat-sys-on-primary),
+            outlined-outline-color: var(--mat-sys-primary),
+            outlined-label-text-color: var(--mat-sys-primary-on),
+            protected-container-color: var(--mat-sys-primary-container),
+            protected-label-text-color: var(--mat-sys-primary-on-container)
+        )
+    );
+    @include mat.fab-overrides(
+        (
+            container-color: p.get-palette-colors(p.$info-palette, 70),
+            foreground-color: p.get-palette-colors(p.$info-palette, 100)
+        )
+    );
+}
+
+.success {
+    @include mat.theme(
+        (
+            color: (
+                primary: p.$success-palette
+            )
+        )
+    );
+    @include mat.button-overrides(
+        (
+            filled-container-color: var(--mat-sys-primary),
+            filled-label-text-color: var(--mat-sys-on-primary),
+            outlined-outline-color: var(--mat-sys-primary),
+            outlined-label-text-color: var(--mat-sys-primary-on),
+            protected-container-color: var(--mat-sys-primary-container),
+            protected-label-text-color: var(--mat-sys-primary-on-container)
+        )
+    );
+    @include mat.fab-overrides(
+        (
+            container-color: p.get-palette-colors(p.$success-palette, 70),
+            foreground-color: p.get-palette-colors(p.$success-palette, 100)
+        )
+    );
+    @include mat.icon-overrides(
+        (
+            color: p.get-palette-colors(p.$success-palette, 70) // color: var(--mat-sys-primary)
+        )
+    );
+}
+
+.warning {
+    @include mat.theme(
+        (
+            color: (
+                primary: p.$warning-palette
+            )
+        )
+    );
+    @include mat.button-overrides(
+        (
+            filled-container-color: var(--mat-sys-primary),
+            filled-label-text-color: var(--mat-sys-on-primary),
+            outlined-outline-color: var(--mat-sys-primary),
+            outlined-label-text-color: var(--mat-sys-primary-on),
+            protected-container-color: var(--mat-sys-primary-container),
+            protected-label-text-color: var(--mat-sys-primary-on-container)
+        )
+    );
+    @include mat.fab-overrides(
+        (
+            container-color: p.get-palette-colors(p.$warning-palette, 70),
+            foreground-color: p.get-palette-colors(p.$warning-palette, 100)
+        )
+    );
+    @include mat.icon-overrides(
+        (
+            color: p.get-palette-colors(p.$warning-palette, 70)
+        )
+    );
+}
+
+.error {
+    @include mat.theme(
+        (
+            color: (
+                primary: p.$error-palette
+            )
+        )
+    );
+    @include mat.button-overrides(
+        (
+            filled-container-color: var(--mat-sys-primary),
+            filled-label-text-color: var(--mat-sys-on-primary),
+            outlined-outline-color: var(--mat-sys-primary),
+            outlined-label-text-color: var(--mat-sys-primary-on),
+            protected-container-color: var(--mat-sys-primary-container),
+            protected-label-text-color: var(--mat-sys-primary-on-container)
+        )
+    );
+    @include mat.fab-overrides(
+        (
+            container-color: p.get-palette-colors(p.$error-palette, 60),
+            foreground-color: p.get-palette-colors(p.$error-palette, 100)
+        )
+    );
+    @include mat.icon-overrides(
+        (
+            color: p.get-palette-colors(p.$error-palette, 70)
+        )
+    );
+}

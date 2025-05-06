@@ -1,0 +1,2 @@
+.blog-wrapper{display:grid;grid-template-columns:1fr;place-items:center}.blog-wrapper .mat-card.blog{min-height:calc(100vh - 75px - 100px - 72px);margin-bottom:50px}
+/*# sourceMappingURL=blog.component.min.css.map */

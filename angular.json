@@ -6,7 +6,7 @@
     "packageManager": "yarn"
   },
   "projects": {
-    "didgibot": {
+    "dbg-blog": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -21,17 +21,23 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/didgibot",
+            "outputPath": "dist/dbg-blog",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles/styles.scss"
@@ -43,19 +49,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1mb",
-                  "maximumError": "2mb"
+                  "maximumWarning": "1MB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "50kb",
-                  "maximumError": "80kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "maximumWarning": "50kB",
+                  "maximumError": "80kB"
                 }
               ],
               "outputHashing": "all"
@@ -67,12 +67,9 @@
                   "with": "src/environments/environment.dev.ts"
                 }
               ],
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -81,36 +78,39 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "didgibot:build:production",
+              "buildTarget": "dbg-blog:build:production",
               "publicHost": "https://blog.didgibot.com",
               "port": 80
             },
             "development": {
-              "browserTarget": "didgibot:build:development",
-              "host": "192.168.10.250",
-              "disableHostCheck": true,
+              "buildTarget": "dbg-blog:build:development",
+              "host": "localhost",
+              "disableHostCheck": false,
               "port": 4200
             }
           },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "didgibot:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles/styles.scss"
@@ -120,6 +120,5 @@
         }
       }
     }
-  },
-  "defaultProject": "didgibot"
+  }
 }

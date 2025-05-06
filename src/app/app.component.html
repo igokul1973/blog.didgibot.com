@@ -1,6 +1,7 @@
-<app-header-home *ngIf="url === '/' && !animationFinished"></app-header-home>
-<app-header-other *ngIf="url !== '/' || animationFinished"></app-header-other>
+<app-header [isHome]="(routeName$ | async) === 'home'"></app-header>
 
-<router-outlet></router-outlet>
+<section [ngClass]="'content ' + (routeName$ | async)">
+    <router-outlet></router-outlet>
+</section>
 
 <app-footer></app-footer>

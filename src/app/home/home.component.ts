@@ -1,16 +1,23 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
+import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { InitializationService } from '../initialization.service';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss']
+    styleUrls: ['./home.component.scss'],
+    imports: [CommonModule, RouterModule, MatCardModule, MatDivider, MatButtonModule],
+    standalone: true
 })
 export class HomeComponent implements OnDestroy {
     public animationFinished$: Observable<boolean> = this.initializationService.animationFinished$;
 
-    constructor(private initializationService: InitializationService) {}
+    constructor(private readonly initializationService: InitializationService) {}
 
     ngOnDestroy(): void {
         // If this component is destroyed, it was initialized.

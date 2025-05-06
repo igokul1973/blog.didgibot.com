@@ -1,28 +1,40 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { filter, map, mergeMap, Observable, Subscription } from 'rxjs';
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
 import { InitializationService } from './initialization.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    styleUrls: ['./app.component.scss'],
+    imports: [CommonModule, HeaderComponent, RouterModule, FooterComponent]
 })
 export class AppComponent {
     title = 'Didgibot.com Blog';
-    public url = '/';
-    private routerEventsSubscription: Subscription | null = null;
+    public routeName$: Observable<string> | null = null;
     private animationFinishedSubscription: Subscription | null = null;
     public animationFinished = false;
 
-    constructor(private router: Router, private initializationService: InitializationService) {}
+    constructor(
+        private readonly router: Router,
+        private readonly activatedRoute: ActivatedRoute,
+        private readonly initializationService: InitializationService
+    ) {}
 
     ngOnInit(): void {
-        this.routerEventsSubscription = this.router.events.subscribe((event) => {
-            if (event instanceof NavigationEnd) {
-                this.url = event.url;
-            }
-        });
+        this.routeName$ = this.router.events.pipe(
+            filter((e) => e instanceof NavigationEnd),
+            map(() => this.activatedRoute),
+            map((route) => route.firstChild),
+            map((route) => {
+                return route?.data;
+            }),
+            mergeMap((obs) => obs ?? []),
+            map((data) => (data ? data['name'] : ''))
+        );
         this.animationFinishedSubscription = this.initializationService.animationFinished$.subscribe(
             (r) => (this.animationFinished = r)
         );
@@ -30,7 +42,6 @@ export class AppComponent {
     }
 
     ngOnDestroy(): void {
-        this.routerEventsSubscription?.unsubscribe();
         this.animationFinishedSubscription?.unsubscribe();
     }
 
