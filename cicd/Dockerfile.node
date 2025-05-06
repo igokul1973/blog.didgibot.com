@@ -1,6 +1,6 @@
 # This file is needed to create a pod with node and git and chromium
 # I'll probably change it later
-FROM node:16.17.1-alpine
+FROM node:22-alpine3.21
 
 ENV CHROME_BIN=/usr/bin/chromium-browser
 RUN apk update && apk add --no-cache nmap && \
