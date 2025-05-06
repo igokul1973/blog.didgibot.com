@@ -96,14 +96,14 @@ pipeline {
             ]
           }
         }
-    }
+        }
 
     post {
       always {
           postProcess()
       }
     }
-}
+    }
 
 void check() {
   env.BUILD_RESULT = 'ABORTED'
