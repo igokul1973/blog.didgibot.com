@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -7,8 +7,6 @@ import { MatCardModule } from '@angular/material/card';
     styleUrls: ['./blog.component.scss'],
     imports: [MatCardModule]
 })
-export class BlogComponent implements OnInit {
+export class BlogComponent {
     constructor() {}
-
-    ngOnInit(): void {}
 }

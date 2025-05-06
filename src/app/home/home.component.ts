@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
@@ -12,6 +12,7 @@ import { InitializationService } from '../initialization.service';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     imports: [CommonModule, RouterModule, MatCardModule, MatDivider, MatButtonModule],
+    // encapsulation: ViewEncapsulation.None,
     standalone: true
 })
 export class HomeComponent implements OnDestroy {

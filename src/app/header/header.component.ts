@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -13,6 +13,7 @@ import { InitializationService } from '../initialization.service';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, MatToolbar, MatListModule],
+    encapsulation: ViewEncapsulation.None,
     standalone: true
 })
 export class HeaderComponent {
