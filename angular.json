@@ -6,7 +6,7 @@
     "packageManager": "yarn"
   },
   "projects": {
-    "dbg-blog": {
+    "dgb-blog": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
