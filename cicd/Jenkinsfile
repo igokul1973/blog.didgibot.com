@@ -58,8 +58,8 @@ pipeline {
         container('node-git-chromium') {
           sh '''
             echo 'Building the app...'
-            npm
-            yarn build
+            npm i
+            npm run build
           '''
         }
       }
