@@ -57,10 +57,10 @@ pipeline {
       steps {
         container('node-git-chromium') {
           sh '''
-                        echo 'Building the app...'
-                        yarn
-                        yarn build
-                      '''
+            echo 'Building the app...'
+            npm
+            yarn build
+          '''
         }
       }
         }
@@ -76,9 +76,9 @@ pipeline {
                         pwd
                         ls -lah
                         /kaniko/executor --dockerfile `pwd`/cicd/Dockerfile \
-                                          --context `pwd`/cicd \
-                                          --destination=${env.DOCKER_IMAGE_NAME}
-                      """
+                                  --context `pwd`/cicd \
+                                  --destination=${env.DOCKER_IMAGE_NAME}
+              """
             }
             script {
               env.BUILD_RESULT = "SUCCESSFULLY BUILT DOCKER IMAGE FOR BLOG.DIDGIBOT.COM WITH VERSION - ${env.DOCKER_IMAGE_NAME} - AND PUSHED TO DOCKER REPOSITORY"
