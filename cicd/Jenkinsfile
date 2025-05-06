@@ -28,32 +28,36 @@ pipeline {
           }
           steps {
             container('node-git-chromium') {
-              withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
+              withCredentials([
+                sshUserPrivateKey(credentialsId: 'github_ssh_credentials', keyFileVariable: 'SSH_KEY'),
+                usernamePassword(
+                    credentialsId: 'bc934908-4192-4b50-bb32-5fad86943329',
+                    usernameVariable: 'USERNAME',
+                    passwordVariable: 'GH_TOKEN'
+                )
+              ]) {
                 script {
                   sh """
-                            git config --global --add safe.directory ${env.WORKSPACE}
-                            git checkout ${env.BRANCH_NAME}
-                            npm version --no-git-tag-version patch
-                            git add --all
-                          """
+                    git config --global --add safe.directory ${env.WORKSPACE}
+                    git checkout ${env.BRANCH_NAME}
+                    npm version --no-git-tag-version patch
+                    git add --all
+                  """
                   def new_app_version = readJSON text: sh(returnStdout: true, script: 'npm version')
                   env.NEW_APP_VERSION = new_app_version['blog.didgibot.com']
-                  def commit_message = "Upgrade to new application version - ${env.NEW_APP_VERSION} - [version bump]"
-                  sh "git commit -m '${commit_message}'"
+                  def commitMessage = "Upgrade to new application version - ${env.NEW_APP_VERSION} - [version bump]"
+                  def encodedPassword = URLEncoder.encode("$GH_TOKEN", 'UTF-8')
+                  sh "git commit -m '${commitMessage}'"
+                  sh "git push https://${USERNAME}:${encodedPassword}@github.com/${USERNAME}/blog.didgibot.com.git"
                 }
-              }
-            }
-            withCredentials([sshUserPrivateKey(credentialsId: 'bitbucket-ssh-creds', keyFileVariable: 'SSH_KEY')]) {
-              sshagent(credentials: ['bitbucket-ssh-creds']) {
-                sh 'git push'
               }
             }
           }
         }
         stage('Build') {
-      when {
-        environment name: 'SHOULD_BUMP_VERSION', value: 'false'
-      }
+          when {
+            environment name: 'SHOULD_BUMP_VERSION', value: 'false'
+          }
       steps {
         container('node-git-chromium') {
           sh '''
