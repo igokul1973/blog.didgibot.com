@@ -1,13 +1,9 @@
 {
   "name": "blog.didgibot.com",
-<<<<<<< HEAD
   "version": "0.0.37",
-=======
-  "version": "0.0.36",
   "engines": {
     "node": ">=18.0.0"
   },
->>>>>>> a8d82ad (Upgraded all npm packages. Fixed related issues. Improved some styles.)
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o",
