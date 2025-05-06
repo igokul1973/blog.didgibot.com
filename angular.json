@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/dbg-blog",
+            "outputPath": "dist/dgb-blog",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -78,12 +78,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "dbg-blog:build:production",
+              "buildTarget": "dgb-blog:build:production",
               "publicHost": "https://blog.didgibot.com",
               "port": 80
             },
             "development": {
-              "buildTarget": "dbg-blog:build:development",
+              "buildTarget": "dgb-blog:build:development",
               "host": "localhost",
               "disableHostCheck": false,
               "port": 4200
