@@ -1,0 +1,7 @@
+<section class="home">
+    <app-intro [isAnimationFinished]="(isAnimationFinished$ | async) || false"></app-intro>
+    <app-article [isAnimationFinished]="(isAnimationFinished$ | async) || false"></app-article>
+    <div>
+        <pre>{{ articles$ | async | json }}</pre>
+    </div>
+</section>

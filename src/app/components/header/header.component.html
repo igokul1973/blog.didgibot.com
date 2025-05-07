@@ -1,4 +1,4 @@
-<section [ngClass]="{ toolbar: true, home: isHome, 'no-animation': (animationFinished$ | async) }">
+<section [ngClass]="{ toolbar: true, home: isHome, 'no-animation': (isAnimationFinished$ | async) }">
     <mat-toolbar color="primary">
         <div class="logo" routerLink="/">
             <span class="head">didgibot</span>

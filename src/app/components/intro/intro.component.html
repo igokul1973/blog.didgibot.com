@@ -1,5 +1,5 @@
-<section class="introduction-wrapper" [ngClass]="{ 'no-animation': (animationFinished$ | async) }">
-    <mat-card [ngClass]="{ introduction: true, 'no-animation': (animationFinished$ | async) }">
+<article class="introduction-wrapper" [ngClass]="{ 'no-animation': isAnimationFinished }">
+    <mat-card [ngClass]="{ introduction: true, 'no-animation': isAnimationFinished }">
         <mat-card-header>
             <mat-card-title class="mat-headline no-animation">Hello! My name is Igor.</mat-card-title>
             <mat-card-subtitle class="mat-title">
@@ -20,4 +20,4 @@
             <button mat-fab extended [routerLink]="['/blog']" class="info">Go to Blog</button>
         </mat-card-actions>
     </mat-card>
-</section>
+</article>

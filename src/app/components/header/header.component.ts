@@ -6,7 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbar } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
-import { InitializationService } from '../initialization.service';
+import { InitializationService } from '../../services/initialization/initialization.service';
 
 @Component({
     selector: 'app-header',
@@ -18,7 +18,7 @@ import { InitializationService } from '../initialization.service';
 })
 export class HeaderComponent {
     public isOpen = false;
-    public animationFinished$: Observable<boolean> = this.initializationService.animationFinished$;
+    public isAnimationFinished$: Observable<boolean> = this.initializationService.isAnimationFinished$;
     @Input() isHome?: boolean;
 
     constructor(private readonly initializationService: InitializationService) {}
@@ -30,6 +30,6 @@ export class HeaderComponent {
         // If this component is destroyed, it was initialized.
         // It means that animation has already played out (even if partially)
         // and there is no need to play it again.
-        this.initializationService.setAnimationFinished();
+        this.initializationService.setIsAnimationFinished();
     }
 }

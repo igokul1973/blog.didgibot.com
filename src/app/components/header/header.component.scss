@@ -1,11 +1,6 @@
 @use '@angular/material' as mat;
-@use '../../styles/variables' as vars;
-@use '../../styles/home' as home;
-
-// :host {
-//     position: relative;
-//     background-color: yellow;
-// }
+@use '../../../styles/variables' as vars;
+@use '../../../styles/home' as home;
 
 .toolbar:not(.home),
 .toolbar.home.no-animation {
