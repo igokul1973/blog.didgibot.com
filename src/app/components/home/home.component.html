@@ -1,6 +1,11 @@
 <section class="home">
     <app-intro [isAnimationFinished]="(isAnimationFinished$ | async) || false"></app-intro>
-    <app-article [isAnimationFinished]="(isAnimationFinished$ | async) || false"></app-article>
+    <h3>Latest articles:</h3>
+    <app-article
+        [isAnimationFinished]="(isAnimationFinished$ | async) || false"
+        *ngFor="let article of articles$ | async"
+        [article]="article"
+    ></app-article>
     <div>
         <pre>{{ articles$ | async | json }}</pre>
     </div>

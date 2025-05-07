@@ -19,6 +19,11 @@
     "module": "es2022",
     "useDefineForClassFields": false,
     "resolveJsonModule": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
     "allowSyntheticDefaultImports": true,
     "lib": [
       "es2021",

@@ -1,6 +1,8 @@
+import { transformRawArticles } from '@/utils/transformers';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { map, Observable } from 'rxjs';
+import { IArticlePartial, IRawArticle } from 'types/article';
 import { GET_ARTICLES } from './article.graphql';
 
 @Injectable({
@@ -9,17 +11,17 @@ import { GET_ARTICLES } from './article.graphql';
 export class ArticleService {
     constructor(private readonly apollo: Apollo) {}
 
-    getArticles(): Observable<unknown> {
+    getArticles(): Observable<IArticlePartial[]> {
         return this.apollo
-            .watchQuery({
+            .watchQuery<{ articles: IRawArticle[] }>({
                 query: GET_ARTICLES
             })
             .valueChanges.pipe(
-                map((result) => {
-                    if (typeof result.data === 'object' && result.data !== null && 'articles' in result.data) {
-                        return result.data.articles;
+                map(({ data }) => {
+                    if (!data) {
+                        return [];
                     }
-                    return [];
+                    return transformRawArticles(data.articles);
                 })
             );
     }
