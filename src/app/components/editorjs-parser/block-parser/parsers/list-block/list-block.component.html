@@ -1,0 +1,40 @@
+<ng-container>
+    <ul *ngIf="!isOrderedList(item.data.style)">
+        <li *ngFor="let text of item.data.items; trackBy: identify" [class]="currentClasses.unordered">
+            <ng-container *ngIf="isStringInstance(text)">
+                {{ text }}
+            </ng-container>
+            <ng-container *ngIf="!isStringInstance(text)">
+                {{ $any(text).content! }}
+                <app-list-block
+                    *ngIf="$any(text).items.length > 0"
+                    [item]="{
+                        data: { style: item.data.style, meta: item.data.meta, items: $any(text).items },
+                        type: blockToolTypeEnum.List
+                    }"
+                    [config]="currentConfig"
+                >
+                </app-list-block>
+            </ng-container>
+        </li>
+    </ul>
+    <ol *ngIf="isOrderedList(item.data.style)">
+        <li *ngFor="let text of item.data.items; trackBy: identify" [class]="currentClasses.ordered">
+            <ng-container *ngIf="isStringInstance(text)">
+                {{ text }}
+            </ng-container>
+            <ng-container *ngIf="!isStringInstance(text)">
+                {{ $any(text).content }}
+                <app-list-block
+                    *ngIf="$any(text).items.length > 0"
+                    [item]="{
+                        data: { style: item.data.style, meta: item.data.meta, items: $any(text).items },
+                        type: blockToolTypeEnum.List
+                    }"
+                    [config]="currentConfig"
+                >
+                </app-list-block>
+            </ng-container>
+        </li>
+    </ol>
+</ng-container>
