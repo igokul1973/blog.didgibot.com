@@ -1,0 +1,10 @@
+<div *ngFor="let item of data.blocks; trackBy: identify">
+    <app-alert-block *ngIf="item.type === 'alert'" [item]="item" [config]="config?.alert"></app-alert-block>
+    <app-paragraph-block
+        *ngIf="item.type === 'paragraph'"
+        [item]="item"
+        [config]="config?.paragraph"
+    ></app-paragraph-block>
+    <app-code-block *ngIf="item.type === 'code'" [item]="item" [config]="config?.code">Cra cra</app-code-block>
+    <app-error-block></app-error-block>
+</div>
