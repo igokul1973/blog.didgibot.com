@@ -1,3 +1,4 @@
+import { BlockToolTypeEnum } from '@/app/components/editorjs-parser/types';
 import { Dayjs } from 'dayjs';
 import { ICategory, IRawCategory } from './category';
 import { IRawTag, ITag } from './tag';
@@ -10,7 +11,7 @@ export enum LanguageEnum {
 interface IContentBlock {
     __typename?: string;
     id: string;
-    type: string;
+    type: BlockToolTypeEnum;
     data: object[];
 }
 

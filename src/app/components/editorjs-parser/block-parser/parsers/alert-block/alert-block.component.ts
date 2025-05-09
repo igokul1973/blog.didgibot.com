@@ -1,6 +1,6 @@
 import { IOutputBlockData } from '@/app/components/editorjs-parser/types';
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AlertAlignmentEnum, AlertTypeEnum, TAlertConfig, TEditorJsAlert } from './types';
 
 const defaultAlertConfig: TAlertConfig = {
@@ -25,20 +25,12 @@ const defaultAlertConfig: TAlertConfig = {
     templateUrl: './alert-block.component.html',
     styleUrl: './alert-block.component.scss'
 })
-export class AlertBlockComponent {
+export class AlertBlockComponent implements OnInit {
     @Input() item!: IOutputBlockData<TEditorJsAlert>;
     @Input() config?: TAlertConfig = defaultAlertConfig;
     private currentConfig: TAlertConfig = { ...defaultAlertConfig, ...this.config };
     public classNames = this.currentConfig.classNames;
-    public alertTypeClass = {
-        [AlertTypeEnum.info]: this.classNames?.info,
-        [AlertTypeEnum.success]: this.classNames?.success,
-        [AlertTypeEnum.danger]: this.classNames?.danger,
-        [AlertTypeEnum.light]: this.classNames?.light,
-        [AlertTypeEnum.dark]: this.classNames?.dark,
-        [AlertTypeEnum.warning]: this.classNames?.warning,
-        [AlertTypeEnum.primary]: this.classNames?.primary
-    }[this.item.data.type];
+    public alertTypeClass?: string;
     public alertAlignmentClass = {
         [AlertAlignmentEnum.center]: this.classNames?.textCenter,
         [AlertAlignmentEnum.right]: this.classNames?.textRight,
@@ -49,5 +41,14 @@ export class AlertBlockComponent {
     ngOnInit(): void {
         this.message = this.item?.data?.message;
         this.currentConfig = { ...defaultAlertConfig, ...this.config };
+        this.alertTypeClass = {
+            [AlertTypeEnum.info]: this.classNames?.info,
+            [AlertTypeEnum.success]: this.classNames?.success,
+            [AlertTypeEnum.danger]: this.classNames?.danger,
+            [AlertTypeEnum.light]: this.classNames?.light,
+            [AlertTypeEnum.dark]: this.classNames?.dark,
+            [AlertTypeEnum.warning]: this.classNames?.warning,
+            [AlertTypeEnum.primary]: this.classNames?.primary
+        }[this.item.data.type];
     }
 }

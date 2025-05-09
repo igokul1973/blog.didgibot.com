@@ -1,13 +1,13 @@
-import { TAlertConfig } from './block-parser/parsers/alert/types';
-import { TCodeConfig } from './block-parser/parsers/code/types';
-import { TColumnsConfig } from './block-parser/parsers/columns/types';
-import { TDelimiterConfig } from './block-parser/parsers/delimiter/types';
-import { TErrorConfig } from './block-parser/parsers/error/types';
-import { TImageConfig } from './block-parser/parsers/image/types';
-import { TListConfig } from './block-parser/parsers/list/types';
-import { TParagraphConfig } from './block-parser/parsers/paragraph/types';
-import { TQuoteConfig } from './block-parser/parsers/quote/types';
-import { TTableConfig } from './block-parser/parsers/table/types';
+import { TAlertConfig } from './block-parser/parsers/alert-block/types';
+import { TCodeConfig } from './block-parser/parsers/code-block/types';
+import { TColumnsConfig } from './block-parser/parsers/columns-block/types';
+import { TDelimiterConfig } from './block-parser/parsers/delimiter-block/types';
+import { TErrorConfig } from './block-parser/parsers/error-block/types';
+import { TImageConfig } from './block-parser/parsers/image-block/types';
+import { TListConfig } from './block-parser/parsers/list-block/types';
+import { TParagraphConfig } from './block-parser/parsers/paragraph-block/types';
+import { TQuoteConfig } from './block-parser/parsers/quote-block/types';
+import { TTableConfig } from './block-parser/parsers/table-block/types';
 
 export interface IBlockParserProps {
     data: IOutputData;
@@ -27,9 +27,23 @@ export interface IBlockParserConfig {
     error?: TErrorConfig;
 }
 
+export enum BlockToolTypeEnum {
+    Alert = 'alert',
+    Code = 'code',
+    Columns = 'columns',
+    Delimiter = 'delimiter',
+    Header = 'header',
+    Image = 'image',
+    Quote = 'quote',
+    List = 'list',
+    Paragraph = 'paragraph',
+    Table = 'table',
+    Error = 'error'
+}
+
 export interface IOutputBlockData<Data extends object = any> {
     id?: string;
-    type: string;
+    type: BlockToolTypeEnum;
     data: TBlockToolData<Data>;
     tunes?: { [name: string]: any };
 }

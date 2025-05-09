@@ -1,11 +1,37 @@
-import { Component } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { IOutputBlockData } from '../../../types';
+import { QuoteAlignmentEnum, TEditorJsQuote, TQuoteConfig } from './types';
+
+const defaultQuoteConfig: TQuoteConfig = {
+    classNames: {
+        alignCenter: 'text-center',
+        alignRight: 'text-right',
+        alignLeft: 'text-left',
+        quote: 'italic text-lg',
+        caption: 'opacity-85 text-sm'
+    }
+};
 
 @Component({
-  selector: 'app-quote',
-  imports: [],
-  templateUrl: './quote.component.html',
-  styleUrl: './quote.component.scss'
+    selector: 'app-quote-block',
+    imports: [NgClass],
+    templateUrl: './quote-block.component.html',
+    styleUrl: './quote-block.component.scss'
 })
-export class QuoteComponent {
+export class QuoteBlockComponent {
+    @Input() item!: IOutputBlockData<TEditorJsQuote>;
+    @Input() config?: TQuoteConfig = defaultQuoteConfig;
+    public currentConfig: TQuoteConfig = { ...defaultQuoteConfig, ...this.config };
+    public classNames = this.currentConfig.classNames;
+    public alertTypeClass?: string;
 
+    ngOnInit(): void {
+        this.currentConfig = { ...defaultQuoteConfig, ...this.config };
+        this.alertTypeClass = {
+            [QuoteAlignmentEnum.left]: this.currentConfig.classNames.alignLeft,
+            [QuoteAlignmentEnum.center]: this.currentConfig.classNames.alignCenter,
+            [QuoteAlignmentEnum.right]: this.currentConfig.classNames.alignRight
+        }[this.item.data.alignment];
+    }
 }

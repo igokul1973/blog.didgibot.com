@@ -1,0 +1,17 @@
+.quote,
+.caption {
+  display: block;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+/*# sourceMappingURL=quote-block.component.css.map */

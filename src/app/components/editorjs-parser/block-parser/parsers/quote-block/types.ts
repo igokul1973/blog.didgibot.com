@@ -1,5 +1,3 @@
-import { IOutputBlockData } from '@/app/components/editorjs-parser/types';
-
 export type TEditorJsQuote = {
     text: string;
     caption: string;
@@ -21,8 +19,3 @@ export type TQuoteConfig = {
         caption?: string;
     };
 };
-
-export interface IQuoteProps {
-    item: IOutputBlockData<TEditorJsQuote>;
-    config?: TQuoteConfig;
-}

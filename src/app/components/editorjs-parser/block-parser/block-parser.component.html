@@ -1,10 +1,23 @@
 <div *ngFor="let item of data.blocks; trackBy: identify">
-    <app-alert-block *ngIf="item.type === 'alert'" [item]="item" [config]="config?.alert"></app-alert-block>
-    <app-paragraph-block
-        *ngIf="item.type === 'paragraph'"
-        [item]="item"
-        [config]="config?.paragraph"
-    ></app-paragraph-block>
-    <app-code-block *ngIf="item.type === 'code'" [item]="item" [config]="config?.code">Cra cra</app-code-block>
-    <app-error-block></app-error-block>
+    <ng-container [ngSwitch]="item.type">
+        <app-alert-block
+            *ngSwitchCase="blockToolTypeEnum.Alert"
+            [item]="item"
+            [config]="config?.alert"
+        ></app-alert-block>
+        <app-code-block *ngSwitchCase="blockToolTypeEnum.Code" [item]="item" [config]="config?.code"></app-code-block>
+        <app-header-block *ngSwitchCase="blockToolTypeEnum.Header" [item]="item"></app-header-block>
+        <app-list-block *ngSwitchCase="blockToolTypeEnum.List" [item]="item" [config]="config?.list"></app-list-block>
+        <app-paragraph-block
+            *ngSwitchCase="blockToolTypeEnum.Paragraph"
+            [item]="item"
+            [config]="config?.paragraph"
+        ></app-paragraph-block>
+        <app-quote-block
+            *ngSwitchCase="blockToolTypeEnum.Quote"
+            [item]="item"
+            [config]="config?.quote"
+        ></app-quote-block>
+        <app-error-block *ngSwitchDefault></app-error-block>
+    </ng-container>
 </div>
