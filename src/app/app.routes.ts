@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HomeComponent } from './components/home/home.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
     {
@@ -13,7 +13,7 @@ export const routes: Routes = [
     },
     {
         path: 'blog',
-        loadComponent: () => import('./blog/blog.component').then((m) => m.BlogComponent),
+        loadComponent: () => import('./components/blog/blog.component').then((m) => m.BlogComponent),
         title: 'Blog',
         data: {
             name: 'blog'

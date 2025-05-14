@@ -1,0 +1,9 @@
+<section [ngClass]="currentConfig.classNames?.container">
+    <img
+        [ngClass]="currentConfig.classNames?.image"
+        [alt]="item.data.caption"
+        [style.width]="currentConfig.dimensions?.width"
+        [style.height]="currentConfig.dimensions?.height"
+        [src]="item.data.file.url"
+    />
+</section>

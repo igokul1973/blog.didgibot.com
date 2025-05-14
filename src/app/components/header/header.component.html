@@ -1,0 +1,27 @@
+<section [ngClass]="{ toolbar: true, home: isHome, 'no-animation': (isAnimationFinished$ | async) }">
+    <mat-toolbar color="primary">
+        <div class="logo" routerLink="/">
+            <span class="head">didgibot</span>
+            <span class="motto">blog about making the blog</span>
+        </div>
+        <span class="spacer"></span>
+        <button mat-icon-button [routerLink]="['/blog']" class="header-icon pop-later" aria-label="Blog page">
+            <mat-icon class="error">article</mat-icon>
+        </button>
+        <button mat-icon-button class="header-icon pop-later" aria-label="Add to favorites">
+            <mat-icon class="warning">favorite</mat-icon>
+        </button>
+        <button mat-icon-button class="header-icon pop-later" aria-label="Share the article">
+            <mat-icon class="success">share</mat-icon>
+        </button>
+        <button mat-icon-button class="menu-icon pop-later" aria-label="Sandwich menu" (click)="toggleTabletMenu()">
+            <mat-icon color="primary">menu</mat-icon>
+        </button>
+    </mat-toolbar>
+
+    <mat-selection-list role="menu" class="tablet-menu" [multiple]="false" [ngClass]="{ open: isOpen }">
+        <mat-list-option role="listitem" routerLink="/" (click)="toggleTabletMenu()">Home</mat-list-option>
+        <mat-list-option role="li" routerLink="/blog" (click)="toggleTabletMenu()">Blog</mat-list-option>
+        <mat-list-option role="li">Favorites</mat-list-option>
+    </mat-selection-list>
+</section>

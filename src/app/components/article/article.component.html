@@ -1,0 +1,11 @@
+<article class="article-wrapper" [ngClass]="{ 'no-animation': isAnimationFinished }">
+    <mat-card [ngClass]="{ 'blog-article': true, 'no-animation': true }">
+        <mat-card-header>
+            <mat-card-title class="mat-headline no-animation">{{ article.translations[0].header }}</mat-card-title>
+            <mat-card-subtitle class="mat-title"> Some article subtitle </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="pop-later" *ngIf="article.translations[0].content">
+            <app-block-parser [data]="article.translations[0].content"></app-block-parser>
+        </mat-card-content>
+    </mat-card>
+</article>

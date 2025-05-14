@@ -40,7 +40,8 @@
               }
             ],
             "styles": [
-              "src/styles/styles.scss"
+              "src/styles/styles.scss",
+              "./node_modules/highlight.js/styles/github.css"
             ],
             "scripts": []
           },
@@ -76,6 +77,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "dgb-blog:build:production",
@@ -113,7 +117,8 @@
               }
             ],
             "styles": [
-              "src/styles/styles.scss"
+              "src/styles/styles.scss",
+              "./node_modules/highlight.js/styles/github.css"
             ],
             "scripts": []
           }

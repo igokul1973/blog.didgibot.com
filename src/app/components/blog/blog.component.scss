@@ -1,0 +1,12 @@
+@use '../../../styles/variables' as vars;
+
+.blog-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
+
+    .mat-card.blog {
+        min-height: calc(100vh - vars.$header-height - vars.$header-margin-bottom * 2 - vars.$card-padding * 2);
+        margin-bottom: vars.$header-margin-bottom;
+    }
+}

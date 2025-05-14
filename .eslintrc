@@ -9,6 +9,9 @@
     "plugin:rxjs/recommended",
     "plugin:prettier/recommended"
   ],
+  "files": [
+    "**/*.{ts,tsx}"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -35,6 +38,6 @@
       "error",
       "always"
     ],
-    "no-debugger": "off"
+    "no-debugger": 1
   }
 }

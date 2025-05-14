@@ -1,0 +1,4 @@
+<p [ngClass]="alertTypeClass">
+    <span [ngClass]="['quote', currentConfig.classNames.quote]">&quot;{{ item.data.text }}&quot;</span>
+    <span [ngClass]="['caption', currentConfig.classNames.caption]">- {{ item.data.caption }}</span>
+</p>
