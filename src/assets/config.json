@@ -1,4 +1,4 @@
 {
-  "apiUrl": "http://localhost:4200/graphql",
-  "theme": "light"
+    "apiUrl": "/graphql",
+    "theme": "light"
 }
