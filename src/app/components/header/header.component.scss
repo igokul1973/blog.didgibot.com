@@ -2,6 +2,10 @@
 @use '../../../styles/variables' as vars;
 @use '../../../styles/home' as home;
 
+.logo {
+    cursor: pointer;
+}
+
 .toolbar:not(.home),
 .toolbar.home.no-animation {
     .mat-toolbar.mat-toolbar-single-row {
