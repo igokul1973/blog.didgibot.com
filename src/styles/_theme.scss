@@ -20,17 +20,39 @@ body {
                 primary: p.$primary-palette,
                 tertiary: p.$tertiary-palette
             ),
-            typography: Alegreya,
+            typography: (
+                plain-family: Roboto,
+                brand-family: Alegreya,
+                bold-weight: 700,
+                medium-weight: 500,
+                regular-weight: 300
+            ),
             density: 0
         )
     );
+    @include mat.theme-overrides(
+        (
+            body-large: 200 1.2rem / 1.8rem Roboto,
+            body-medium: 200 1rem / 1.7rem Roboto,
+            // title-large: 700 2.2rem / 1.8rem Roboto,
+            title-large: 2.2rem,
+            title-medium: 1.25rem,
+            title-small: 1rem
+        )
+    );
     @include m.my-typography-hierarchy;
-
-    // @include mat.card-overrides(
-    //     (
-    //         bla: '4rem'
-    //     )
-    // );
+    @include mat.card-overrides(
+        (
+            title-text-size: var(--mat-sys-title-large),
+            title-text-line-height: 1.4,
+            title-text-weight: var(--mat-sys-title-large-weight),
+            subtitle-text-color: var(--mat-sys-secondary),
+            subtitle-text-size: var(--mat-sys-title-medium),
+            subtitle-text-line-height: 2.2,
+            subtitle-text-font: Roboto,
+            subtitle-text-weight: 400 // cra: '4rem'
+        )
+    );
 }
 
 body.dark {
