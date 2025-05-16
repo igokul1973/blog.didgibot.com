@@ -1,0 +1,16 @@
+.preview {
+    height: 10rem;
+    overflow: hidden;
+}
+
+.meta {
+    display: block;
+    font-size: var(--mat-sys-title-small);
+    font-weight: var(--mat-sys-title-small-weight);
+    color: gray;
+    translate: 0 -1rem;
+}
+
+.action-btn {
+    margin-left: auto;
+}

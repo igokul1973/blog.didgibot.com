@@ -1,4 +1,4 @@
-import { JsonPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { IOutputBlockData } from '../../../types';
 import { TEditorJsImage, TImageConfig } from './types';
@@ -16,7 +16,7 @@ const defaultImageConfig: TImageConfig = {
 
 @Component({
     selector: 'app-image-block',
-    imports: [NgClass, JsonPipe],
+    imports: [NgClass],
     templateUrl: './image-block.component.html',
     styleUrl: './image-block.component.scss'
 })

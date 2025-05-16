@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbar } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { InitializationService } from '../../services/initialization/initialization.service';
 
@@ -12,7 +12,7 @@ import { InitializationService } from '../../services/initialization/initializat
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
-    imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, MatToolbar, MatListModule],
+    imports: [CommonModule, RouterLink, MatButtonModule, MatIconModule, MatToolbar, MatListModule],
     encapsulation: ViewEncapsulation.None,
     standalone: true
 })

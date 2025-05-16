@@ -1,5 +1,3 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use 'sass:map';
 @use '@angular/material' as mat;
 @use 'variables' as vars;
@@ -32,25 +30,46 @@ body {
     );
     @include mat.theme-overrides(
         (
-            body-large: 200 1.2rem / 1.8rem Roboto,
-            body-medium: 200 1rem / 1.7rem Roboto,
-            // title-large: 700 2.2rem / 1.8rem Roboto,
+            body-large: 200 1.4rem / 1.8rem Roboto,
+            body-medium: 300 1.2rem / 1.7rem Roboto,
+            body-small: 200 1rem / 1.7rem Roboto,
             title-large: 2.2rem,
+            title-large-weight: 700,
             title-medium: 1.25rem,
-            title-small: 1rem
+            title-medium-weight: 500,
+            title-small: 1rem,
+            title-small-weight: 500
         )
     );
     @include m.my-typography-hierarchy;
     @include mat.card-overrides(
         (
             title-text-size: var(--mat-sys-title-large),
-            title-text-line-height: 1.4,
+            // TODO: Get back here on May 30, 2025, upgrade Angular Material
+            // and see if this issue http://localhost:4200/blog/681ceb073aaee641aee2e2c3
+            // has been resolved.
+            // title-text-color: var(--mat-sys-secondary-container),
+            title-text-line-height: 1.8,
             title-text-weight: var(--mat-sys-title-large-weight),
             subtitle-text-color: var(--mat-sys-secondary),
             subtitle-text-size: var(--mat-sys-title-medium),
             subtitle-text-line-height: 2.2,
             subtitle-text-font: Roboto,
             subtitle-text-weight: 400 // cra: '4rem'
+        )
+    );
+
+    .introduction {
+        @include mat.card-overrides(
+            (
+                subtitle-text-font: Alegreya
+            )
+        );
+    }
+
+    @include mat.divider-overrides(
+        (
+            color: var(--mat-sys-tertiary)
         )
     );
 }
