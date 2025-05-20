@@ -16,55 +16,13 @@ h6 {
     color: var(--mat-sys-primary);
 }
 
-.spacer {
-    flex: 1 1 auto;
-}
-
 .mdc-card {
     padding: 16px;
+    padding-bottom: 0;
 
-    @media screen and (min-width: vars.$tablet-width) {
+    @media screen and (min-width: vars.$mobile-width) {
         padding: vars.$card-padding;
-    }
-
-    .mat-toolbar {
-        background-color: white;
-    }
-
-    .mat-headline {
-        color: var(--mat-sys-primary);
-        font-size: vars.$h2-font-size;
-        padding: 1rem 0;
-
-        @media screen and (min-width: vars.$tablet-width) {
-            font-size: vars.$h1-font-size;
-        }
-    }
-
-    .mat-title {
-        color: var(--mat-sys-secondary);
-        font-size: vars.$h4-font-size;
-        padding: 1rem 0;
-    }
-
-    .mat-card-subtitle {
-        font-size: 1.5rem;
-    }
-
-    .mat-card-content {
-        padding-bottom: 16px;
-    }
-
-    .mat-card-header {
-        display: block;
-    }
-
-    .mat-card-header-text {
-        margin: 0;
-    }
-
-    .mat-card-actions {
-        padding: 1rem 0;
+        padding-bottom: 0.5rem;
     }
 }
 

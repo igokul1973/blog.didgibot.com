@@ -1,27 +1,61 @@
-<section [ngClass]="{ toolbar: true, home: isHome, 'no-animation': (isAnimationFinished$ | async) }">
-    <mat-toolbar color="primary">
+<section [ngClass]="{ 'toolbar-wrapper': true, home: isHome, 'no-animation': (isAnimationFinished$ | async) }">
+    <mat-toolbar color="primary" class="toolbar">
         <div class="logo" routerLink="/">
             <span class="head">didgibot</span>
             <span class="motto">blog about making the blog</span>
         </div>
         <span class="spacer"></span>
-        <button mat-icon-button [routerLink]="['/blog']" class="header-icon pop-later" aria-label="Blog page">
-            <mat-icon class="error">article</mat-icon>
-        </button>
-        <button mat-icon-button class="header-icon pop-later" aria-label="Add to favorites">
-            <mat-icon class="warning">favorite</mat-icon>
-        </button>
-        <button mat-icon-button class="header-icon pop-later" aria-label="Share the article">
-            <mat-icon class="success">share</mat-icon>
-        </button>
-        <button mat-icon-button class="menu-icon pop-later" aria-label="Sandwich menu" (click)="toggleTabletMenu()">
-            <mat-icon color="primary">menu</mat-icon>
-        </button>
+        <div class="icons">
+            <app-search-field></app-search-field>
+            <button mat-icon-button [routerLink]="['/blog']" class="header-icon pop-later" aria-label="Blog page">
+                <mat-icon class="error">article</mat-icon>
+            </button>
+            <!-- <button mat-icon-button class="header-icon pop-later" aria-label="Add to favorites">
+                <mat-icon class="warning">favorite</mat-icon>
+            </button> -->
+            <button mat-icon-button class="header-icon pop-later" aria-label="Share the article">
+                <mat-icon class="success">share</mat-icon>
+            </button>
+            <button mat-icon-button class="menu-icon pop-later" aria-label="Sandwich menu" (click)="toggleTabletMenu()">
+                <mat-icon color="primary">menu</mat-icon>
+            </button>
+        </div>
     </mat-toolbar>
 
-    <mat-selection-list role="menu" class="tablet-menu" [multiple]="false" [ngClass]="{ open: isOpen }">
+    <mat-action-list role="menu" class="mobile-menu" [ngClass]="{ open: isOpen }">
+        <mat-list-item
+            role="listitem"
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="toggleTabletMenu()"
+            (onKeyPress)="toggleTabletMenu()"
+        >
+            Home
+        </mat-list-item>
+        <mat-list-item
+            role="listitem"
+            routerLink="/blog"
+            routerLinkActive="active"
+            (click)="toggleTabletMenu()"
+            (onKeyPress)="toggleTabletMenu()"
+        >
+            Blog
+        </mat-list-item>
+        <mat-list-item
+            role="listitem"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="toggleTabletMenu()"
+            (onKeyPress)="toggleTabletMenu()"
+        >
+            Favorites
+        </mat-list-item>
+    </mat-action-list>
+
+    <!-- <mat-selection-list role="menu" class="mobile-menu" [multiple]="false" [ngClass]="{ open: isOpen }" color="warn">
         <mat-list-option role="listitem" routerLink="/" (click)="toggleTabletMenu()">Home</mat-list-option>
         <mat-list-option role="li" routerLink="/blog" (click)="toggleTabletMenu()">Blog</mat-list-option>
         <mat-list-option role="li">Favorites</mat-list-option>
-    </mat-selection-list>
+    </mat-selection-list> -->
 </section>

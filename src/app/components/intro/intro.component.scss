@@ -22,7 +22,7 @@
         .mat-card-title {
             width: 100%;
 
-            @media screen and (min-width: vars.$tablet-width) {
+            @media screen and (min-width: vars.$mobile-width) {
                 width: home.$card-headline-width;
             }
         }
@@ -38,7 +38,7 @@
                 blink-caret-title 0.7s step-end 12.7s 5 forwards,
                 remove-caret 0.1s linear 15s 1 forwards;
 
-            @media screen and (min-width: vars.$tablet-width) {
+            @media screen and (min-width: vars.$mobile-width) {
                 animation:
                     increase-opacity 0.1s ease-out 12.7s forwards,
                     typing-title 1.5s steps(25, end) 12.6s forwards,
@@ -77,4 +77,20 @@
             }
         }
     }
+
+    p {
+        font-family: var(--mat-card-subtitle-text-font);
+    }
+
+    .divider {
+        margin: 1rem 0;
+    }
+
+    .action-btn {
+        margin-left: auto;
+    }
+}
+
+.mat-subtitle {
+    padding: 1rem 0;
 }

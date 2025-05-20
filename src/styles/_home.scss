@@ -46,13 +46,6 @@ $card-headline-width: 24.5rem;
     @include blink-cursor;
 }
 
-@keyframes transform-x {
-    from,
-    to {
-        transform: translateX(0);
-    }
-}
-
 @keyframes increase-opacity {
     from,
     to {
@@ -68,11 +61,11 @@ $card-headline-width: 24.5rem;
 }
 
 @keyframes typing-logo {
-    @include typing(12rem);
+    @include typing(8.3rem);
 }
 
 @keyframes typing-motto {
-    @include typing(21rem);
+    @include typing(20.5rem);
 }
 
 @keyframes typing-title {
@@ -119,27 +112,12 @@ $card-headline-width: 24.5rem;
     }
 
     100% {
-        height: vars.$header-height;
-    }
-}
-
-@keyframes justify-logo-left {
-    0%,
-    1% {
-        width: 99.9%;
-    }
-
-    99% {
-        width: 230px;
-    }
-
-    100% {
-        width: 226px;
+        height: vars.$header-standard-height;
     }
 }
 
 @keyframes translate-y-head {
-    @include translate-y-keyframes(0, 12px);
+    @include translate-y-keyframes(0, 4px);
 }
 
 @keyframes translate-y-card {
@@ -152,7 +130,7 @@ $card-headline-width: 24.5rem;
     }
 
     to {
-        transform: translate(180px, -10px);
+        transform: translate(142px, -2px);
         font-size: 1rem;
     }
 }
@@ -163,51 +141,8 @@ $card-headline-width: 24.5rem;
     }
 
     to {
-        transform: translate(80px, -10px);
+        transform: translate(100px, -2px);
         font-size: 1rem;
-    }
-}
-
-@mixin toolbar-icon-animation {
-    transform: translateX(300px);
-    animation: transform-x 0.1s linear 4.3s forwards;
-}
-
-@mixin mat-icon-font-size($font-size: 30px) {
-    .mat-icon {
-        font-size: $font-size;
-        width: $font-size;
-        height: $font-size;
-    }
-}
-
-@mixin toolbar-icons-animated($should-animate: false) {
-    .header-icon {
-        display: none;
-        margin-left: 30px;
-
-        @media screen and (min-width: vars.$tablet-width) {
-            display: inline-block;
-
-            @if $should-animate {
-                @include toolbar-icon-animation;
-            }
-        }
-
-        @include mat-icon-font-size(30px);
-    }
-
-    .menu-icon {
-        @if $should-animate {
-            @include toolbar-icon-animation;
-        } @else {
-            display: inline-block;
-        }
-
-        @media screen and (min-width: vars.$tablet-width) {
-            display: none;
-        }
-
-        @include mat-icon-font-size(30px);
+        padding: 0;
     }
 }

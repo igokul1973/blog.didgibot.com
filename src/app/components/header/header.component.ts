@@ -4,15 +4,25 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbar } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Observable } from 'rxjs';
 import { InitializationService } from '../../services/initialization/initialization.service';
+import { SearchFieldComponent } from '../search-field/search-field.component';
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
-    imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, MatToolbar, MatListModule],
+    imports: [
+        CommonModule,
+        RouterLink,
+        RouterLinkActive,
+        MatButtonModule,
+        MatIconModule,
+        MatToolbar,
+        MatListModule,
+        SearchFieldComponent
+    ],
     encapsulation: ViewEncapsulation.None,
     standalone: true
 })

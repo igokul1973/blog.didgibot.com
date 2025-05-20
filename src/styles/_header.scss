@@ -1,0 +1,103 @@
+@use 'variables' as vars;
+
+@keyframes transform-icons-left {
+    from {
+        transform: translateX(600px);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes justify-logo-left {
+    0% {
+        flex: 1 0 auto;
+    }
+
+    100% {
+        flex: 0 0 auto;
+    }
+}
+
+@keyframes justify-spacer-left {
+    0% {
+        flex: 0 0 0;
+    }
+
+    100% {
+        flex: 1 0 auto;
+    }
+}
+
+@keyframes justify-icons-left {
+    0% {
+        flex: 0 0 0;
+    }
+
+    100% {
+        flex: 0 0 auto;
+    }
+}
+
+@mixin spacer-animated($should-animate: false) {
+    .spacer {
+        flex: 1 0 auto;
+
+        @if $should-animate {
+            flex: 0 0 0;
+            animation: justify-spacer-left 1.5s ease-in-out 5s forwards;
+        }
+    }
+}
+
+@mixin toolbar-icons-animation {
+    animation:
+        justify-icons-left 1.5s ease-in-out 7s forwards,
+        transform-icons-left 1.5s ease-in-out 7s forwards;
+}
+
+@mixin mat-icon-font-size($font-size: 30px) {
+    .mat-icon {
+        font-size: $font-size;
+        width: $font-size;
+        height: $font-size;
+    }
+}
+
+@mixin icons-animated($should-animate: false) {
+    .icons {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        overflow: hidden;
+        margin-right: 30px;
+
+        @if $should-animate {
+            flex: 0 0 0;
+
+            @include toolbar-icons-animation;
+        }
+
+        & > * {
+            @include mat-icon-font-size(30px);
+        }
+    }
+
+    .header-icon {
+        display: none;
+
+        @media screen and (min-width: vars.$mobile-width) {
+            display: inline-block;
+        }
+    }
+
+    .menu-icon {
+        display: inline-block;
+
+        @media screen and (min-width: vars.$mobile-width) {
+            display: none;
+        }
+    }
+}

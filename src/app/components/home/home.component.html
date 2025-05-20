@@ -6,6 +6,7 @@
             [isAnimationFinished]="(isAnimationFinished$ | async) || false"
             *ngFor="let article of articles$ | async"
             [article]="article"
+            [isPreview]="true"
         ></app-article>
     }
 </section>

@@ -1,9 +1,10 @@
-import { transformRawArticles } from '@/utils/transformers';
+import { GET_ARTICLES } from '@/app/operations';
+import { transformRawArticle, transformRawArticles } from '@/utils/transformers';
 import { Injectable } from '@angular/core';
+import { OperationVariables } from '@apollo/client/core';
 import { Apollo } from 'apollo-angular';
 import { map, Observable } from 'rxjs';
 import { IArticlePartial, IRawArticle } from 'types/article';
-import { GET_ARTICLES } from './article.graphql';
 
 @Injectable({
     providedIn: 'root'
@@ -11,10 +12,11 @@ import { GET_ARTICLES } from './article.graphql';
 export class ArticleService {
     constructor(private readonly apollo: Apollo) {}
 
-    getArticles(): Observable<IArticlePartial[]> {
+    getArticles(variables: OperationVariables): Observable<IArticlePartial[]> {
         return this.apollo
             .watchQuery<{ articles: IRawArticle[] }>({
-                query: GET_ARTICLES
+                query: GET_ARTICLES,
+                variables
             })
             .valueChanges.pipe(
                 map(({ data }) => {
@@ -22,6 +24,25 @@ export class ArticleService {
                         return [];
                     }
                     return transformRawArticles(data.articles);
+                })
+            );
+    }
+
+    getArticleById(id: string): Observable<IArticlePartial | null> {
+        return this.apollo
+            .watchQuery<{ articles: IRawArticle[] }>({
+                query: GET_ARTICLES,
+                variables: {
+                    entityName: 'article',
+                    filterInput: { ids: [id] }
+                }
+            })
+            .valueChanges.pipe(
+                map(({ data }) => {
+                    if (!data) {
+                        return null;
+                    }
+                    return transformRawArticle(data.articles[0]);
                 })
             );
     }

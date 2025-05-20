@@ -1,6 +1,9 @@
 .page-not-found-wrapper {
-  display: grid;
-  grid-template-columns: 1fr;
-  justify-items: center;
-  align-items: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center center;
+}
+
+.action-btn {
+    margin: 3rem auto 0;
 }

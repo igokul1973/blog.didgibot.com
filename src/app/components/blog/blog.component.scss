@@ -4,9 +4,9 @@
     display: grid;
     grid-template-columns: 1fr;
     place-items: center;
+    row-gap: 2rem;
 
-    .mat-card.blog {
-        min-height: calc(100vh - vars.$header-height - vars.$header-margin-bottom * 2 - vars.$card-padding * 2);
-        margin-bottom: vars.$header-margin-bottom;
+    & > * {
+        width: 100%;
     }
 }

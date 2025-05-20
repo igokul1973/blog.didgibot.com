@@ -1,46 +1,90 @@
+@use 'variables' as vars;
+
 @mixin my-typography-hierarchy {
     // Display styles
     h1 {
-        font: var(--mat-sys-display-large);
-        letter-spacing: var(--mat-sys-display-large-tracking);
-        margin: 0 0 16px;
+        font: var(--mat-sys-display-medium);
+        letter-spacing: var(--mat-sys-display-medium-tracking);
+        margin: 0 0 12px;
+
+        @media screen and (min-width: vars.$mobile-width) {
+            font: var(--mat-sys-display-large);
+            letter-spacing: var(--mat-sys-display-large-tracking);
+            margin: 0 0 16px;
+        }
     }
 
     h2 {
-        font: var(--mat-sys-display-medium);
+        font: var(--mat-sys-display-small);
         letter-spacing: var(--mat-sys-display-medium-tracking);
-        margin: 0 0 16px;
+        margin: 0 0 12px;
+
+        @media screen and (min-width: vars.$mobile-width) {
+            font: var(--mat-sys-display-medium);
+            letter-spacing: var(--mat-sys-display-medium-tracking);
+            margin: 0 0 16px;
+        }
     }
 
     h3 {
-        font: var(--mat-sys-display-small);
-        letter-spacing: var(--mat-sys-display-small-tracking);
-        margin: 0 0 16px;
+        font: var(--mat-sys-headline-large);
+        letter-spacing: var(--mat-sys-headline-large-tracking);
+        margin: 0 0 10px;
+
+        @media screen and (min-width: vars.$mobile-width) {
+            font: var(--mat-sys-display-small);
+            letter-spacing: var(--mat-sys-display-small-tracking);
+            margin: 0 0 14px;
+        }
     }
 
     // Headline styles
     h4 {
-        font: var(--mat-sys-headline-large);
-        letter-spacing: var(--mat-sys-headline-large-tracking);
-        margin: 0 0 16px;
+        font: var(--mat-sys-headline-medium);
+        letter-spacing: var(--mat-sys-headline-medium-tracking);
+        margin: 0 0 10px;
+
+        @media screen and (min-width: vars.$mobile-width) {
+            font: var(--mat-sys-headline-large);
+            letter-spacing: var(--mat-sys-headline-large-tracking);
+            margin: 0 0 14px;
+        }
     }
 
     h5 {
-        font: var(--mat-sys-headline-medium);
-        letter-spacing: var(--mat-sys-headline-medium-tracking);
-        margin: 0 0 12px;
+        font: var(--mat-sys-headline-small);
+        letter-spacing: var(--mat-sys-headline-small-tracking);
+        margin: 0 0 10px;
+
+        @media screen and (min-width: vars.$mobile-width) {
+            font: var(--mat-sys-headline-medium);
+            letter-spacing: var(--mat-sys-headline-medium-tracking);
+            margin: 0 0 12px;
+        }
     }
 
     h6 {
-        font: var(--mat-sys-headline-small);
-        letter-spacing: var(--mat-sys-headline-small-tracking);
-        margin: 0 0 12px;
+        font: var(--mat-sys-body-large);
+        font-family: Alegreya, serif;
+        letter-spacing: var(--mat-sys-body-large-tracking);
+        margin: 0 0 10px;
+
+        @media screen and (min-width: vars.$mobile-width) {
+            font: var(--mat-sys-headline-small);
+            letter-spacing: var(--mat-sys-headline-small-tracking);
+            margin: 0 0 12px;
+        }
     }
 
     // Body styles
     body {
-        font: var(--mat-sys-body-large);
-        letter-spacing: var(--mat-sys-body-large-tracking);
+        font: var(--mat-sys-body-small);
+        letter-spacing: var(--mat-sys-body-medium-tracking);
+
+        @media screen and (min-width: vars.$mobile-width) {
+            font: var(--mat-sys-body-medium);
+            letter-spacing: var(--mat-sys-body-large-tracking);
+        }
 
         p {
             margin: 0 0 12px;

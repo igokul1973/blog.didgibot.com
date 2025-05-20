@@ -1,0 +1,5 @@
+@if ((article$ | async) !== null) {
+    <app-article [article]="(article$ | async)!"></app-article>
+} @else {
+    <p>Article not found</p>
+}

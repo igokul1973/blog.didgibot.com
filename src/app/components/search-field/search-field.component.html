@@ -1,0 +1,21 @@
+<div class="search-field">
+    <mat-form-field
+        subscriptSizing="dynamic"
+        [ngClass]="{ 'search-input-field': true, expanded: isExpanded, collapsed: !isExpanded }"
+    >
+        <input
+            matInput
+            placeholder="Search"
+            [ngModel]="searchQuery()"
+            (ngModelChange)="searchQuery.set($event)"
+            (focus)="expandInput()"
+        />
+    </mat-form-field>
+    <button mat-icon-button matSuffix [matTooltip]="'Search'" (click)="toggleInput()" class="search-icon info">
+        @if (isExpanded) {
+            <mat-icon>search_off</mat-icon>
+        } @else {
+            <mat-icon>search</mat-icon>
+        }
+    </button>
+</div>

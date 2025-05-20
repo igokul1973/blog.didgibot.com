@@ -1,16 +1,8 @@
 // Widths
-$tablet-width: 768px;
-$desktop-width: 1024px;
-
-// Fonts
-$header-font-family: 'Alegreya';
-$h1-font-size: 2.5rem;
-$h2-font-size: 2rem;
-$h3-font-size: 1.5rem;
-$h4-font-size: 1.25rem;
-$body-font-size: 16px;
+$mobile-width: 768px;
 
 // Sizing
-$header-height: 75px;
+$header-standard-height: 80px;
+$header-mobile-height: 75px;
 $header-margin-bottom: 50px;
 $card-padding: 2rem;

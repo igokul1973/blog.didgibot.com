@@ -1,0 +1,30 @@
+.search-field {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    // width: 300px;
+    overflow: hidden;
+}
+
+.fake-search-icon {
+    transform: translateX(100px);
+    color: orange;
+}
+
+.search-input-field {
+    transform: translateX(40px);
+
+    // overflow: hidden;
+    width: 0;
+}
+
+.expanded {
+    width: 300px;
+    transition: width 0.5s;
+}
+
+.collapsed {
+    width: 0;
+    transition: width 0.5s;
+}

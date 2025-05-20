@@ -1,82 +1,87 @@
 @use '@angular/material' as mat;
 @use '../../../styles/variables' as vars;
 @use '../../../styles/home' as home;
+@use '../../../styles/header' as header;
 
 .logo {
     cursor: pointer;
 }
 
-.toolbar:not(.home),
-.toolbar.home.no-animation {
-    .mat-toolbar.mat-toolbar-single-row {
+.toolbar {
+    position: relative;
+    z-index: 100;
+}
+
+.toolbar-wrapper:not(.home),
+.toolbar-wrapper.home.no-animation {
+    .toolbar {
         .logo {
-            width: 100%;
+            flex: 0 0 auto;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: left;
+            align-items: center;
 
             .head {
                 color: var(--mat-sys-primary);
                 font-size: 2.2rem;
-                transform: translateY(4px);
             }
 
             .motto {
                 color: var(--mat-sys-secondary);
-                transform: translate(104px, -2px);
+                transform: translate(100px, -2px);
                 font-size: 1rem;
 
-                @media screen and (min-width: vars.$tablet-width) {
-                    transform: translate(124px, -2px);
+                @media screen and (min-width: vars.$mobile-width) {
+                    transform: translate(142px, 0);
                 }
             }
         }
     }
 
-    @include home.toolbar-icons-animated(false);
+    @include header.spacer-animated(false);
+    @include header.icons-animated(false);
 }
 
-.toolbar.home:not(.no-animation) {
-    .mat-toolbar.mat-toolbar-single-row {
+.toolbar-wrapper.home:not(.no-animation) {
+    .toolbar {
         animation:
             increase-toolbar-height 1s ease-out 0.5s forwards,
-            decrease-toolbar-height 1s ease-out 6s forwards;
+            decrease-toolbar-height 1s ease-out 4s forwards;
 
         .logo {
-            width: 100%;
+            flex: 1 0 auto;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            animation: justify-logo-left 2s ease-in-out 7s forwards;
+            animation: justify-logo-left 1.5s ease-in-out 5s forwards;
 
             .head {
-                text-align: center;
-                text-transform: lowercase;
-                font-size: 2.2rem;
                 color: var(--mat-sys-primary);
-                padding: 0.5rem;
+                font-size: 2.2rem;
                 opacity: 0;
                 overflow: hidden;
+
+                // Represents the cursor
                 border-right: 2px solid home.$cursor-color;
-                white-space: nowrap;
+                padding-bottom: 0.4rem;
                 animation:
                     increase-opacity 0s linear 2.1s 1 forwards,
-                    typing-logo 1s steps(20, end) 2s,
-                    blink-caret-title 0.7s step-end 5 forwards,
+                    typing-logo 1s steps(15, end) 2s,
+                    blink-caret-title 0.7s step-end 4 forwards,
                     translate-y-head 0.7s ease-in-out 7.5s 1 forwards;
             }
 
             .motto {
-                text-align: center;
+                color: var(--mat-sys-secondary);
                 font-size: 1.7rem;
-                padding: 0.5rem;
-                color: var(--mat-sys-tertiary);
                 opacity: 0;
                 overflow: hidden;
+                padding-bottom: 0.1rem;
+
+                // Represents the cursor
                 border-right: 2px solid home.$cursor-color;
-                white-space: nowrap;
                 animation:
                     increase-opacity 0s linear 3.5s 1 forwards,
                     typing-motto 1s steps(25, end) 3.4s,
@@ -84,7 +89,7 @@
                     remove-caret 0.1s linear 6s 1 forwards,
                     transform-motto-tablet 0.5s ease-in-out 7s 1 forwards;
 
-                @media screen and (min-width: vars.$tablet-width) {
+                @media screen and (min-width: vars.$mobile-width) {
                     animation:
                         increase-opacity 0s linear 3.5s 1 forwards,
                         typing-motto 1s steps(25, end) 3.4s,
@@ -95,34 +100,32 @@
             }
         }
 
-        @include home.toolbar-icons-animated(true);
+        @include header.spacer-animated(true);
+        @include header.icons-animated(true);
     }
 }
 
-.mat-toolbar {
-    position: relative;
-    z-index: 10;
-    height: vars.$header-height;
-}
-
-.tablet-menu {
+.mobile-menu {
     transform: translateY(-300px);
     position: absolute;
-    top: vars.$header-height;
+    top: vars.$header-mobile-height;
     width: 100vw;
     z-index: 9;
-    background-color: var(--mat-sys-primary-container);
     transition: transform 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
 
     &.open {
-        transform: translateY(0);
+        transform: translateY(-2px);
     }
 
-    @media screen and (min-width: vars.$tablet-width) {
+    @media screen and (min-width: vars.$mobile-width) {
         display: none;
     }
 
     .mat-list-option {
         color: white;
+    }
+
+    .active {
+        background-color: var(--mat-sys-tertiary);
     }
 }
