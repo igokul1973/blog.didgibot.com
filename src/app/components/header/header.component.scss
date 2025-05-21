@@ -106,7 +106,7 @@
 }
 
 .mobile-menu {
-    transform: translateY(-300px);
+    transform: translateY(-400px);
     position: absolute;
     top: vars.$header-mobile-height;
     width: 100vw;
@@ -114,7 +114,11 @@
     transition: transform 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
 
     &.open {
-        transform: translateY(-2px);
+        transform: translateY(-8px);
+
+        @media screen and (min-width: vars.$mobile-width) {
+            transform: translateY(-3px);
+        }
     }
 
     @media screen and (min-width: vars.$mobile-width) {
@@ -127,5 +131,9 @@
 
     .active {
         background-color: var(--mat-sys-tertiary);
+    }
+
+    .menu-item {
+        border-top: 1px solid rgba(gray, 0.7);
     }
 }

@@ -80,6 +80,7 @@
     body {
         font: var(--mat-sys-body-small);
         letter-spacing: var(--mat-sys-body-medium-tracking);
+        min-width: 425px;
 
         @media screen and (min-width: vars.$mobile-width) {
             font: var(--mat-sys-body-medium);
