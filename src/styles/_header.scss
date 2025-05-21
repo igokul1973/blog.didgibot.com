@@ -70,9 +70,13 @@
         flex: 0 0 auto;
         display: flex;
         align-items: center;
-        gap: 30px;
+        gap: 15px;
         overflow: hidden;
         margin-right: 30px;
+
+        @media screen and (min-width: vars.$mobile-width-large) {
+            gap: 30px;
+        }
 
         @if $should-animate {
             flex: 0 0 0;

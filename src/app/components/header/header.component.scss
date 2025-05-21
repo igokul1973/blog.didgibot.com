@@ -32,7 +32,7 @@
                 transform: translate(100px, -2px);
                 font-size: 1rem;
 
-                @media screen and (min-width: vars.$mobile-width) {
+                @media screen and (min-width: vars.$mobile-width-large) {
                     transform: translate(142px, 0);
                 }
             }
@@ -89,7 +89,7 @@
                     remove-caret 0.1s linear 6s 1 forwards,
                     transform-motto-tablet 0.5s ease-in-out 7s 1 forwards;
 
-                @media screen and (min-width: vars.$mobile-width) {
+                @media screen and (min-width: vars.$mobile-width-large) {
                     animation:
                         increase-opacity 0s linear 3.5s 1 forwards,
                         typing-motto 1s steps(25, end) 3.4s,

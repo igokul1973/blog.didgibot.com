@@ -4,10 +4,18 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    width: 280px;
+    width: 310px;
     overflow: hidden;
 
-    @media screen and (min-width: vars.$mobile-width-large) {
+    @media screen and (min-width: vars.$mobile-width-large - 110px) {
+        width: 340px;
+    }
+
+    @media screen and (min-width: vars.$mobile-width-large - 70px) {
+        width: 380px;
+    }
+
+    @media screen and (min-width: vars.$mobile-width-large - 50px) {
         width: 400px;
     }
 
