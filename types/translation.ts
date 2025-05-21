@@ -8,7 +8,7 @@ export enum LanguageEnum {
     EN = 'en'
 }
 
-interface IContentBlock {
+export interface IContentBlock {
     __typename?: string;
     id: string;
     type: BlockToolTypeEnum;

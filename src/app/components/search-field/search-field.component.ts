@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, Input, model, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,23 +14,44 @@ import { MatTooltip } from '@angular/material/tooltip';
     styleUrl: './search-field.component.scss'
 })
 export class SearchFieldComponent {
-    searchQuery = signal('');
-    isExpanded = false;
+    @Input() isMobile: boolean = false;
+    public searchQuery = model<string>('');
+    public isExpanded = signal<boolean>(false);
 
-    public expandInput() {
-        this.isExpanded = true;
+    ngAfterViewInit(): void {
+        const observer = new ResizeObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.contentRect.width <= 767) {
+                    if (!this.searchQuery()) {
+                        this.isExpanded() && this.collapseInput();
+                    }
+                } else {
+                    this.searchQuery() && !this.isExpanded() && this.expandInput();
+                }
+            });
+        });
+
+        observer.observe(window.document.body);
     }
 
-    public collapseInput() {
-        this.isExpanded = false;
+    public expandInput() {
+        this.isExpanded.set(true);
+    }
+
+    private collapseInput() {
+        this.isExpanded.set(false);
     }
 
     public toggleInput() {
-        this.isExpanded = !this.isExpanded;
+        if (this.isExpanded()) {
+            this.changeSearchQuery('');
+            this.collapseInput();
+        } else {
+            this.expandInput();
+        }
     }
 
-    search() {
-        // Perform search logic here
-        console.log('Searching...');
+    public changeSearchQuery($event: string) {
+        this.searchQuery.set($event);
     }
 }

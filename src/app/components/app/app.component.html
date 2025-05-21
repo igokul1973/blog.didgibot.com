@@ -1,7 +1,10 @@
-<app-header [isHome]="(routeName$ | async) === 'home'"></app-header>
+<app-header [routeName$]="routeName$!"></app-header>
 
-<section [ngClass]="'content ' + (routeName$ | async)">
-    <router-outlet></router-outlet>
-</section>
+<ng-container *ngIf="routeName$ | async as routeName">
+    <section [ngClass]="['content', routeName]">
+        <router-outlet></router-outlet>
+    </section>
+</ng-container>
 
 <app-footer></app-footer>
+<app-scroll-to-top />

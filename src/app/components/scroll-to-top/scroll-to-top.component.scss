@@ -1,0 +1,15 @@
+.scroll-to-top {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    opacity: 0.5;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.scroll-to-top:hover {
+    opacity: 1;
+}
+
+.hidden {
+    display: none;
+}

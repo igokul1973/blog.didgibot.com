@@ -1,17 +1,15 @@
-<figure [ngClass]="currentConfig.classNames?.container">
-    <div *ngIf="language" className="{currentConfig.classNames?.languageInfoBar}">
-        <img [src]="language.logoSrc" [width]="25" [height]="25" [alt]="language.logoAlt" />
+<div [ngClass]="[currentConfig.classNames?.container, 'code']">
+    <div *ngIf="language" [ngClass]="['lang', currentConfig.classNames?.languageInfoBar]">
+        <img [src]="language.logoSrc" [alt]="language.logoAlt" />
         <figcaption [ngClass]="currentConfig.classNames?.languageInfoBarText">
             {{ language.displayText }}
         </figcaption>
     </div>
-
-    <!-- <SyntaxHighlighter
-        [language]="language ? language.language : ''"
-        [style]="currentConfig.codeStyle"
-        [showLineNumbers]="currentConfig.showLineNumbers"
-    >
-        {item.data.code}
-    </SyntaxHighlighter> -->
-    <pre><code [highlight]="item.data.code" language="html"></code></pre>
-</figure>
+    <pre>
+        @if (currentConfig.showLineNumbers) {
+            <code [highlight]="item.data.code" lineNumbers [language]="language.language"></code>
+        } @else {
+            <code [highlight]="item.data.code" [language]="language.language"></code>
+        }
+    </pre>
+</div>

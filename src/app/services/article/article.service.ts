@@ -1,15 +1,21 @@
 import { GET_ARTICLES } from '@/app/operations';
 import { transformRawArticle, transformRawArticles } from '@/utils/transformers';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { OperationVariables } from '@apollo/client/core';
 import { Apollo } from 'apollo-angular';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { IArticlePartial, IRawArticle } from 'types/article';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ArticleService {
+    private readonly searchQuerySubject = new BehaviorSubject<string>('');
+    public searchQuery$ = this.searchQuerySubject.asObservable();
+
+    public isArticleFilterSet = signal<boolean>(false);
+    // private filteredArticles = signal<IArticlePartial[]>([]);
+
     constructor(private readonly apollo: Apollo) {}
 
     getArticles(variables: OperationVariables): Observable<IArticlePartial[]> {
@@ -45,5 +51,17 @@ export class ArticleService {
                     return transformRawArticle(data.articles[0]);
                 })
             );
+    }
+
+    // getFilteredArticles(): WritableSignal<IArticlePartial[]> {
+    //     return this.filteredArticles;
+    // }
+
+    // setFilteredArticles(articles: IArticlePartial[]) {
+    //     this.filteredArticles.set(articles);
+    // }
+
+    setSearchQuery(query: string) {
+        this.searchQuerySubject.next(query);
     }
 }

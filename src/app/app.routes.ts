@@ -37,7 +37,7 @@ export const routes: Routes = [
                 title: 'Article',
                 pathMatch: 'full',
                 data: {
-                    name: 'blog'
+                    name: 'blog article'
                 }
             }
         ]
@@ -47,7 +47,7 @@ export const routes: Routes = [
         component: PageNotFoundComponent,
         title: '404 - Page not found',
         data: {
-            name: 'blog'
+            name: 'page not found'
         }
     }
 ];

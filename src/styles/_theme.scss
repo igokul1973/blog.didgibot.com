@@ -3,10 +3,13 @@
 @use 'variables' as vars;
 @use 'palettes' as p;
 @use 'mixins' as m;
+@use 'sass:color';
 
 html,
 body {
-    color-scheme: light dark;
+    // TODO: work on dark scheme as it is not working
+    // color-scheme: light dark;
+    color-scheme: light;
     height: 100%;
     margin: 0;
     background-color: var(--mat-sys-secondary-container);
@@ -32,7 +35,7 @@ body {
         (
             body-large: 300 1.4rem / 2.2rem Roboto,
             body-medium: 300 1.2rem / 2.1rem Roboto,
-            body-small: 200 1rem / 1.7rem Roboto,
+            body-small: 300 1rem / 1.7rem Roboto,
             title-large: 2.2rem,
             title-large-weight: 700,
             title-medium: 1.25rem,
@@ -63,9 +66,19 @@ body {
         (
             list-item-container-color: var(--mat-sys-primary),
             list-item-hover-label-text-color: var(--mat-sys-inverse-on-surface),
-            list-item-label-text-color: var(--mat-sys-inverse-on-surface)
+            list-item-label-text-color: var(--mat-sys-inverse-on-surface),
+            list-item-one-line-container-height: 65px
         )
     );
+
+    .search-field-mobile {
+        @include mat.list-overrides(
+            (
+                list-item-one-line-container-height: 110px
+            )
+        );
+    }
+
     @include mat.toolbar-overrides(
         (
             standard-height: vars.$header-standard-height,
@@ -130,6 +143,11 @@ body.dark {
     @include mat.icon-overrides(
         (
             color: p.get-palette-colors(p.$info-palette, 70)
+        )
+    );
+    @include mat.form-field-overrides(
+        (
+            filled-container-color: initial
         )
     );
 }

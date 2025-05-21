@@ -1,4 +1,16 @@
+@use '../../../styles/variables' as vars;
+
 /* You can add styles to this file, and also import other style files */
 .content {
-    padding: 2rem 2rem 1rem;
+    padding: 1rem;
+    margin: 0 auto;
+    max-width: 1600px;
+
+    @media screen and (min-width: vars.$mobile-width) {
+        padding: 1.5rem 1.5rem 1rem;
+    }
+
+    @media screen and (min-width: vars.$mobile-width-large) {
+        padding: 2rem 2rem 1rem;
+    }
 }

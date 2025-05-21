@@ -2,8 +2,10 @@ import { IOutputBlockData } from '@/app/components/editorjs-parser/types';
 
 export type TEditorJsCode = {
     code: string;
+    showlinenumbers: boolean;
     mode?: string;
     language?: string;
+    lang?: string;
 };
 
 export type TCodeLanguage = {

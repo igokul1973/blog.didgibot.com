@@ -30,8 +30,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         timer(9000)
             .pipe(first())
-            .subscribe(() => {
-                this.initializationService.setIsAnimationFinished();
+            .subscribe({
+                next: () => {
+                    this.initializationService.setIsAnimationFinished();
+                }
             });
     }
 

@@ -1,30 +1,50 @@
+@use '../../../styles/variables' as vars;
+
 .search-field {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-
-    // width: 300px;
+    width: 310px;
     overflow: hidden;
-}
 
-.fake-search-icon {
-    transform: translateX(100px);
-    color: orange;
+    @media screen and (min-width: vars.$mobile-width-large - 110px) {
+        width: 340px;
+    }
+
+    @media screen and (min-width: vars.$mobile-width-large - 70px) {
+        width: 380px;
+    }
+
+    @media screen and (min-width: vars.$mobile-width-large - 50px) {
+        width: 400px;
+    }
+
+    &.search-field-mobile {
+        width: 100%;
+    }
 }
 
 .search-input-field {
     transform: translateX(40px);
-
-    // overflow: hidden;
     width: 0;
+
+    &.input-field-mobile {
+        transform: translateX(20px);
+    }
 }
 
 .expanded {
-    width: 300px;
+    width: 100%;
     transition: width 0.5s;
 }
 
 .collapsed {
     width: 0;
     transition: width 0.5s;
+}
+
+.search-icon {
+    &.search-icon-mobile {
+        transform: translateX(-20px);
+    }
 }

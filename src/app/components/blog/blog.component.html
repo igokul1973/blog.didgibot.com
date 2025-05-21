@@ -1,8 +1,21 @@
 <section class="blog-wrapper">
-    <app-article
-        [isAnimationFinished]="(isAnimationFinished$ | async) || false"
-        *ngFor="let article of articles$ | async"
-        [article]="article"
-        [isPreview]="true"
-    ></app-article>
+    @let searchQuery = (searchQuery$ | async) || '';
+    @if (searchQuery.length > 2) {
+        <article>
+            <div>Search results for "{{ searchQuery }}"</div>
+            <div>Number of articles found: {{ ds.articlesTotal }}</div>
+        </article>
+    } @else if ((searchQuery.length || 0) > 0 && searchQuery.length <= 2) {
+        <article>
+            <div>Please type more than 2 characters to trigger the filter...</div>
+        </article>
+    }
+    <cdk-virtual-scroll-viewport scrollWindow [itemSize]="453" minBufferPx="0" maxBufferPx="0">
+        <app-article
+            [isAnimationFinished]="(isAnimationFinished$ | async) || false"
+            *cdkVirtualFor="let article of ds"
+            [article]="article"
+            [isPreview]="true"
+        />
+    </cdk-virtual-scroll-viewport>
 </section>

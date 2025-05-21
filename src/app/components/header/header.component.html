@@ -1,4 +1,11 @@
-<section [ngClass]="{ 'toolbar-wrapper': true, home: isHome, 'no-animation': (isAnimationFinished$ | async) }">
+<section
+    [ngClass]="{
+        'toolbar-wrapper': true,
+        home: (routeName$ | async) === 'home',
+        'no-animation': (isAnimationFinished$ | async)
+    }"
+    #headerToolbarWrapper
+>
     <mat-toolbar color="primary" class="toolbar">
         <div class="logo" routerLink="/">
             <span class="head">didgibot</span>
@@ -6,7 +13,7 @@
         </div>
         <span class="spacer"></span>
         <div class="icons">
-            <app-search-field></app-search-field>
+            <app-search-field class="header-icon" [(searchQuery)]="searchQuery" />
             <button mat-icon-button [routerLink]="['/blog']" class="header-icon pop-later" aria-label="Blog page">
                 <mat-icon class="error">article</mat-icon>
             </button>
@@ -16,14 +23,24 @@
             <button mat-icon-button class="header-icon pop-later" aria-label="Share the article">
                 <mat-icon class="success">share</mat-icon>
             </button>
-            <button mat-icon-button class="menu-icon pop-later" aria-label="Sandwich menu" (click)="toggleTabletMenu()">
+            <button
+                mat-icon-button
+                class="menu-icon pop-later"
+                aria-label="Sandwich menu"
+                (click)="toggleTabletMenu()"
+                #sandwich
+            >
                 <mat-icon color="primary">menu</mat-icon>
             </button>
         </div>
     </mat-toolbar>
 
-    <mat-action-list role="menu" class="mobile-menu" [ngClass]="{ open: isOpen }">
+    <mat-action-list role="menu" class="mobile-menu" [ngClass]="{ open: isOpen() }" #mobileMenu>
+        <mat-list-item role="listitem" class="search-field-mobile">
+            <app-search-field [isMobile]="true" [(searchQuery)]="searchQuery" />
+        </mat-list-item>
         <mat-list-item
+            class="menu-item"
             role="listitem"
             routerLink="/"
             routerLinkActive="active"
@@ -34,6 +51,7 @@
             Home
         </mat-list-item>
         <mat-list-item
+            class="menu-item"
             role="listitem"
             routerLink="/blog"
             routerLinkActive="active"
@@ -43,6 +61,7 @@
             Blog
         </mat-list-item>
         <mat-list-item
+            class="menu-item"
             role="listitem"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
@@ -52,10 +71,4 @@
             Favorites
         </mat-list-item>
     </mat-action-list>
-
-    <!-- <mat-selection-list role="menu" class="mobile-menu" [multiple]="false" [ngClass]="{ open: isOpen }" color="warn">
-        <mat-list-option role="listitem" routerLink="/" (click)="toggleTabletMenu()">Home</mat-list-option>
-        <mat-list-option role="li" routerLink="/blog" (click)="toggleTabletMenu()">Blog</mat-list-option>
-        <mat-list-option role="li">Favorites</mat-list-option>
-    </mat-selection-list> -->
 </section>

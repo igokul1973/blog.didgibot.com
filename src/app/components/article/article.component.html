@@ -1,34 +1,39 @@
 <article class="article-wrapper" [ngClass]="{ 'no-animation': isAnimationFinished }">
-    <mat-card [ngClass]="{ 'blog-article': true, 'no-animation': true }">
-        @if (!isPreview) {
-            <button mat-button (click)="goBack()" class="back-btn info">
-                <mat-icon>arrow_back</mat-icon>
-                Go Back
-            </button>
-        }
-        <mat-card-header>
-            <mat-card-title class="mat-headline no-animation">
-                <h1>
-                    {{ article.translations[0].header }}
-                </h1>
-                <span class="meta"
-                    >Date updated:&nbsp; {{ article.updatedAt?.toDate() | date: 'dd MMMM yyyy HH:mm' }}</span
-                >
-            </mat-card-title>
-        </mat-card-header>
-        <mat-card-content [ngClass]="{ preview: isPreview }" *ngIf="article.translations[0].content">
-            <app-block-parser [data]="article.translations[0].content"></app-block-parser>
-        </mat-card-content>
-        @if (isPreview) {
-            <mat-card-actions>
-                <!-- <button mat-fab extended [routerLink]="['/blog', 'article', article.id]" class="success action-btn">
+    @if (article) {
+        <mat-card [ngClass]="{ 'blog-article': true, 'no-animation': true }">
+            @if (!isPreview) {
+                <button mat-button (click)="goBack()" class="back-btn info">
+                    <mat-icon>arrow_back</mat-icon>
+                    Go Back
+                </button>
+            }
+            <mat-card-header>
+                <mat-card-title class="mat-headline no-animation">
+                    <h1>
+                        {{ article.translations[0].header }}
+                    </h1>
+                    <span class="meta"
+                        >Date updated:&nbsp; {{ article.updatedAt?.toDate() | date: 'dd MMMM yyyy HH:mm' }}</span
+                    >
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content *ngIf="article.translations[0].content" [ngClass]="{ preview: isPreview }">
+                <app-block-parser
+                    [data]="article.translations[0].content"
+                    [config]="blockParserConfig"
+                ></app-block-parser>
+            </mat-card-content>
+            @if (isPreview) {
+                <mat-card-actions>
+                    <!-- <button mat-fab extended [routerLink]="['/blog', 'article', article.id]" class="success action-btn">
                     Go to Article
                 </button> -->
-                <button mat-button [routerLink]="['/blog', 'article', article.id]" class="success action-btn">
-                    <mat-icon>article</mat-icon>
-                    Go to article
-                </button>
-            </mat-card-actions>
-        }
-    </mat-card>
+                    <button mat-button [routerLink]="['/blog', 'article', article.id]" class="success action-btn">
+                        <mat-icon>article</mat-icon>
+                        Go to article
+                    </button>
+                </mat-card-actions>
+            }
+        </mat-card>
+    }
 </article>

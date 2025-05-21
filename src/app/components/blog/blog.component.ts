@@ -1,26 +1,53 @@
 import { ArticleService } from '@/app/services/article/article.service';
-import { AsyncPipe, NgFor } from '@angular/common';
-import { Component } from '@angular/core';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { AsyncPipe } from '@angular/common';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
+import { IArticleQueryInput, ISortInput } from 'types/article';
 import { ArticleComponent } from '../article/article.component';
+import BlogDataSource from './blog.datasource';
 
 @Component({
     selector: 'app-blog',
     templateUrl: './blog.component.html',
     styleUrls: ['./blog.component.scss'],
-    imports: [NgFor, AsyncPipe, MatCardModule, ArticleComponent]
+    imports: [ScrollingModule, AsyncPipe, MatCardModule, ArticleComponent]
 })
-export class BlogComponent {
-    private sort = { field: 'updated_at', dir: 'desc' };
-    private filter = { updated_at: { from_: '2022-01-01' } };
-    public articles$ = this.articleService.getArticles({
+export class BlogComponent implements OnInit, OnDestroy {
+    private readonly filter = { updated_at: { from_: '2022-01-01' } };
+    private readonly sort: ISortInput = { field: 'updated_at', dir: 'desc' };
+    private readonly limit = 20;
+    public isAnimationFinished$ = of(true);
+    private readonly articleService = inject(ArticleService);
+    private readonly subscription = new Subscription();
+    protected readonly searchQuery$ = this.articleService.searchQuery$;
+
+    public ds = new BlogDataSource(this.articleService, {
         entityName: 'article',
         filterInput: this.filter,
         sortInput: this.sort,
-        limit: 5
+        limit: this.limit,
+        skip: 0
     });
-    public isAnimationFinished$ = of(true);
 
-    constructor(private readonly articleService: ArticleService) {}
+    ngOnInit(): void {
+        this.searchQuery$.subscribe((search) => {
+            const searchQuery: IArticleQueryInput = {
+                entityName: 'article',
+                filterInput: { ...this.filter },
+                sortInput: this.sort,
+                limit: this.limit,
+                skip: 0
+            };
+            if (search.length > 2) {
+                searchQuery.filterInput = { ...searchQuery.filterInput, search };
+            }
+            this.ds.setQuery(searchQuery);
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 }

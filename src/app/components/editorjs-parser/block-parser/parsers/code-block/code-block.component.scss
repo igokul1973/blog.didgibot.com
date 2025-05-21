@@ -1,0 +1,24 @@
+.code {
+    position: relative;
+}
+
+.lang {
+    position: absolute;
+    top: 0.6rem;
+    right: 1.2rem;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 10px;
+
+    img {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    figcaption {
+        font-size: 0.8rem;
+        color: var(--mat-sys-on-secondary);
+    }
+}

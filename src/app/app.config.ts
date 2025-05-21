@@ -9,14 +9,17 @@ import { graphqlProvider } from './graphql.provider';
 import { ConfigService } from './services/config/config.service';
 
 const ngxHighlightJsOptions = {
+    // fullLibraryLoader: () => import('highlight.js'),
     coreLibraryLoader: () => import('highlight.js/lib/core'),
     lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'), // Optional, add line numbers if needed
     languages: {
+        javascript: () => import('highlight.js/lib/languages/javascript'),
         typescript: () => import('highlight.js/lib/languages/typescript'),
         css: () => import('highlight.js/lib/languages/css'),
-        xml: () => import('highlight.js/lib/languages/xml')
+        xml: () => import('highlight.js/lib/languages/xml'),
+        python: () => import('highlight.js/lib/languages/python')
     },
-    themePath: 'assets/styles/solarized-dark.css'
+    themePath: 'assets/styles/androidstudio.css'
 };
 
 export const appConfig: ApplicationConfig = {
