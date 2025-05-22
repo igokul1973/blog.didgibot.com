@@ -7,7 +7,9 @@
 
 html,
 body {
-    color-scheme: light dark;
+    // TODO: work on dark scheme as it is not working
+    // color-scheme: light dark;
+    color-scheme: light;
     height: 100%;
     margin: 0;
     background-color: var(--mat-sys-secondary-container);
@@ -33,7 +35,7 @@ body {
         (
             body-large: 300 1.4rem / 2.2rem Roboto,
             body-medium: 300 1.2rem / 2.1rem Roboto,
-            body-small: 200 1rem / 1.7rem Roboto,
+            body-small: 300 1rem / 1.7rem Roboto,
             title-large: 2.2rem,
             title-large-weight: 700,
             title-medium: 1.25rem,

@@ -24,7 +24,11 @@
 
             .head {
                 color: var(--mat-sys-primary);
-                font-size: 2.2rem;
+                font-size: 1.8rem;
+
+                @media screen and (min-width: vars.$mobile-width) {
+                    font-size: 2.2rem;
+                }
             }
 
             .motto {
@@ -59,7 +63,7 @@
 
             .head {
                 color: var(--mat-sys-primary);
-                font-size: 2.2rem;
+                font-size: 1.8rem;
                 opacity: 0;
                 overflow: hidden;
 
@@ -71,6 +75,10 @@
                     typing-logo 1s steps(15, end) 2s,
                     blink-caret-title 0.7s step-end 4 forwards,
                     translate-y-head 0.7s ease-in-out 7.5s 1 forwards;
+
+                @media screen and (min-width: vars.$mobile-width) {
+                    font-size: 2.2rem;
+                }
             }
 
             .motto {
@@ -107,9 +115,10 @@
 
 .mobile-menu {
     transform: translateY(-400px);
-    position: absolute;
+    position: fixed;
     top: vars.$header-mobile-height;
-    width: 100vw;
+    left: 0;
+    right: 0;
     z-index: 9;
     transition: transform 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
 

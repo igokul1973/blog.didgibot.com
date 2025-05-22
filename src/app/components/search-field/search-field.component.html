@@ -5,13 +5,13 @@
             'search-input-field': true,
             info: isMobile,
             'input-field-mobile': isMobile,
-            expanded: isMobile || isExpanded,
-            collapsed: !isMobile && !isExpanded
+            expanded: isMobile || isExpanded(),
+            collapsed: !isMobile && !isExpanded()
         }"
     >
         <input
             matInput
-            placeholder="Search"
+            placeholder="Search (min 3 characters)"
             [(ngModel)]="searchQuery"
             (ngModelChange)="changeSearchQuery($event)"
             (focus)="expandInput()"
@@ -21,11 +21,11 @@
         mat-icon-button
         matSuffix
         [matTooltip]="
-            isMobile && isExpanded && search
+            isMobile && isExpanded() && searchQuery()
                 ? 'Reset search'
-                : !isMobile && isExpanded && search
+                : !isMobile && isExpanded() && searchQuery()
                   ? 'Close and reset search'
-                  : !isMobile && isExpanded && !search
+                  : !isMobile && isExpanded() && !searchQuery()
                     ? 'Close search'
                     : 'Search'
         "
@@ -36,7 +36,7 @@
             'search-icon-mobile': isMobile
         }"
     >
-        @if ((isMobile && isExpanded && search) || (!isMobile && isExpanded)) {
+        @if ((isMobile && isExpanded() && searchQuery()) || (!isMobile && isExpanded())) {
             <mat-icon>search_off</mat-icon>
         } @else {
             <mat-icon>search</mat-icon>

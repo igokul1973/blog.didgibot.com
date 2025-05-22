@@ -1,4 +1,4 @@
-<app-header [isHome]="(routeName$ | async) === 'home'"></app-header>
+<app-header [routeName]="(routeName$ | async)!"></app-header>
 
 <ng-container *ngIf="routeName$ | async as routeName">
     <section [ngClass]="['content', routeName]">

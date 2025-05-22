@@ -1,8 +1,19 @@
 <section class="blog-wrapper">
-    <app-article
-        [isAnimationFinished]="(isAnimationFinished$ | async) || false"
-        *ngFor="let article of articles$ | async"
-        [article]="article"
-        [isPreview]="true"
-    ></app-article>
+    @if (isArticleFilterSet()) {
+        <div>The number of articles: {{ filteredArticles().length }}</div>
+        <div>The articles are filtered</div>
+        <app-article
+            [isAnimationFinished]="(isAnimationFinished$ | async) || false"
+            *ngFor="let article of filteredArticles()"
+            [article]="article"
+            [isPreview]="true"
+        ></app-article>
+    } @else {
+        <app-article
+            [isAnimationFinished]="(isAnimationFinished$ | async) || false"
+            *ngFor="let article of articles$ | async"
+            [article]="article"
+            [isPreview]="true"
+        ></app-article>
+    }
 </section>

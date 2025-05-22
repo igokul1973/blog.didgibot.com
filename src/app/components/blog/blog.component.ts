@@ -21,6 +21,8 @@ export class BlogComponent {
         limit: 5
     });
     public isAnimationFinished$ = of(true);
+    public isArticleFilterSet = this.articleService.isArticleFilterSet;
+    public filteredArticles = this.articleService.getFilteredArticles();
 
     constructor(private readonly articleService: ArticleService) {}
 }

@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, model } from '@angular/core';
+import { Component, Input, model, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,20 +15,35 @@ import { MatTooltip } from '@angular/material/tooltip';
 })
 export class SearchFieldComponent {
     @Input() isMobile: boolean = false;
-    public search = '';
     public searchQuery = model<string>('');
-    public isExpanded = false;
+    public isExpanded = signal<boolean>(false);
+
+    ngAfterViewInit(): void {
+        const observer = new ResizeObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.contentRect.width <= 767) {
+                    if (!this.searchQuery()) {
+                        this.isExpanded() && this.collapseInput();
+                    }
+                } else {
+                    this.searchQuery() && !this.isExpanded() && this.expandInput();
+                }
+            });
+        });
+
+        observer.observe(window.document.body);
+    }
 
     public expandInput() {
-        this.isExpanded = true;
+        this.isExpanded.set(true);
     }
 
     private collapseInput() {
-        this.isExpanded = false;
+        this.isExpanded.set(false);
     }
 
     public toggleInput() {
-        if (this.isExpanded) {
+        if (this.isExpanded()) {
             this.changeSearchQuery('');
             this.collapseInput();
         } else {

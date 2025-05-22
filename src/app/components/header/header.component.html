@@ -1,5 +1,5 @@
 <section
-    [ngClass]="{ 'toolbar-wrapper': true, home: isHome, 'no-animation': (isAnimationFinished$ | async) }"
+    [ngClass]="{ 'toolbar-wrapper': true, home: routeName, 'no-animation': (isAnimationFinished$ | async) }"
     #headerToolbarWrapper
 >
     <mat-toolbar color="primary" class="toolbar">
@@ -19,13 +19,19 @@
             <button mat-icon-button class="header-icon pop-later" aria-label="Share the article">
                 <mat-icon class="success">share</mat-icon>
             </button>
-            <button mat-icon-button class="menu-icon pop-later" aria-label="Sandwich menu" (click)="toggleTabletMenu()">
+            <button
+                mat-icon-button
+                class="menu-icon pop-later"
+                aria-label="Sandwich menu"
+                (click)="toggleTabletMenu()"
+                #sandwich
+            >
                 <mat-icon color="primary">menu</mat-icon>
             </button>
         </div>
     </mat-toolbar>
 
-    <mat-action-list role="menu" class="mobile-menu" [ngClass]="{ open: isOpen() }">
+    <mat-action-list role="menu" class="mobile-menu" [ngClass]="{ open: isOpen() }" #mobileMenu>
         <mat-list-item role="listitem" class="search-field-mobile">
             <app-search-field [isMobile]="true" [(searchQuery)]="searchQuery" />
         </mat-list-item>
