@@ -25,8 +25,10 @@ export class ArticleComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.activatedRoute.paramMap.subscribe((params) => {
-            this.id = params.get('id');
+        this.activatedRoute.paramMap.subscribe({
+            next: (params) => {
+                this.id = params.get('id');
+            }
         });
     }
     goBack() {

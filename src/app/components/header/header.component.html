@@ -1,5 +1,5 @@
 <section
-    [ngClass]="{ 'toolbar-wrapper': true, home: routeName, 'no-animation': (isAnimationFinished$ | async) }"
+    [ngClass]="{ 'toolbar-wrapper': true, home: routeName === 'home', 'no-animation': (isAnimationFinished$ | async) }"
     #headerToolbarWrapper
 >
     <mat-toolbar color="primary" class="toolbar">

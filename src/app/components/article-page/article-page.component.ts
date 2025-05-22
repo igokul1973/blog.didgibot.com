@@ -5,7 +5,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, first, Subject, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, first, Subject, takeUntil } from 'rxjs';
 import { IArticlePartial, IRawArticle } from 'types/article';
 import { ArticleComponent } from '../article/article.component';
 
@@ -31,66 +31,70 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.client = this.apollo.client;
-        this.activatedRoute.paramMap.subscribe((params) => {
-            this.setId$(params.get('id'));
+        this.activatedRoute.paramMap.subscribe({
+            next: (params) => {
+                this.setId$(params.get('id'));
+            }
         });
 
-        this.id$.pipe(takeUntil(this.unsubscribed$)).subscribe((id) => {
-            if (!id) {
-                return;
-            }
-            let article = this.client.readFragment<IRawArticle>({
-                id: `ArticleType:${id}`,
-                fragment: gql`
-                    fragment Z on ArticleType {
-                        id
-                        translations {
-                            language
-                            header
-                            content {
-                                version
-                                time
-                                blocks {
-                                    id
-                                    type
-                                    data
+        this.id$.pipe(takeUntil(this.unsubscribed$)).subscribe({
+            next: (id) => {
+                if (!id) {
+                    return;
+                }
+                let article = this.client.readFragment<IRawArticle>({
+                    id: `ArticleType:${id}`,
+                    fragment: gql`
+                        fragment Z on ArticleType {
+                            id
+                            translations {
+                                language
+                                header
+                                content {
+                                    version
+                                    time
+                                    blocks {
+                                        id
+                                        type
+                                        data
+                                    }
                                 }
+                                category {
+                                    id
+                                    name
+                                }
+                                tags {
+                                    id
+                                    name
+                                }
+                                is_published
                             }
-                            category {
-                                id
-                                name
-                            }
-                            tags {
-                                id
-                                name
-                            }
-                            is_published
+                            created_at
+                            updated_at
                         }
-                        created_at
-                        updated_ats
-                    }
-                `
-            });
-            console.log('Articleeee: ', article);
-            if (!article) {
-                this.articleService
-                    .getArticleById(id)
-                    .pipe(
-                        first(),
-                        tap((a: any) => {
-                            console.log('Article', a);
-                        })
-                    )
-                    .subscribe((article) => {
-                        if (!article) {
-                            return;
-                        }
-                        this.setArticle$(article);
-                    });
-            } else {
-                const transformedArticle = transformRawArticle(article);
-                this.setArticle$(transformedArticle);
-            }
+                    `
+                });
+
+                if (!article) {
+                    this.articleService
+                        .getArticleById(id)
+                        .pipe(first())
+                        .subscribe({
+                            next: (article: IArticlePartial | null) => {
+                                console.log('Article', article);
+                                if (!article) {
+                                    return;
+                                }
+                                this.setArticle$(article);
+                            },
+                            error: (err: any) => console.error('Error fetching article:', err)
+                        });
+                } else {
+                    const transformedArticle = transformRawArticle(article);
+                    this.setArticle$(transformedArticle);
+                }
+            },
+            error: (err) => console.error('Subscription error:', err)
         });
     }
 

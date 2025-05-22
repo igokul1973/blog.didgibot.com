@@ -93,16 +93,18 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
                     return of([]);
                 })
             )
-            .subscribe((response) => {
-                if (this.searchQuery().length >= 3) {
-                    this.articleService.setFilteredArticles(response);
-                    this.articleService.isArticleFilterSet.set(true);
-                } else {
-                    this.articleService.setFilteredArticles([]);
-                    this.articleService.isArticleFilterSet.set(false);
-                }
-                if (this.urlPath !== 'blog' && this.articleService.isArticleFilterSet()) {
-                    this.router.navigate(['blog']);
+            .subscribe({
+                next: (response) => {
+                    if (this.searchQuery().length >= 3) {
+                        this.articleService.setFilteredArticles(response);
+                        this.articleService.isArticleFilterSet.set(true);
+                    } else {
+                        this.articleService.setFilteredArticles([]);
+                        this.articleService.isArticleFilterSet.set(false);
+                    }
+                    if (this.urlPath !== 'blog' && this.articleService.isArticleFilterSet()) {
+                        this.router.navigate(['blog']);
+                    }
                 }
             });
     }
