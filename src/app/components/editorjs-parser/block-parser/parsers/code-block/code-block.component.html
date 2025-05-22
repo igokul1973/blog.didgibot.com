@@ -1,4 +1,4 @@
-<figure [ngClass]="currentConfig.classNames?.container">
+<div [ngClass]="[currentConfig.classNames?.container, 'code']">
     <div *ngIf="language" className="{currentConfig.classNames?.languageInfoBar}">
         <img [src]="language.logoSrc" [width]="25" [height]="25" [alt]="language.logoAlt" />
         <figcaption [ngClass]="currentConfig.classNames?.languageInfoBarText">
@@ -13,5 +13,8 @@
     >
         {item.data.code}
     </SyntaxHighlighter> -->
-    <pre><code [highlight]="item.data.code" language="html"></code></pre>
-</figure>
+    <!-- <pre><code [highlight]="item.data.code" lineNumbers [startFrom]="1" [language]="language.language"></code></pre> -->
+    <pre><code [highlight]="code" lineNumbers language="js"></code></pre>
+    <!-- <pre><code>{{item.data.code}}</code></pre>
+    <pre><code>{{code}}</code></pre> -->
+</div>

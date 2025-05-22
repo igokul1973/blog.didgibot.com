@@ -1,6 +1,7 @@
 import { NgClass, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Highlight } from 'ngx-highlightjs';
+import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 import { IOutputBlockData } from '../../../types';
 import { TCodeConfig, TCodeLanguage, TEditorJsCode } from './types';
 
@@ -15,9 +16,17 @@ const defaultCodeConfig: TCodeConfig = {
     showLineNumbers: false
 };
 
+const defaultLanguage: TCodeLanguage = {
+    shortName: 'js',
+    language: 'javascript',
+    logoSrc: '',
+    logoAlt: '',
+    displayText: ''
+};
+
 @Component({
     selector: 'app-code-block',
-    imports: [NgClass, NgIf, Highlight],
+    imports: [NgClass, NgIf, Highlight, HighlightLineNumbers],
     templateUrl: './code-block.component.html',
     styleUrl: './code-block.component.scss'
 })
@@ -25,15 +34,17 @@ export class CodeBlockComponent implements OnInit {
     @Input() item!: IOutputBlockData<TEditorJsCode>;
     @Input() config?: TCodeConfig;
     public currentConfig!: TCodeConfig;
-    public language?: TCodeLanguage;
+    public language!: TCodeLanguage;
+    public code: string = "const t = '20s';\nfunction logT() {\n  console.log(t);\n}";
 
     ngOnInit(): void {
         this.currentConfig = { ...defaultCodeConfig, ...this.config };
-        this.language = this.currentConfig.languages?.find(
-            (it) =>
-                it.shortName === this.item.data.mode ||
-                it.language === this.item.data.language ||
-                it.shortName === this.item.data.language
-        );
+        this.language =
+            this.currentConfig.languages?.find(
+                (lang) =>
+                    lang.shortName === this.item.data.mode ||
+                    lang.language === this.item.data.language ||
+                    lang.shortName === this.item.data.language
+            ) || defaultLanguage;
     }
 }
