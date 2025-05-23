@@ -1,9 +1,19 @@
 import { NgClass, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import hljs from 'highlight.js/lib/core';
+import go from 'highlight.js/lib/languages/go';
+import java from 'highlight.js/lib/languages/java';
+import php from 'highlight.js/lib/languages/php';
+import scss from 'highlight.js/lib/languages/scss';
 import { Highlight } from 'ngx-highlightjs';
 import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 import { IOutputBlockData } from '../../../types';
 import { TCodeConfig, TCodeLanguage, TEditorJsCode } from './types';
+
+hljs.registerLanguage('go', go);
+hljs.registerLanguage('php', php);
+hljs.registerLanguage('java', java);
+hljs.registerLanguage('scss', scss);
 
 const defaultCodeConfig: TCodeConfig = {
     classNames: {
@@ -17,13 +27,12 @@ const defaultCodeConfig: TCodeConfig = {
 };
 
 const defaultLanguage: TCodeLanguage = {
-    shortName: 'js',
-    language: 'javascript',
-    logoSrc: '',
-    logoAlt: '',
-    displayText: ''
+    shortName: 'html',
+    language: 'html',
+    logoSrc: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg',
+    logoAlt: 'HTML language',
+    displayText: 'HTML5'
 };
-
 @Component({
     selector: 'app-code-block',
     imports: [NgClass, NgIf, Highlight, HighlightLineNumbers],
@@ -35,16 +44,19 @@ export class CodeBlockComponent implements OnInit {
     @Input() config?: TCodeConfig;
     public currentConfig!: TCodeConfig;
     public language!: TCodeLanguage;
-    public code: string = "const t = '20s';\nfunction logT() {\n  console.log(t);\n}";
 
     ngOnInit(): void {
-        this.currentConfig = { ...defaultCodeConfig, ...this.config };
+        this.currentConfig = { ...defaultCodeConfig, ...this.config, showLineNumbers: this.item.data.showlinenumbers };
         this.language =
             this.currentConfig.languages?.find(
                 (lang) =>
-                    lang.shortName === this.item.data.mode ||
+                    lang.language === this.item.data.lang ||
                     lang.language === this.item.data.language ||
+                    lang.shortName === this.item.data.mode ||
                     lang.shortName === this.item.data.language
             ) || defaultLanguage;
+        console.log('This.currentconfig: ', this.currentConfig);
+        console.log('item.data: ', this.item.data);
+        console.log('lang: ', this.language);
     }
 }
