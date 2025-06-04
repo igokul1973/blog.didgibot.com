@@ -1,5 +1,6 @@
-@if ((article$ | async) !== null) {
-    <app-article [article]="(article$ | async)!"></app-article>
+@let article = article$ | async;
+@if (article) {
+    <app-article [articleInput]="article" [selectedLanguage]="selectedLanguage()" />
 } @else {
     <p>Article not found</p>
 }

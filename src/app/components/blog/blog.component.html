@@ -14,8 +14,9 @@
         <app-article
             [isAnimationFinished]="(isAnimationFinished$ | async) || false"
             *cdkVirtualFor="let article of ds"
-            [article]="article"
+            [articleInput]="article"
             [isPreview]="true"
+            [selectedLanguage]="selectedLanguage()"
         />
     </cdk-virtual-scroll-viewport>
 </section>

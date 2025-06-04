@@ -6,6 +6,7 @@ import {
     ElementRef,
     HostListener,
     Input,
+    model,
     OnDestroy,
     OnInit,
     signal,
@@ -13,6 +14,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -20,6 +22,7 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { debounceTime, Observable, Subscription } from 'rxjs';
 import { InitializationService } from '../../services/initialization/initialization.service';
+import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 import { SearchFieldComponent } from '../search-field/search-field.component';
 
 /**
@@ -38,13 +41,15 @@ import { SearchFieldComponent } from '../search-field/search-field.component';
     styleUrls: ['./header.component.scss'],
     imports: [
         CommonModule,
+        FormsModule,
         RouterLink,
         RouterLinkActive,
         MatButtonModule,
         MatIconModule,
         MatToolbar,
         MatListModule,
-        SearchFieldComponent
+        SearchFieldComponent,
+        LanguageSwitcherComponent
     ],
     encapsulation: ViewEncapsulation.None,
     standalone: true
@@ -56,11 +61,14 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('mobileMenu', { read: ElementRef }) mobileMenu!: ElementRef<HTMLDivElement>;
     @ViewChild('sandwich', { read: ElementRef }) sandwich!: ElementRef<HTMLDivElement>;
 
+    public mode = model('light');
     public isOpen = signal<boolean>(false);
     public isAnimationFinished$: Observable<boolean> = this.initializationService.isAnimationFinished$;
     public searchQuery = signal('');
     private readonly search$ = toObservable(this.searchQuery);
     private readonly subscriptions: Subscription[] = [];
+    protected readonly selectedLanguage = this.articleService.selectedLanguage;
+    protected isExpanded = signal(false);
 
     @HostListener('document:mousedown', ['$event'])
     @HostListener('document:touchstart', ['$event'])
@@ -129,8 +137,12 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
         observer.observe(this.headerToolbarWrapper.nativeElement);
     }
 
-    public toggleTabletMenu() {
+    protected toggleTabletMenu() {
         this.isOpen.set(!this.isOpen());
+    }
+
+    protected toggleMode() {
+        this.mode.set(this.mode() === 'light' ? 'dark' : 'light');
     }
 
     ngOnDestroy(): void {

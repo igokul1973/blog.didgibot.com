@@ -9,19 +9,30 @@
     <mat-toolbar color="primary" class="toolbar">
         <div class="logo" routerLink="/">
             <span class="head">didgibot</span>
-            <span class="motto">blog about making the blog</span>
+            <span [style.visibility]="isExpanded() ? 'hidden' : 'visible'" class="motto"
+                >blog about making the blog</span
+            >
         </div>
         <span class="spacer"></span>
         <div class="icons">
-            <app-search-field class="header-icon" [(searchQuery)]="searchQuery" />
+            <app-search-field class="header-icon" [(searchQuery)]="searchQuery" [(isExpanded)]="isExpanded" />
             <button mat-icon-button [routerLink]="['/blog']" class="header-icon pop-later" aria-label="Blog page">
                 <mat-icon class="error">article</mat-icon>
             </button>
             <!-- <button mat-icon-button class="header-icon pop-later" aria-label="Add to favorites">
                 <mat-icon class="warning">favorite</mat-icon>
             </button> -->
-            <button mat-icon-button class="header-icon pop-later" aria-label="Share the article">
+            <!-- <button mat-icon-button class="header-icon pop-later" aria-label="Share the article">
                 <mat-icon class="success">share</mat-icon>
+            </button> -->
+            <app-language-switcher [(selectedLanguage)]="selectedLanguage" class="header-icon" />
+            <button
+                mat-icon-button
+                (click)="toggleMode()"
+                [ngClass]="{ info: mode() === 'light', 'header-icon': true }"
+            >
+                <mat-icon *ngIf="mode() === 'light'">wb_sunny</mat-icon>
+                <mat-icon *ngIf="mode() === 'dark'">brightness_2</mat-icon>
             </button>
             <button
                 mat-icon-button
@@ -36,6 +47,21 @@
     </mat-toolbar>
 
     <mat-action-list role="menu" class="mobile-menu" [ngClass]="{ open: isOpen() }" #mobileMenu>
+        <mat-list-item role="listitem">
+            <div class="icons-mobile dark">
+                <div>
+                    <span> Language: </span>
+                    <app-language-switcher [(selectedLanguage)]="selectedLanguage" />
+                </div>
+                <div>
+                    <span> Mode: </span>
+                    <button mat-icon-button (click)="toggleMode()" [ngClass]="{ info: mode() === 'light' }">
+                        <mat-icon *ngIf="mode() === 'light'">wb_sunny</mat-icon>
+                        <mat-icon *ngIf="mode() === 'dark'">brightness_2</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </mat-list-item>
         <mat-list-item role="listitem" class="search-field-mobile">
             <app-search-field [isMobile]="true" [(searchQuery)]="searchQuery" />
         </mat-list-item>

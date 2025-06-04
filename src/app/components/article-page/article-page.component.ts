@@ -22,6 +22,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     public article$ = this.articleSubject$.asObservable();
     private client!: ApolloClient<NormalizedCacheObject>;
     private readonly unsubscribed$ = new Subject<void>();
+    protected selectedLanguage = this.articleService.selectedLanguage;
 
     constructor(
         private readonly activatedRoute: ActivatedRoute,
@@ -81,7 +82,6 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
                         .pipe(first())
                         .subscribe({
                             next: (article: IArticlePartial | null) => {
-                                console.log('Article', article);
                                 if (!article) {
                                     return;
                                 }

@@ -7,12 +7,9 @@
 
 html,
 body {
-    // TODO: work on dark scheme as it is not working
-    // color-scheme: light dark;
     color-scheme: light;
     height: 100%;
     margin: 0;
-    background-color: var(--mat-sys-secondary-container);
 
     @include mat.theme(
         (
@@ -22,6 +19,8 @@ body {
                 tertiary: p.$tertiary-palette
             ),
             typography: (
+                use-system-variables: true,
+                system-variables-prefix: mat-sys,
                 plain-family: Roboto,
                 brand-family: Alegreya,
                 bold-weight: 700,
@@ -31,6 +30,25 @@ body {
             density: 0
         )
     );
+
+    &.dark {
+        color-scheme: dark;
+
+        .meta {
+            color: var(--mat-sys-tertiary-95);
+        }
+
+        @include mat.theme(
+            (
+                color: (
+                    theme-type: dark,
+                    primary: p.$primary-palette,
+                    tertiary: p.$tertiary-palette
+                )
+            )
+        );
+    }
+
     @include mat.theme-overrides(
         (
             body-large: 300 1.4rem / 2.2rem Roboto,
@@ -49,27 +67,30 @@ body {
     @include mat.card-overrides(
         (
             title-text-size: var(--mat-sys-title-large),
-            // TODO: Get back here on May 30, 2025, upgrade Angular Material
-            // and see if this issue http://localhost:4200/blog/681ceb073aaee641aee2e2c3
-            // has been resolved.
-            // title-text-color: var(--mat-sys-secondary-container),
             title-text-line-height: 1.8,
             title-text-weight: var(--mat-sys-title-large-weight),
             subtitle-text-color: var(--mat-sys-secondary),
             subtitle-text-size: var(--mat-sys-title-medium),
             subtitle-text-line-height: 1.5,
             subtitle-text-font: Roboto,
-            subtitle-text-weight: 400 // cra: '4rem'
+            subtitle-text-weight: 400
         )
     );
     @include mat.list-overrides(
         (
             list-item-container-color: var(--mat-sys-primary),
-            list-item-hover-label-text-color: var(--mat-sys-inverse-on-surface),
-            list-item-label-text-color: var(--mat-sys-inverse-on-surface),
             list-item-one-line-container-height: 65px
         )
     );
+
+    .mobile-menu {
+        @include mat.list-overrides(
+            (
+                list-item-hover-label-text-color: var(--mat-sys-inverse-on-surface),
+                list-item-label-text-color: var(--mat-sys-inverse-on-surface)
+            )
+        );
+    }
 
     .search-field-mobile {
         @include mat.list-overrides(
@@ -102,16 +123,6 @@ body {
     @include mat.divider-overrides(
         (
             color: var(--mat-sys-tertiary)
-        )
-    );
-}
-
-body.dark {
-    color-scheme: dark;
-
-    @include mat.theme(
-        (
-            high-contrast: high-contrast-overrides(dark)
         )
     );
 }

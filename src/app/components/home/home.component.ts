@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         sortInput: this.sort,
         limit: 3
     });
+    protected selectedLanguage = this.articleService.selectedLanguage;
 
     constructor(
         private readonly initializationService: InitializationService,

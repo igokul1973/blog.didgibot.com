@@ -11,7 +11,6 @@ import BlogDataSource from './blog.datasource';
 @Component({
     selector: 'app-blog',
     templateUrl: './blog.component.html',
-    styleUrls: ['./blog.component.scss'],
     imports: [ScrollingModule, AsyncPipe, MatCardModule, ArticleComponent]
 })
 export class BlogComponent implements OnInit, OnDestroy {
@@ -22,6 +21,7 @@ export class BlogComponent implements OnInit, OnDestroy {
     private readonly articleService = inject(ArticleService);
     private readonly subscription = new Subscription();
     protected readonly searchQuery$ = this.articleService.searchQuery$;
+    protected selectedLanguage = this.articleService.selectedLanguage;
 
     public ds = new BlogDataSource(this.articleService, {
         entityName: 'article',

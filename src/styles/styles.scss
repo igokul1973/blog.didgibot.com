@@ -1,6 +1,6 @@
 /* Theme */
-@use 'sass:color';
 @use '@angular/material' as mat;
+@use 'palettes' as p;
 @use 'fonts';
 @use 'variables' as vars;
 @use 'theme' as t;
@@ -14,6 +14,23 @@ h4,
 h5,
 h6 {
     color: var(--mat-sys-primary);
+}
+
+.dark {
+    @include mat.theme(
+        (
+            color: (
+                theme-type: dark,
+                primary: p.$primary-palette,
+                tertiary: p.$tertiary-palette
+            )
+        )
+    );
+}
+
+.content {
+    background-color: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-on-secondary-container);
 }
 
 .mdc-card {
@@ -60,12 +77,21 @@ h6 {
         font-size: 14px;
         min-height: 100%;
         padding: 1em 1.2em;
-        overflow-x: unset;
+        overflow-x: scroll;
         overflow-y: unset;
+        word-wrap: break-word;
+        width: 425px;
     }
 
     .hljs.hljs-line-numbers {
         padding: 0 !important;
+    }
+
+    table,
+    tbody,
+    tr,
+    td {
+        background: inherit;
     }
 
     .hljs-ln {
@@ -78,13 +104,6 @@ h6 {
                 padding-bottom: 10px !important;
             }
         }
-    }
-
-    table,
-    tbody,
-    tr,
-    td {
-        background: inherit;
     }
 
     table {
@@ -115,10 +134,5 @@ h6 {
 .blog-wrapper .cdk-virtual-scroll-content-wrapper {
     display: grid;
     grid-template-columns: 1fr;
-    place-items: center;
     gap: 2rem;
-
-    & > * {
-        width: 100%;
-    }
 }

@@ -5,8 +5,9 @@
         <app-article
             [isAnimationFinished]="(isAnimationFinished$ | async) || false"
             *ngFor="let article of articles$ | async"
-            [article]="article"
+            [articleInput]="article"
             [isPreview]="true"
+            [selectedLanguage]="selectedLanguage()"
         ></app-article>
     }
 </section>

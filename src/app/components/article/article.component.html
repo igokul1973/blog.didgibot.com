@@ -1,5 +1,7 @@
 <article class="article-wrapper" [ngClass]="{ 'no-animation': isAnimationFinished }">
-    @if (article) {
+    @let article = articleInput();
+    @let translation = translationSignal();
+    @if (article && translation) {
         <mat-card [ngClass]="{ 'blog-article': true, 'no-animation': true }">
             @if (!isPreview) {
                 <button mat-button (click)="goBack()" class="back-btn info">
@@ -10,18 +12,15 @@
             <mat-card-header>
                 <mat-card-title class="mat-headline no-animation">
                     <h1>
-                        {{ article.translations[0].header }}
+                        {{ translation.header }}
                     </h1>
                     <span class="meta"
                         >Date updated:&nbsp; {{ article.updatedAt?.toDate() | date: 'dd MMMM yyyy HH:mm' }}</span
                     >
                 </mat-card-title>
             </mat-card-header>
-            <mat-card-content *ngIf="article.translations[0].content" [ngClass]="{ preview: isPreview }">
-                <app-block-parser
-                    [data]="article.translations[0].content"
-                    [config]="blockParserConfig"
-                ></app-block-parser>
+            <mat-card-content *ngIf="translation.content" [ngClass]="{ preview: isPreview }">
+                <app-block-parser [data]="translation.content" [config]="blockParserConfig"></app-block-parser>
             </mat-card-content>
             @if (isPreview) {
                 <mat-card-actions>

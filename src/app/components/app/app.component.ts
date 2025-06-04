@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, effect, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, map, mergeMap, Observable, of, switchMap } from 'rxjs';
 import { InitializationService } from '../../services/initialization/initialization.service';
@@ -13,16 +13,25 @@ import { ScrollToTopComponent } from '../scroll-to-top/scroll-to-top.component';
     styleUrls: ['./app.component.scss'],
     imports: [CommonModule, HeaderComponent, RouterModule, FooterComponent, ScrollToTopComponent]
 })
-export class AppComponent {
-    title = 'Didgibot.com Blog';
-    public routeName$: Observable<string> | null = null;
-    public urlPath$: Observable<string> | null = null;
+export class AppComponent implements OnInit, AfterViewInit {
+    protected title = 'Didgibot.com Blog';
+    protected routeName$: Observable<string> | null = null;
+    protected urlPath$: Observable<string> | null = null;
+    protected mode = signal('light');
 
     constructor(
         private readonly router: Router,
         private readonly activatedRoute: ActivatedRoute,
         private readonly initializationService: InitializationService
-    ) {}
+    ) {
+        effect(() => {
+            if (this.mode() === 'dark') {
+                document.body.classList.add('dark');
+            } else {
+                document.body.classList.remove('dark');
+            }
+        });
+    }
 
     ngOnInit(): void {
         this.routeName$ = this.router.events.pipe(
@@ -52,7 +61,34 @@ export class AppComponent {
         this.initializeApp();
     }
 
-    initializeApp() {
+    ngAfterViewInit(): void {
+        if (window.matchMedia) {
+            this.updateColorScheme();
+            const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            colorSchemeQuery.addEventListener('change', this.updateColorScheme.bind(this));
+        }
+    }
+
+    private updateColorScheme() {
+        const s = this.getPreferredColorScheme();
+        this.setColorScheme(s);
+    }
+
+    private getPreferredColorScheme() {
+        if (window.matchMedia) {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                return 'dark';
+            } else {
+                return 'light';
+            }
+        }
+        return 'light';
+    }
+    private setColorScheme(scheme: 'dark' | 'light') {
+        this.mode.set(scheme);
+    }
+
+    private initializeApp() {
         this.initializationService.setIsInitialized();
     }
 }

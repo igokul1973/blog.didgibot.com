@@ -5,6 +5,7 @@ import { OperationVariables } from '@apollo/client/core';
 import { Apollo } from 'apollo-angular';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { IArticlePartial, IRawArticle } from 'types/article';
+import { LanguageEnum } from 'types/translation';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +13,7 @@ import { IArticlePartial, IRawArticle } from 'types/article';
 export class ArticleService {
     private readonly searchQuerySubject = new BehaviorSubject<string>('');
     public searchQuery$ = this.searchQuerySubject.asObservable();
+    public selectedLanguage = signal<LanguageEnum>(LanguageEnum.EN);
 
     public isArticleFilterSet = signal<boolean>(false);
     // private filteredArticles = signal<IArticlePartial[]>([]);

@@ -16,7 +16,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 export class SearchFieldComponent {
     @Input() isMobile: boolean = false;
     public searchQuery = model<string>('');
-    public isExpanded = signal<boolean>(false);
+    public isExpanded = model<boolean>(false);
 
     ngAfterViewInit(): void {
         const observer = new ResizeObserver((entries) => {

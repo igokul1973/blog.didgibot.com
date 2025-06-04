@@ -41,7 +41,6 @@ export default class BlogDataSource extends DataSource<IArticlePartial> {
         this.subscriptions.push(
             this.articleService.getArticles({ ...query, skip: page * this.limit }).subscribe({
                 next: (response) => {
-                    console.log('Response length: ', response.length);
                     let existingData = this.cachedData.get(JSON.stringify(query));
                     if (!existingData) {
                         existingData = Array.from<IArticlePartial>({ length: this.cachedDataLength });

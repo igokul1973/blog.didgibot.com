@@ -1,4 +1,7 @@
 // Widths
+@use 'sass:map';
+@use 'palettes' as p;
+
 $mobile-width: 768px;
 $mobile-width-large: 916px;
 
@@ -7,3 +10,10 @@ $header-standard-height: 80px;
 $header-mobile-height: 75px;
 $header-margin-bottom: 50px;
 $card-padding: 2rem;
+
+:root {
+    --mat-sys-tertiary-25: #{map.get(p.$palettes, tertiary, 25)};
+    --mat-sys-tertiary-80: #{map.get(p.$palettes, tertiary, 80)};
+    --mat-sys-tertiary-90: #{map.get(p.$palettes, tertiary, 90)};
+    --mat-sys-tertiary-95: #{map.get(p.$palettes, tertiary, 95)};
+}
