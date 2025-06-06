@@ -4,19 +4,35 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    width: 310px;
     overflow: hidden;
 
-    @media screen and (min-width: vars.$mobile-width-large - 110px) {
-        width: 340px;
+    .expanded {
+        width: 280px;
+        transition: width 0.5s;
+
+        @media screen and (min-width: (vars.$mobile-width-large - 100px)) {
+            width: 300px;
+        }
+
+        @media screen and (min-width: (vars.$mobile-width-large)) {
+            width: 350px;
+        }
+
+        @media screen and (min-width: (vars.$mobile-width-large + 20px)) {
+            width: 390px;
+        }
+
+        @media screen and (min-width: (vars.$mobile-width-large + 130px)) {
+            width: 500px;
+        }
+
+        @media screen and (min-width: (vars.$mobile-width-large + 230px)) {
+            width: 600px;
+        }
     }
 
-    @media screen and (min-width: vars.$mobile-width-large - 70px) {
-        width: 380px;
-    }
-
-    @media screen and (min-width: vars.$mobile-width-large - 50px) {
-        width: 400px;
+    .input-field-mobile.expanded {
+        width: 100%;
     }
 
     &.search-field-mobile {
@@ -31,11 +47,6 @@
     &.input-field-mobile {
         transform: translateX(20px);
     }
-}
-
-.expanded {
-    width: 100%;
-    transition: width 0.5s;
 }
 
 .collapsed {

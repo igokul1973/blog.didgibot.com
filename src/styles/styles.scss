@@ -6,14 +6,9 @@
 @use 'theme' as t;
 
 /* You can add global styles to this file, and also import other style files */
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: var(--mat-sys-primary);
+.app-root {
+    display: block;
+    min-height: 100vh;
 }
 
 .dark {
@@ -28,13 +23,8 @@ h6 {
     );
 }
 
-.content {
-    background-color: var(--mat-sys-secondary-container);
-    color: var(--mat-sys-on-secondary-container);
-}
-
 .mdc-card {
-    padding: 16px;
+    padding: vars.$card-padding-mobile;
     padding-bottom: 0;
 
     @media screen and (min-width: vars.$mobile-width) {

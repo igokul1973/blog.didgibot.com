@@ -24,6 +24,7 @@ import { debounceTime, Observable, Subscription } from 'rxjs';
 import { InitializationService } from '../../services/initialization/initialization.service';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 import { SearchFieldComponent } from '../search-field/search-field.component';
+import { MatTooltip } from '@angular/material/tooltip';
 
 /**
  1. Getting the articles.
@@ -48,6 +49,7 @@ import { SearchFieldComponent } from '../search-field/search-field.component';
         MatIconModule,
         MatToolbar,
         MatListModule,
+        MatTooltip,
         SearchFieldComponent,
         LanguageSwitcherComponent
     ],

@@ -43,6 +43,14 @@ export const routes: Routes = [
         ]
     },
     {
+        path: 'cv',
+        loadComponent: () => import('@/app/components/cv/cv.component').then((m) => m.CvComponent),
+        title: 'Curriculum Vitae',
+        data: {
+            name: 'cv'
+        }
+    },
+    {
         path: '**',
         component: PageNotFoundComponent,
         title: '404 - Page not found',

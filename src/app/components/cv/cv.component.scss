@@ -1,0 +1,5 @@
+@use '../../../styles/variables' as vars;
+
+.cv {
+    min-height: calc(100vh - vars.$header-mobile-height - vars.$footer-min-height - vars.$content-mobile-padding * 2);
+}

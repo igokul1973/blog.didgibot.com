@@ -16,7 +16,13 @@
         <span class="spacer"></span>
         <div class="icons">
             <app-search-field class="header-icon" [(searchQuery)]="searchQuery" [(isExpanded)]="isExpanded" />
-            <button mat-icon-button [routerLink]="['/blog']" class="header-icon pop-later" aria-label="Blog page">
+            <button
+                mat-icon-button
+                [routerLink]="['/blog']"
+                class="header-icon pop-later"
+                aria-label="Blog page"
+                matTooltip="Blog page"
+            >
                 <mat-icon class="error">article</mat-icon>
             </button>
             <!-- <button mat-icon-button class="header-icon pop-later" aria-label="Add to favorites">
@@ -25,11 +31,16 @@
             <!-- <button mat-icon-button class="header-icon pop-later" aria-label="Share the article">
                 <mat-icon class="success">share</mat-icon>
             </button> -->
-            <app-language-switcher [(selectedLanguage)]="selectedLanguage" class="header-icon" />
+            <app-language-switcher
+                [(selectedLanguage)]="selectedLanguage"
+                class="header-icon"
+                matTooltip="Language switcher"
+            />
             <button
                 mat-icon-button
                 (click)="toggleMode()"
                 [ngClass]="{ info: mode() === 'light', 'header-icon': true }"
+                matTooltip="Brightness mode"
             >
                 <mat-icon *ngIf="mode() === 'light'">wb_sunny</mat-icon>
                 <mat-icon *ngIf="mode() === 'dark'">brightness_2</mat-icon>
@@ -89,12 +100,12 @@
         <mat-list-item
             class="menu-item"
             role="listitem"
+            routerLink="/cv"
             routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
             (click)="toggleTabletMenu()"
             (onKeyPress)="toggleTabletMenu()"
         >
-            Favorites
+            My CV
         </mat-list-item>
     </mat-action-list>
 </section>

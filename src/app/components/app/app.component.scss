@@ -2,15 +2,18 @@
 
 /* You can add styles to this file, and also import other style files */
 .content {
-    padding: 1rem;
+    padding: vars.$content-mobile-padding;
     margin: 0 auto;
-    max-width: 1600px;
+    max-width: 1280px;
+    min-height: calc(100vh - vars.$header-mobile-height - vars.$footer-min-height - vars.$content-mobile-padding * 2);
 
     @media screen and (min-width: vars.$mobile-width) {
         padding: 1.5rem 1.5rem 1rem;
+        min-height: revert;
     }
 
     @media screen and (min-width: vars.$mobile-width-large) {
         padding: 2rem 2rem 1rem;
+        min-height: revert;
     }
 }

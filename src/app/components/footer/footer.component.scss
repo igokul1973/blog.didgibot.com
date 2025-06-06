@@ -6,6 +6,7 @@
     justify-content: center;
     gap: 2rem;
     width: 100%;
+    min-height: vars.$footer-min-height;
 
     @media screen and (min-width: vars.$mobile-width) {
         position: fixed;

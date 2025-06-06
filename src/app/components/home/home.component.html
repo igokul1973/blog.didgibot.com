@@ -1,7 +1,7 @@
 <section class="home">
     <app-intro [isAnimationFinished]="(isAnimationFinished$ | async) || false"></app-intro>
     @if (!!(isAnimationFinished$ | async) === true) {
-        <h3 color="primary">Latest articles:</h3>
+        <h3 class="latest-articles info">Latest articles...</h3>
         <app-article
             [isAnimationFinished]="(isAnimationFinished$ | async) || false"
             *ngFor="let article of articles$ | async"
