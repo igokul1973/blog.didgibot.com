@@ -7,17 +7,19 @@ $card-final-position: 0;
 $card-headline-tablet-width: 19rem;
 $card-headline-width: 24.5rem;
 
-@mixin typing($toWidth: 100%) {
-    0% {
-        width: 0;
-    }
+@mixin typing($toWidth: 100%, $name: 'typing') {
+    @keyframes #{$name} {
+        0% {
+            width: 0;
+        }
 
-    1% {
-        width: 0.1rem;
-    }
+        1% {
+            width: 0.1rem;
+        }
 
-    100% {
-        width: $toWidth;
+        100% {
+            width: $toWidth;
+        }
     }
 }
 
@@ -31,19 +33,15 @@ $card-headline-width: 24.5rem;
     }
 }
 
-@mixin blink-cursor {
-    from,
-    to {
+@keyframes blink-caret-title {
+    0%,
+    100% {
         border-color: transparent;
     }
 
     50% {
         border-color: $cursor-color;
     }
-}
-
-@keyframes blink-caret-title {
-    @include blink-cursor;
 }
 
 @keyframes increase-opacity {
@@ -60,21 +58,10 @@ $card-headline-width: 24.5rem;
     }
 }
 
-@keyframes typing-logo {
-    @include typing(8.3rem);
-}
-
-@keyframes typing-motto {
-    @include typing(20.5rem);
-}
-
-@keyframes typing-title {
-    @include typing($card-headline-width);
-}
-
-@keyframes typing-tablet-title {
-    @include typing($card-headline-tablet-width);
-}
+@include typing(8.3rem, 'typing-logo');
+@include typing(10rem, 'typing-motto');
+@include typing($card-headline-width, 'typing-title');
+@include typing($card-headline-tablet-width, 'typing-tablet-title');
 
 @keyframes blink-caret-subtitle {
     from,
@@ -130,7 +117,7 @@ $card-headline-width: 24.5rem;
     }
 
     to {
-        transform: translate(142px, -2px);
+        transform: translate(102px, -2px);
         font-size: 1rem;
     }
 }
@@ -141,7 +128,7 @@ $card-headline-width: 24.5rem;
     }
 
     to {
-        transform: translate(100px, -2px);
+        transform: translate(60px, -2px);
         font-size: 1rem;
         padding: 0;
     }

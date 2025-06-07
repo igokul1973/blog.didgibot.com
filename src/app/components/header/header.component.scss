@@ -32,11 +32,11 @@
 
             .motto {
                 color: var(--mat-sys-secondary);
-                transform: translate(100px, -2px);
+                transform: translate(60px, -2px);
                 font-size: 1rem;
 
                 @media screen and (min-width: vars.$mobile-width-large) {
-                    transform: translate(142px, 0);
+                    transform: translate(103px, 0.5px);
                 }
             }
         }
@@ -72,8 +72,8 @@
                 animation:
                     increase-opacity 0s linear 2.1s 1 forwards,
                     typing-logo 1s steps(15, end) 2s,
-                    blink-caret-title 0.7s step-end 4 forwards,
-                    translate-y-head 0.7s ease-in-out 7.5s 1 forwards;
+                    blink-caret-title 0.9s step-end 4 forwards,
+                    translate-y-head 0.9s ease-in-out 7.5s 1 forwards;
 
                 @media screen and (min-width: vars.$mobile-width) {
                     font-size: 2.2rem;
