@@ -20,6 +20,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            margin-left: 30px;
 
             .head {
                 color: var(--mat-sys-primary);
@@ -36,7 +37,7 @@
                 font-size: 1rem;
 
                 @media screen and (min-width: vars.$mobile-width-large) {
-                    transform: translate(103px, 0.5px);
+                    transform: translate(83px, 0.5px);
                 }
             }
         }

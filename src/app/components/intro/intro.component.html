@@ -1,29 +1,80 @@
 <article class="introduction-wrapper" [ngClass]="{ 'no-animation': isAnimationFinished }">
-    <mat-card [ngClass]="{ introduction: true, 'no-animation': isAnimationFinished }">
-        <mat-card-header>
-            <mat-card-title class="mat-headline no-animation">
-                <h1>Hello! My name is Igor.</h1>
-            </mat-card-title>
-            <mat-card-subtitle>
-                <div class="mat-subtitle">
-                    This is my personal blog. It will take you on a journey of how this blog was being made.
-                </div>
-            </mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content class="intro-content pop-later">
-            <p>
-                It may be empty yet, because I am just starting. Or it may already be complete. In any case, I'll share
-                my experience and the code so that others understand what it is to be a web programmer and how to create
-                one's own website. I'll try to describe as many errors as possible.
-            </p>
-            <p>Enjoy the journey and happy coding!</p>
-            <mat-divider class="divider"></mat-divider>
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-button [routerLink]="['/blog']" class="info action-btn">
-                <mat-icon>rss_feed</mat-icon>
-                Go to blog
-            </button>
-        </mat-card-actions>
-    </mat-card>
+    @if (selectedLanguage() === languageEnum.EN) {
+        <mat-card [ngClass]="{ introduction: true, 'no-animation': isAnimationFinished }">
+            <mat-card-header>
+                <mat-card-title class="mat-headline no-animation">
+                    <h1>About this cheat sheet</h1>
+                </mat-card-title>
+                <mat-card-subtitle>
+                    <div class="mat-subtitle">Hello! My name is Igor. I am a full-stack web developer.</div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="intro-content pop-later">
+                <p>
+                    Originally this blog was created to showcase my work in English and Russian - fill in the so called
+                    "portfolio" part of my resume, while the codebase must use the cheapest open-source solutions
+                    possible and minimally dependent on all sorts of clouds/providers. While working on it, however, it
+                    became clear that I'd like to share other thoughts and experiences. So forgive me if I go astray.
+                </p>
+                <p>At least in the beginning I'll focus the blog on showing how I built it and some algo stuff.</p>
+                <p>
+                    Most of this blog's code is open source and available on GitHub. It uses a mix of technologies, such
+                    as FastAPI (Python), Strawberry (GraphQL), Angular and React. The only parts that (most probably)
+                    will be hidden are CI/CD elements - Jenkins, Kubernetes/Helm Charts, ArgoCD - involved in automating
+                    deployment as it involves some other projects that not for show. But even that will be described as
+                    I need it myself to document my work.
+                </p>
+                <p></p>
+                <p>Enjoy the material and happy coding!</p>
+                <mat-divider class="divider"></mat-divider>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-button [routerLink]="['/blog']" class="info action-btn">
+                    <mat-icon>rss_feed</mat-icon>
+                    Go to blog
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    } @else {
+        <mat-card [ngClass]="{ introduction: true, 'no-animation': isAnimationFinished }">
+            <mat-card-header>
+                <mat-card-title class="mat-headline no-animation">
+                    <h1>О этой шпаргалке</h1>
+                </mat-card-title>
+                <mat-card-subtitle>
+                    <div class="mat-subtitle">Привет! Меня зовут Игорь. Я веб-разработчик.</div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="intro-content pop-later">
+                <p>
+                    Изначально блог был создан, чтобы продемонстрировать мою работу на английском и русском языках -
+                    заполнить так называемую "портфолио" часть моего резюме, при этом кодовая база должна была
+                    использовать самые дешевые открытые решения и минимально зависеть от всех видов облаков/провайдеров.
+                    Однако, работая над этим, стало ясно, что я так же хотел бы поделиться и другими мыслями и опытом.
+                    Поэтому простите меня, если я соскочу с темы.
+                </p>
+                <p>
+                    По крайней мере в начале я буду сосредоточен на демонстрации того, как я построил этот блог и
+                    некоторых алгоритмических приемах.
+                </p>
+                <p>
+                    Большая часть кода этого блога является открытым и доступна на GitHub. Он использует смесь
+                    технологий, таких как FastAPI (Python), Strawberry (GraphQL), Angular и React. Единственные части,
+                    которые (возможно) будут скрыты, являются элементами CI/CD - Jenkins, Kubernetes/Helm Charts,
+                    ArgoCD, участвующие в автоматизации развертывания, поскольку они предполагают некоторые другие
+                    проекты, которые не для показа. Но даже это будет описано, поскольку мне нужно это самому, чтобы
+                    документировать свою работу.
+                </p>
+                <p></p>
+                <p>Наслаждайтесь материалом и счастливого кодинга!</p>
+                <mat-divider class="divider"></mat-divider>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-button [routerLink]="['/blog']" class="info action-btn">
+                    <mat-icon>rss_feed</mat-icon>
+                    Go to blog
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    }
 </article>
