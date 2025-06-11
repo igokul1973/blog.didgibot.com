@@ -1,1 +1,2 @@
-<p [class]="currentConfig.className">{{ message }}</p>
+<!-- <p [class]="currentConfig.className" #para [innerHTML]="message" matTooltip="Hello here" matTooltipPosition="above"></p> -->
+<p [ngClass]="[currentConfig.className, 'para-block']" #para [innerHTML]="message"></p>

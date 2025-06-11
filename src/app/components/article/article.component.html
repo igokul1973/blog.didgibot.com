@@ -20,7 +20,7 @@
                 </mat-card-title>
             </mat-card-header>
             <mat-card-content *ngIf="translation.content" [ngClass]="{ preview: isPreview }">
-                <app-block-parser [data]="translation.content" [config]="blockParserConfig"></app-block-parser>
+                <app-block-parser [data]="translation.content" [config]="blockParserConfig" />
             </mat-card-content>
             @if (isPreview) {
                 <mat-card-actions>

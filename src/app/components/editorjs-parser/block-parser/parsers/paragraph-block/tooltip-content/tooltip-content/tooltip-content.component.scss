@@ -1,0 +1,14 @@
+.annotation-tooltip {
+    border: 1px solid #999;
+    border-radius: 4px;
+    background-color: white;
+    padding: 0.5rem 1rem 0;
+    font-size: 0.8em;
+    max-width: 300px;
+
+    &--title {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: salmon;
+    }
+}

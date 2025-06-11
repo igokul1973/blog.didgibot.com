@@ -126,3 +126,23 @@
     grid-template-columns: 1fr;
     gap: 2rem;
 }
+
+.para-block {
+    .cdx-annotation {
+        cursor: help;
+        border-bottom: 3px dotted #999;
+    }
+
+    .mat-mdc-tooltip-trigger {
+        position: relative;
+    }
+
+    .custom-tooltip-content {
+        background: rgb(97 97 97 / 90%);
+        color: white;
+        padding: 6px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+    }
+}
