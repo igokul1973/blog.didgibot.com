@@ -1,6 +1,6 @@
 import { ArticleService } from '@/app/services/article/article.service';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { of, Subscription } from 'rxjs';
@@ -11,7 +11,8 @@ import BlogDataSource from './blog.datasource';
 @Component({
     selector: 'app-blog',
     templateUrl: './blog.component.html',
-    imports: [ScrollingModule, AsyncPipe, MatCardModule, ArticleComponent]
+    styleUrls: ['./blog.component.scss'],
+    imports: [NgClass, ScrollingModule, AsyncPipe, MatCardModule, ArticleComponent]
 })
 export class BlogComponent implements OnInit, OnDestroy {
     private readonly filter = { updated_at: { from_: '2022-01-01' } };

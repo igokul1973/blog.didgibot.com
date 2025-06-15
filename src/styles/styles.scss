@@ -21,6 +21,12 @@
             )
         )
     );
+
+    .blog-wrapper {
+        .search-stats {
+            background-color: rgba(black, 0.3);
+        }
+    }
 }
 
 .mdc-card {

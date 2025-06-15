@@ -1,10 +1,12 @@
 <section class="blog-wrapper">
     @let searchQuery = (searchQuery$ | async) || '';
     @if (searchQuery.length > 2) {
-        <article>
-            <div>Search results for "{{ searchQuery }}"</div>
-            <div>Number of articles found: {{ ds.articlesTotal }}</div>
-        </article>
+        <mat-card [ngClass]="{ meta: true }">
+            <mat-card-content>
+                <div>Search results for "{{ searchQuery }}"</div>
+                <div>Number of articles found: {{ ds.articlesTotal }}</div>
+            </mat-card-content>
+        </mat-card>
     } @else if ((searchQuery.length || 0) > 0 && searchQuery.length <= 2) {
         <article>
             <div>Please type more than 2 characters to trigger the filter...</div>

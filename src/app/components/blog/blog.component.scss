@@ -1,0 +1,14 @@
+.blog-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.search-stats {
+    font-size: var(--mat-sys-title-small);
+    font-weight: var(--mat-sys-title-small-weight);
+    color: var(--mat-sys-tertiary-25);
+    background-color: rgba(white, 0.6);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
