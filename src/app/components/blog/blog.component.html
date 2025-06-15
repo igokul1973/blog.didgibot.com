@@ -1,7 +1,7 @@
 <section class="blog-wrapper">
     @let searchQuery = (searchQuery$ | async) || '';
     @if (searchQuery.length > 2) {
-        <mat-card [ngClass]="{ meta: true }">
+        <mat-card [ngClass]="{ 'search-stats': true }">
             <mat-card-content>
                 <div>Search results for "{{ searchQuery }}"</div>
                 <div>Number of articles found: {{ ds.articlesTotal }}</div>
