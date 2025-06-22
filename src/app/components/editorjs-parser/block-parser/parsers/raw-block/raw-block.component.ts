@@ -5,7 +5,15 @@ import { TEditorJsRaw } from './types';
 
 @Component({
     selector: 'app-raw-block',
-    template: '<div [innerHTML]="code"></div>'
+    template: `<div [innerHTML]="code" class="raw-block"></div>`,
+    styles: [
+        `
+            .raw-block {
+                display: flex;
+                justify-content: center;
+            }
+        `
+    ]
 })
 export class RawBlockComponent implements OnInit {
     @Input() item!: IOutputBlockData<TEditorJsRaw>;

@@ -55,76 +55,50 @@
     }
 }
 
-.code {
-    pre {
-        display: flex;
-        margin-top: 0;
-        margin-bottom: 0;
-        word-wrap: break-word;
+.code-block {
+    // Overriding default styles of child component(s)
+    // for CodeBlockComponent here in global styles.
+    // I cannot affect child component elements directly
+    // by styling them inside the parent component
+    // stylesheet because the child component(s) have
+    // an Emulated encapsulation.
+    .hljs {
+        border: none;
+        transition: border ease 1s;
 
-        .hljs {
-            border: none;
-            transition: border ease 1s;
+        &.hljs-line-numbers {
+            padding: 0;
         }
-    }
 
-    code {
-        flex: 1;
-        line-height: 1.8em;
-        font-size: 14px;
-        min-height: 100%;
-        padding: 1em 1.2em;
-        overflow-x: scroll;
-        overflow-y: unset;
-        word-wrap: break-word;
-        width: 425px;
-    }
+        .hljs-ln {
+            tr {
+                &:first-child td {
+                    padding-top: 10px;
+                }
 
-    .hljs.hljs-line-numbers {
-        padding: 0 !important;
-    }
-
-    table,
-    tbody,
-    tr,
-    td {
-        background: inherit;
-    }
-
-    .hljs-ln {
-        tr {
-            &:first-child td {
-                padding-top: 10px !important;
-            }
-
-            &:last-child td {
-                padding-bottom: 10px !important;
+                &:last-child td {
+                    padding-bottom: 10px;
+                }
             }
         }
-    }
 
-    table {
-        border-collapse: separate;
-        border-spacing: 0;
-        background: inherit;
-    }
+        /* for block of numbers */
+        .hljs-line-numbers {
+            position: sticky;
+            left: 0;
+            user-select: none;
+            text-align: center;
+            color: #cccccc6b;
+            border-right: 1px solid #cccccc1c;
+            vertical-align: top;
+            padding-right: 10px;
+            padding-left: 10px;
+        }
 
-    /* for block of numbers */
-    td.hljs-ln-numbers {
-        position: sticky;
-        left: 0;
-        user-select: none;
-        text-align: center;
-        color: #cccccc6b;
-        border-right: 1px solid #cccccc1c;
-        vertical-align: top;
-        padding-right: 10px !important;
-        padding-left: 10px !important;
-    }
-
-    /* for block of code */
-    td.hljs-ln-code {
-        padding-left: 10px !important;
+        /* for block of code */
+        .hljs-ln-code {
+            padding-left: 10px !important;
+        }
     }
 }
 

@@ -1,24 +1,73 @@
-.code {
+.code-block {
     position: relative;
-}
+    padding-bottom: 1rem;
 
-.lang {
-    position: absolute;
-    top: 0.6rem;
-    right: 1.2rem;
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 0 0 10px;
-
-    img {
-        width: 2rem;
-        height: 2rem;
+    pre {
+        display: flex;
+        margin-top: 0;
+        margin-bottom: 0;
+        word-wrap: break-word;
     }
 
-    figcaption {
-        font-size: 0.8rem;
-        color: var(--mat-sys-on-secondary);
+    code {
+        flex: 1;
+        line-height: 1.8em;
+        font-size: 14px;
+        min-height: 100%;
+        padding: 1em 1.2em;
+        overflow-x: scroll;
+        overflow-y: unset;
+        word-wrap: break-word;
+        width: 425px;
+    }
+
+    table,
+    tbody,
+    tr,
+    td {
+        background: inherit;
+    }
+
+    table {
+        border-collapse: separate;
+        border-spacing: 0;
+        background: inherit;
+    }
+}
+
+.actions {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    opacity: 0.3;
+
+    &:hover {
+        opacity: 1;
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .lang {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        gap: 0.5rem;
+
+        img {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        figcaption {
+            font-size: 0.8rem;
+            color: var(--mat-sys-on-secondary);
+        }
+    }
+
+    .content-copy {
+        line-height: normal;
+        cursor: pointer;
     }
 }

@@ -5,7 +5,12 @@
             [item]="item"
             [config]="config?.alert"
         ></app-alert-block>
-        <app-code-block *ngSwitchCase="blockToolTypeEnum.Code" [item]="item" [config]="config?.code"></app-code-block>
+        <app-code-block
+            *ngSwitchCase="blockToolTypeEnum.Code"
+            [item]="item"
+            [config]="config?.code"
+            class="code-block"
+        />
         <app-header-block *ngSwitchCase="blockToolTypeEnum.Header" [item]="item"></app-header-block>
         <app-list-block *ngSwitchCase="blockToolTypeEnum.List" [item]="item" [config]="config?.list"></app-list-block>
         <app-paragraph-block

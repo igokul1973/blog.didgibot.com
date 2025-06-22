@@ -59,6 +59,22 @@ export class ArticleComponent implements OnInit {
                     displayText: 'Golang'
                 },
                 {
+                    shortName: 'groovy',
+                    language: 'groovy',
+                    logoSrc: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/groovy/groovy-original.svg',
+                    // "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jenkins/jenkins-original.svg" />
+                    logoAlt: 'Jenkinsfile Groovy language',
+                    displayText: 'Jenkinsfile/Groovy'
+                },
+                {
+                    shortName: 'dockerfile',
+                    language: 'dockerfile',
+                    logoSrc:
+                        'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original-wordmark.svg',
+                    logoAlt: 'Dockerfile',
+                    displayText: 'Dockerfile'
+                },
+                {
                     shortName: 'python',
                     language: 'python',
                     logoSrc: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg',

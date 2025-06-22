@@ -1,15 +1,20 @@
-<div [ngClass]="[currentConfig.classNames?.container, 'code']">
-    <div *ngIf="language" [ngClass]="['lang', currentConfig.classNames?.languageInfoBar]">
-        <img [src]="language.logoSrc" [alt]="language.logoAlt" />
-        <figcaption [ngClass]="currentConfig.classNames?.languageInfoBarText">
-            {{ language.displayText }}
-        </figcaption>
+<div [ngClass]="[currentConfig.classNames?.container, 'code-block']">
+    <div class="actions">
+        <div *ngIf="language" [ngClass]="['lang', currentConfig.classNames?.languageInfoBar]">
+            <img [src]="language.logoSrc" [alt]="language.logoAlt" />
+            <figcaption [ngClass]="currentConfig.classNames?.languageInfoBarText">
+                {{ language.displayText }}
+            </figcaption>
+        </div>
+        <span class="content-copy" (click)="copyToClipboard()" (keydown)="copyToClipboard()">
+            <mat-icon class="info">content_copy</mat-icon>
+        </span>
     </div>
     <pre>
         @if (currentConfig.showLineNumbers) {
-            <code [highlight]="item.data.code" lineNumbers [language]="language.language"></code>
+            <code #codeContainer [highlight]="item.data.code" lineNumbers [language]="language.language"></code>
         } @else {
-            <code [highlight]="item.data.code" [language]="language.language"></code>
+            <code #codeContainer [highlight]="item.data.code" [language]="language.language"></code>
         }
     </pre>
 </div>
