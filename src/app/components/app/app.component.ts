@@ -37,9 +37,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.routeName$ = this.router.events.pipe(
             filter((e) => e instanceof NavigationEnd),
             map((route) => {
-                return this.activatedRoute;
+                return this.activatedRoute.firstChild?.firstChild;
             }),
-            map((route) => route.firstChild),
             map((route) => {
                 return route?.data;
             }),

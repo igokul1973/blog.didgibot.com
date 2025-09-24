@@ -1,54 +1,67 @@
 import { ArticlePageComponent } from '@/app/components/article-page/article-page.component';
-import { HomeComponent } from '@/app/components/home/home.component';
 import { PageNotFoundComponent } from '@/app/components/page-not-found/page-not-found.component';
 import { Routes } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
 
 export const routes: Routes = [
     {
         path: '',
-        component: HomeComponent,
-        title: 'Home',
-        pathMatch: 'full',
-        data: {
-            name: 'home'
-        }
+        redirectTo: 'en',
+        pathMatch: 'full'
     },
     {
-        path: 'blog/article/:id',
-        component: ArticlePageComponent,
-        title: 'Article',
-        pathMatch: 'full',
-        data: {
-            name: 'blog'
-        }
-    },
-    {
-        path: 'blog',
-        loadComponent: () => import('@/app/components/blog/blog.component').then((m) => m.BlogComponent),
-        title: 'Blog',
-        pathMatch: 'full',
-        data: {
-            name: 'blog'
-        },
+        path: ':language',
         children: [
             {
-                path: 'article/:id',
-                component: ArticlePageComponent,
-                title: 'Article',
+                path: 'blog',
+                children: [
+                    {
+                        path: 'article/:id',
+                        component: ArticlePageComponent,
+                        title: 'Article',
+                        pathMatch: 'full',
+                        data: {
+                            name: 'blog article'
+                        }
+                    },
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('@/app/components/blog/blog.component').then((m) => m.BlogComponent),
+                        title: 'Blog',
+                        pathMatch: 'full',
+                        data: {
+                            name: 'blog'
+                        }
+                    }
+                ]
+            },
+            {
+                path: 'cv',
+                loadComponent: () => import('@/app/components/cv/cv.component').then((m) => m.CvComponent),
+                title: 'Curriculum Vitae',
+                data: {
+                    name: 'cv'
+                }
+            },
+            {
+                path: '',
+                component: HomeComponent,
+                title: 'Home',
                 pathMatch: 'full',
                 data: {
-                    name: 'blog article'
+                    name: 'home'
+                }
+            },
+            {
+                path: '**',
+                component: PageNotFoundComponent,
+                title: '404 - Page not found',
+                data: {
+                    name: 'page not found'
                 }
             }
         ]
-    },
-    {
-        path: 'cv',
-        loadComponent: () => import('@/app/components/cv/cv.component').then((m) => m.CvComponent),
-        title: 'Curriculum Vitae',
-        data: {
-            name: 'cv'
-        }
     },
     {
         path: '**',

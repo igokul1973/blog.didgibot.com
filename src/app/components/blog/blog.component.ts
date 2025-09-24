@@ -1,9 +1,9 @@
 import { ArticleService } from '@/app/services/article/article.service';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { of, Subscription } from 'rxjs';
+import { of } from 'rxjs';
 import { IArticleQueryInput, ISortInput } from 'types/article';
 import { ArticleComponent } from '../article/article.component';
 import BlogDataSource from './blog.datasource';
@@ -14,13 +14,12 @@ import BlogDataSource from './blog.datasource';
     styleUrls: ['./blog.component.scss'],
     imports: [NgClass, ScrollingModule, AsyncPipe, MatCardModule, ArticleComponent]
 })
-export class BlogComponent implements OnInit, OnDestroy {
+export class BlogComponent implements OnInit {
     private readonly filter = { updated_at: { from_: '2022-01-01' } };
     private readonly sort: ISortInput = { field: 'updated_at', dir: 'desc' };
     private readonly limit = 20;
     public isAnimationFinished$ = of(true);
     private readonly articleService = inject(ArticleService);
-    private readonly subscription = new Subscription();
     protected readonly searchQuery$ = this.articleService.searchQuery$;
     protected selectedLanguage = this.articleService.selectedLanguage;
 
@@ -46,9 +45,5 @@ export class BlogComponent implements OnInit, OnDestroy {
             }
             this.ds.setQuery(searchQuery);
         });
-    }
-
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
     }
 }

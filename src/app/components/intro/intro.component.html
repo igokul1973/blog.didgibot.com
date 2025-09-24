@@ -11,25 +11,26 @@
             </mat-card-header>
             <mat-card-content class="intro-content pop-later">
                 <p>
-                    Originally this blog was created to showcase my work in English and Russian - fill in the so called
-                    "portfolio" part of my resume, while the codebase must use the cheapest open-source solutions
-                    possible and minimally dependent on all sorts of clouds/providers. While working on it, however, it
-                    became clear that I'd like to share other thoughts and experiences. So forgive me if I go astray.
+                    Originally this blog was created to showcase my work in English and Russian - to fill in the so
+                    called "portfolio" part of my resume, while the codebase must have used the cheapest open-source
+                    solutions possible while being minimally dependent on all sorts of clouds/providers. While working
+                    on it, however, it became clear that I'd like to share other thoughts and experiences. So forgive me
+                    if I go astray.
                 </p>
                 <p>At least in the beginning I'll focus the blog on showing how I built it and some algo stuff.</p>
                 <p>
-                    Most of this blog's code is open source and available on GitHub. It uses a mix of technologies, such
-                    as FastAPI (Python), Strawberry (GraphQL), Angular and React. The only parts that (most probably)
-                    will be hidden are CI/CD elements - Jenkins, Kubernetes/Helm Charts, ArgoCD - involved in automating
-                    deployment as it involves some other projects that not for show. But even that will be described as
-                    I need it myself to document my work.
+                    Most of the code to create this blog is open source and available on GitHub. It uses a mix of
+                    technologies, such as FastAPI (Python), Strawberry (GraphQL), Angular and React. The only parts that
+                    (most probably) will be hidden are CI/CD elements - Jenkins, Kubernetes/Helm Charts, ArgoCD -
+                    involved in automating deployment as it involves some other projects that not for show. But even
+                    that will be described as I need it myself to document my work.
                 </p>
                 <p></p>
                 <p>Enjoy the material and happy coding!</p>
                 <mat-divider class="divider"></mat-divider>
             </mat-card-content>
             <mat-card-actions>
-                <button mat-button [routerLink]="['/blog']" class="info action-btn">
+                <button mat-button [routerLink]="['/', selectedLanguage(), 'blog']" class="info action-btn">
                     <mat-icon>rss_feed</mat-icon>
                     Go to blog
                 </button>
@@ -70,9 +71,9 @@
                 <mat-divider class="divider"></mat-divider>
             </mat-card-content>
             <mat-card-actions>
-                <button mat-button [routerLink]="['/blog']" class="info action-btn">
+                <button mat-button [routerLink]="['/', selectedLanguage(), 'blog']" class="info action-btn">
                     <mat-icon>rss_feed</mat-icon>
-                    Go to blog
+                    Перейти в блог
                 </button>
             </mat-card-actions>
         </mat-card>

@@ -1,5 +1,5 @@
 <mat-form-field class="language-switcher" subscriptSizing="dynamic">
-    <mat-select [(ngModel)]="selectedLanguage">
+    <mat-select [ngModel]="selectedLanguage()" (ngModelChange)="changeLanguage($event)">
         <mat-option [value]="languageEnum.EN">{{ languageEnum.EN }}</mat-option>
         <mat-option [value]="languageEnum.RU">{{ languageEnum.RU }}</mat-option>
     </mat-select>

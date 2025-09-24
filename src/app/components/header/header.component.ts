@@ -19,12 +19,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbar } from '@angular/material/toolbar';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { debounceTime, Observable, Subscription } from 'rxjs';
 import { InitializationService } from '../../services/initialization/initialization.service';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 import { SearchFieldComponent } from '../search-field/search-field.component';
-import { MatTooltip } from '@angular/material/tooltip';
 
 /**
  1. Getting the articles.
@@ -118,8 +118,10 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
             })
         );
+
         this.subscriptions.push(
             this.routeName$.subscribe((routeName) => {
+                console.log('The route name is: ', routeName);
                 if (routeName === 'home') {
                     this.searchQuery.set('');
                 }

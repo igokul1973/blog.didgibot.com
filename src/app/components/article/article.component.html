@@ -24,10 +24,11 @@
             </mat-card-content>
             @if (isPreview) {
                 <mat-card-actions>
-                    <!-- <button mat-fab extended [routerLink]="['/blog', 'article', article.id]" class="success action-btn">
-                    Go to Article
-                </button> -->
-                    <button mat-button [routerLink]="['/blog', 'article', article.id]" class="success action-btn">
+                    <button
+                        mat-button
+                        [routerLink]="['/', selectedLanguage(), 'blog', 'article', article.id]"
+                        class="success action-btn"
+                    >
                         <mat-icon>article</mat-icon>
                         Go to article
                     </button>

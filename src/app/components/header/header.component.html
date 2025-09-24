@@ -16,7 +16,7 @@
             <app-search-field class="header-icon" [(searchQuery)]="searchQuery" [(isExpanded)]="isExpanded" />
             <button
                 mat-icon-button
-                [routerLink]="['/blog']"
+                [routerLink]="['/', selectedLanguage(), 'blog']"
                 class="header-icon pop-later"
                 aria-label="Blog page"
                 matTooltip="Blog page"
@@ -29,11 +29,7 @@
             <!-- <button mat-icon-button class="header-icon pop-later" aria-label="Share the article">
                 <mat-icon class="success">share</mat-icon>
             </button> -->
-            <app-language-switcher
-                [(selectedLanguage)]="selectedLanguage"
-                class="header-icon"
-                matTooltip="Language switcher"
-            />
+            <app-language-switcher class="header-icon" matTooltip="Language switcher" />
             <button
                 mat-icon-button
                 (click)="toggleMode()"
@@ -60,7 +56,7 @@
             <div class="icons-mobile dark">
                 <div>
                     <span> Language: </span>
-                    <app-language-switcher [(selectedLanguage)]="selectedLanguage" />
+                    <app-language-switcher />
                 </div>
                 <div>
                     <span> Mode: </span>
@@ -88,7 +84,7 @@
         <mat-list-item
             class="menu-item"
             role="listitem"
-            routerLink="/blog"
+            routerLink="/:language/blog"
             routerLinkActive="active"
             (click)="toggleTabletMenu()"
             (onKeyPress)="toggleTabletMenu()"
@@ -98,7 +94,7 @@
         <mat-list-item
             class="menu-item"
             role="listitem"
-            routerLink="/cv"
+            routerLink="/:language/cv"
             routerLinkActive="active"
             (click)="toggleTabletMenu()"
             (onKeyPress)="toggleTabletMenu()"
