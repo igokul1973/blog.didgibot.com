@@ -21,7 +21,6 @@ export class UrlService {
         const newUrl = this.replaceParameterInUrl(currentUrl, paramName, currentParamValue, newValue);
 
         if (newUrl !== currentUrl) {
-            console.log('The URL is replaced to: ', newUrl);
             this.router.navigateByUrl(newUrl, { replaceUrl: true });
         }
     }

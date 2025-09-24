@@ -28,7 +28,6 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.subscriptions.push(
             this.urlService.watchLanguageParam().subscribe((language) => {
-                console.log('Language param changed:', language);
                 if (!language) {
                     this.selectedLanguage.set(LanguageEnum.EN);
                 } else {

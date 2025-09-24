@@ -121,7 +121,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.subscriptions.push(
             this.routeName$.subscribe((routeName) => {
-                console.log('The route name is: ', routeName);
                 if (routeName === 'home') {
                     this.searchQuery.set('');
                 }
