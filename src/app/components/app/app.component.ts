@@ -36,8 +36,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this.routeName$ = this.router.events.pipe(
             filter((e) => e instanceof NavigationEnd),
-            map((route) => {
-                return this.activatedRoute.firstChild?.firstChild;
+            map(() => {
+                return (
+                    this.activatedRoute.firstChild?.firstChild?.firstChild ||
+                    this.activatedRoute.firstChild?.firstChild ||
+                    this.activatedRoute.firstChild
+                );
             }),
             map((route) => {
                 return route?.data;

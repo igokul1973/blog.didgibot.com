@@ -7,7 +7,7 @@
     #headerToolbarWrapper
 >
     <mat-toolbar color="primary" class="toolbar">
-        <div class="logo" routerLink="/">
+        <div class="logo" [routerLink]="['/', selectedLanguage()]">
             <span class="head">didgibot</span>
             <span [style.visibility]="isExpanded() ? 'hidden' : 'visible'" class="motto">personal blog</span>
         </div>
