@@ -5,6 +5,7 @@ import { ArticleService } from 'src/app/services/article/article.service';
 import { InitializationService } from '../../services/initialization/initialization.service';
 import { ArticleComponent } from '../article/article.component';
 import { IntroComponent } from '../intro/intro.component';
+import { ISortInput } from 'types/article';
 
 @Component({
     selector: 'app-home',
@@ -15,12 +16,8 @@ import { IntroComponent } from '../intro/intro.component';
 })
 export class HomeComponent implements OnInit, OnDestroy {
     public isAnimationFinished$: Observable<boolean> = this.initializationService.isAnimationFinished$;
-    private sort = { field: 'updated_at', dir: 'desc' };
-    public articles$ = this.articleService.getArticles({
-        entityName: 'article',
-        sortInput: this.sort,
-        limit: 3
-    });
+    private readonly sort: ISortInput = { field: 'updated_at', dir: 'desc' };
+    public articles = this.articleService.homePageArticles;
     protected selectedLanguage = this.articleService.selectedLanguage;
 
     constructor(

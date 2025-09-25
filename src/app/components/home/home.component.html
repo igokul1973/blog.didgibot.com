@@ -4,7 +4,7 @@
         <h3 class="latest-articles info">Latest articles...</h3>
         <app-article
             [isAnimationFinished]="(isAnimationFinished$ | async) || false"
-            *ngFor="let article of articles$ | async"
+            *ngFor="let article of articles()"
             [articleInput]="article"
             [isPreview]="true"
             [selectedLanguage]="selectedLanguage()"

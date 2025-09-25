@@ -1,7 +1,8 @@
+import { ArticleService } from '@/app/services/article/article.service';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, effect, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
-import { filter, map, mergeMap, Observable, of, switchMap } from 'rxjs';
+import { filter, map, mergeMap, Observable, of, switchMap, take } from 'rxjs';
 import { InitializationService } from '../../services/initialization/initialization.service';
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
@@ -22,7 +23,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     constructor(
         private readonly router: Router,
         private readonly activatedRoute: ActivatedRoute,
-        private readonly initializationService: InitializationService
+        private readonly initializationService: InitializationService,
+        private readonly articleService: ArticleService
     ) {
         effect(() => {
             if (this.mode() === 'dark') {
@@ -34,6 +36,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
+        console.log('AppComponent is starting to initialize...');
         this.routeName$ = this.router.events.pipe(
             filter((e) => e instanceof NavigationEnd),
             map(() => {
@@ -62,6 +65,23 @@ export class AppComponent implements OnInit, AfterViewInit {
             })
         );
         this.initializeApp();
+        this.articleService
+            .getArticles({
+                entityName: 'article',
+                sortInput: { field: 'updated_at', dir: 'desc' },
+                limit: 3
+                // run the subscription only once and then unsubscribe...
+            })
+            .pipe(take(1))
+            .subscribe({
+                next: (homePageArticles) => {
+                    this.articleService.homePageArticles.set(homePageArticles);
+                },
+                error: (error) => {
+                    console.error(error);
+                },
+                complete: () => {}
+            });
     }
 
     ngAfterViewInit(): void {
