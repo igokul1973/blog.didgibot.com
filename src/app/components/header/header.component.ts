@@ -113,7 +113,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
                 next: (s: string) => {
                     this.articleService.setSearchQuery(s);
                     if (s.length > 2) {
-                        this.router.navigate(['blog']);
+                        this.router.navigate(['/', this.selectedLanguage, 'blog']);
                     }
                 }
             })
