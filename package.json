@@ -1,6 +1,6 @@
 {
     "name": "blog.didgibot.com",
-    "version": "0.0.70",
+    "version": "0.0.71",
     "engines": {
         "node": ">=18.0.0"
     },
