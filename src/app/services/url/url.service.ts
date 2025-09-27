@@ -123,4 +123,11 @@ export class UrlService {
     public watchLanguageParam(): Observable<LanguageEnum> {
         return this.getCurrentRouteParam$('language');
     }
+
+    public replaceLanguageParamInUrl(language: LanguageEnum) {
+        if (language !== LanguageEnum.EN && language !== LanguageEnum.RU) {
+            language = LanguageEnum.EN;
+        }
+        this.replaceRouteParam('language', language);
+    }
 }

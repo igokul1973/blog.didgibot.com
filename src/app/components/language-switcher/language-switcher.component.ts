@@ -38,7 +38,7 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
     }
 
     protected changeLanguage(language: LanguageEnum) {
-        this.urlService.replaceRouteParam('language', language);
+        this.urlService.replaceLanguageParamInUrl(language);
     }
 
     ngOnDestroy(): void {
