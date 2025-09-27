@@ -5,36 +5,36 @@
     h1 {
         font: var(--mat-sys-display-medium);
         letter-spacing: var(--mat-sys-display-medium-tracking);
-        margin: 0 0 12px;
+        margin: 0.2em 0 12px;
 
         @media screen and (min-width: vars.$mobile-width) {
             font: var(--mat-sys-display-large);
             letter-spacing: var(--mat-sys-display-large-tracking);
-            margin: 0 0 16px;
+            margin: 0.3em 0 16px;
         }
     }
 
     h2 {
         font: var(--mat-sys-display-small);
         letter-spacing: var(--mat-sys-display-medium-tracking);
-        margin: 0 0 12px;
+        margin: 0.5em 0 12px;
 
         @media screen and (min-width: vars.$mobile-width) {
             font: var(--mat-sys-display-medium);
             letter-spacing: var(--mat-sys-display-medium-tracking);
-            margin: 0 0 16px;
+            margin: 0.5em 0 16px;
         }
     }
 
     h3 {
         font: var(--mat-sys-headline-large);
         letter-spacing: var(--mat-sys-headline-large-tracking);
-        margin: 0 0 10px;
+        margin: 0.6em 0 10px;
 
         @media screen and (min-width: vars.$mobile-width) {
             font: var(--mat-sys-display-small);
             letter-spacing: var(--mat-sys-display-small-tracking);
-            margin: 0 0 14px;
+            margin: 0.6em 0 14px;
         }
     }
 
@@ -42,24 +42,24 @@
     h4 {
         font: var(--mat-sys-headline-medium);
         letter-spacing: var(--mat-sys-headline-medium-tracking);
-        margin: 0 0 10px;
+        margin: 0.6em 0 10px;
 
         @media screen and (min-width: vars.$mobile-width) {
             font: var(--mat-sys-headline-large);
             letter-spacing: var(--mat-sys-headline-large-tracking);
-            margin: 0 0 14px;
+            margin: 0.6em 0 14px;
         }
     }
 
     h5 {
         font: var(--mat-sys-headline-small);
         letter-spacing: var(--mat-sys-headline-small-tracking);
-        margin: 0 0 10px;
+        margin: 0.7em 0 10px;
 
         @media screen and (min-width: vars.$mobile-width) {
             font: var(--mat-sys-headline-medium);
             letter-spacing: var(--mat-sys-headline-medium-tracking);
-            margin: 0 0 12px;
+            margin: 0.7em 0 12px;
         }
     }
 
@@ -67,12 +67,12 @@
         font: var(--mat-sys-body-large);
         font-family: Alegreya, serif;
         letter-spacing: var(--mat-sys-body-large-tracking);
-        margin: 0 0 10px;
+        margin: 0.8em 0 10px;
 
         @media screen and (min-width: vars.$mobile-width) {
             font: var(--mat-sys-headline-small);
             letter-spacing: var(--mat-sys-headline-small-tracking);
-            margin: 0 0 12px;
+            margin: 0.8em 0 12px;
         }
     }
 
