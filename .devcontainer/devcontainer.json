@@ -29,7 +29,8 @@
             "extensions": [
                 "angular.ng-template",
                 "johnpapa.angular-essentials",
-                "codeium.codeium"
+                "codeium.codeium",
+                "codeandstuff.package-json-upgrade"
             ]
         }
     },
