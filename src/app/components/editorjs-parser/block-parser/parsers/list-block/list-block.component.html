@@ -2,10 +2,10 @@
     <ul *ngIf="!isOrderedList(item.data.style)">
         <li *ngFor="let text of item.data.items; trackBy: identify" [class]="currentClasses.unordered">
             <ng-container *ngIf="isStringInstance(text)">
-                {{ text }}
+                <span [innerHTML]="text"></span>
             </ng-container>
             <ng-container *ngIf="!isStringInstance(text)">
-                {{ $any(text).content! }}
+                <span [innerHTML]="$any(text).content"></span>
                 <app-list-block
                     *ngIf="$any(text).items.length > 0"
                     [item]="{
@@ -21,10 +21,10 @@
     <ol *ngIf="isOrderedList(item.data.style)">
         <li *ngFor="let text of item.data.items; trackBy: identify" [class]="currentClasses.ordered">
             <ng-container *ngIf="isStringInstance(text)">
-                {{ text }}
+                <span [innerHTML]="text"></span>
             </ng-container>
             <ng-container *ngIf="!isStringInstance(text)">
-                {{ $any(text).content }}
+                <span [innerHTML]="$any(text).content"></span>
                 <app-list-block
                     *ngIf="$any(text).items.length > 0"
                     [item]="{
