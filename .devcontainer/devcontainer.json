@@ -30,7 +30,9 @@
                 "angular.ng-template",
                 "johnpapa.angular-essentials",
                 "codeium.codeium",
-                "codeandstuff.package-json-upgrade"
+                "codeandstuff.package-json-upgrade",
+                "buenon.scratchpads",
+                "wallabyjs.quokka-vscode"
             ]
         }
     },

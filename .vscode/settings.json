@@ -1,6 +1,5 @@
 {
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
-  },
-  "tailwindCSS.lint.invalidConfigPath": "ignore"
+  }
 }

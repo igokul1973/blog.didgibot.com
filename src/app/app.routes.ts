@@ -1,6 +1,7 @@
 import { ArticlePageComponent } from '@/app/components/article-page/article-page.component';
 import { PageNotFoundComponent } from '@/app/components/page-not-found/page-not-found.component';
 import { Routes } from '@angular/router';
+import { EventLoopComponent } from './components/event-loop/event-loop.component';
 import { HomeComponent } from './components/home/home.component';
 
 export const routes: Routes = [
@@ -32,6 +33,14 @@ export const routes: Routes = [
                         pathMatch: 'full',
                         data: {
                             name: 'blog'
+                        }
+                    },
+                    {
+                        path: 'event-loop',
+                        component: EventLoopComponent,
+                        title: 'Event Loop',
+                        data: {
+                            name: 'event loop'
                         }
                     }
                 ]
