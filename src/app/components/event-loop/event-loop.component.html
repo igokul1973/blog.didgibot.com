@@ -1,0 +1,19 @@
+<article>
+    <h1 class="svg">JavaScript Event Loop Visualizer</h1>
+    <div class="controls">
+        <button mat-button (click)="addSyncTask()">Add sync task</button>
+        <button mat-button (click)="addTimer()">Add timer (macrotask)</button>
+        <button mat-button (click)="addPromise()">Add promise (microtask)</button>
+        <button mat-button (click)="start()">▶ Start event loop</button>
+        <button mat-button (click)="reset()">↻ Reset</button>
+    </div>
+    <div id="canvas-container">
+        <svg viewBox="0 0 1000 600" id="visualization" #visualization class="crackme"></svg>
+    </div>
+    <div class="explanation" #explanation>
+        Click buttons above to add operations, then click "Start event loop" to see how they are processed.
+    </div>
+    <div class="console-output" #console>
+        <div class="console-line">// Console output will appear here</div>
+    </div>
+</article>
