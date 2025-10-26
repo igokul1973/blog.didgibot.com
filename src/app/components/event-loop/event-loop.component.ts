@@ -1,4 +1,5 @@
 import {
+    afterRenderEffect,
     AfterViewInit,
     Component,
     effect,
@@ -11,10 +12,12 @@ import {
 import { MatButton } from '@angular/material/button';
 
 type TTaskType = 'micro' | 'macro' | 'sync';
+type TTaskDirection = 'in' | 'out';
 
 interface ITask<T extends TTaskType> {
     name: string;
     type: T;
+    direction: TTaskDirection;
 }
 
 interface ITaskAction {
@@ -22,7 +25,7 @@ interface ITaskAction {
     action: 'add' | 'remove' | 'none';
 }
 
-const INIT_CONSOLE_MESSAGE = '// Console output will appear here...';
+const INIT_CONSOLE_MESSAGE = 'Console output will appear here...';
 
 @Component({
     selector: 'app-event-loop',
@@ -82,23 +85,28 @@ export class EventLoopComponent implements AfterViewInit {
 
     constructor() {
         // Add tasks to the call stack
-        effect(() => {
+        afterRenderEffect(() => {
+            if (!this.visualizationRef || !this.consoleRef) {
+                return;
+            }
             const { task, action } = this.callStackChange();
-            if (task && task.type !== 'sync') {
+            if (task) {
                 if (action === 'add') {
-                    this.updateExplanation(`⚡ Added ${task.type} task code to the call stack: ${task.name}`);
-                    // Remove task from the call stack and add it to an appropriate queue.
-                    setTimeout(() => {
-                        this.removeTaskFromCallStack(task);
-                        switch (task.type) {
-                            case 'macro':
-                                this.addTask(task as ITask<'macro'>);
-                                break;
-                            case 'micro':
-                                this.addMicroTask(task as ITask<'micro'>);
-                                break;
-                        }
-                    }, 600);
+                    this.updateExplanation(`⚡ Added a ${task.type} task code to the call stack: ${task.name}`);
+                    if (task.type !== 'sync' && task.direction === 'in') {
+                        // Remove task from the call stack and add it to an appropriate queue.
+                        setTimeout(() => {
+                            this.removeTaskFromCallStack(task);
+                            switch (task.type) {
+                                case 'macro':
+                                    this.addMacroTask(task as ITask<'macro'>);
+                                    break;
+                                case 'micro':
+                                    this.addMicroTask(task as ITask<'micro'>);
+                                    break;
+                            }
+                        }, 600);
+                    }
                 } else if (action === 'remove') {
                     this.updateExplanation(`⚡ Removed ${task.type} task code from the call stack: ${task.name}`);
                     if (this.callStack().length === 0) {
@@ -110,10 +118,11 @@ export class EventLoopComponent implements AfterViewInit {
             this.renderVisualization();
         });
 
-        // let counter = 0;
-
         // Add tasks to or remove from the task queue.
         effect(() => {
+            if (!this.visualizationRef || !this.consoleRef) {
+                return;
+            }
             const taskQueue = this.taskQueue();
             const { task, action } = untracked(() => this.taskQueueChange());
 
@@ -123,12 +132,6 @@ export class EventLoopComponent implements AfterViewInit {
 
             if (taskQueue.length > 0) {
                 if (action === 'add') {
-                    // if (task?.name === 'macro1()') {
-                    //     counter += 1;
-                    // }
-                    // if (counter === 2) {
-                    //     console.log(task?.name, action);
-                    // }
                     this.updateExplanation(`⚡ Added a task ${task?.name} to the task queue.`);
                 } else if (action === 'remove') {
                     this.updateExplanation(`⚡ Removed a task ${task?.name} from the task queue.`);
@@ -143,6 +146,9 @@ export class EventLoopComponent implements AfterViewInit {
 
         // Add microtasks to or remove from the microtask queue.
         effect(() => {
+            if (!this.visualizationRef || !this.consoleRef) {
+                return;
+            }
             const microTaskQueue = this.microTaskQueue();
             const { task, action } = untracked(() => this.microTaskQueueChange());
 
@@ -165,17 +171,22 @@ export class EventLoopComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+        if (!this.visualizationRef || !this.consoleRef) {
+            return;
+        }
         this.createSvgElement('svg', { viewBox: '0 0 1000 600' });
         this.renderVisualization();
     }
 
-    private addTask(item: ITask<'macro'>) {
+    private addMacroTask(item: ITask<'macro'>) {
         this.taskQueue.set(this.taskQueue().concat(item));
     }
 
-    private removeTask() {
+    private removeMacroTask() {
         const q = this.taskQueue();
-        this.taskQueue.set(q.slice(0, q.length - 1));
+        const item = q.shift();
+        this.taskQueue.set([...q]);
+        return item;
     }
 
     private addMicroTask(item: ITask<'micro'>) {
@@ -184,22 +195,42 @@ export class EventLoopComponent implements AfterViewInit {
 
     private removeMicroTask() {
         const q = this.microTaskQueue();
-        this.microTaskQueue.set(q.slice(0, q.length - 1));
+        const item = q.shift();
+        this.microTaskQueue.set([...q]);
+        return item;
     }
 
-    protected addTaskToCallStack(type: TTaskType) {
+    protected addTaskToCallStack(type: TTaskType, direction: TTaskDirection = 'in') {
         const taskCounter = this.taskCounter();
         this.taskCounter.set(taskCounter + 1);
         const name = `${type}${taskCounter}()`;
-        this.callStack.set(this.callStack().concat({ type, name }));
+        this.callStack.set(this.callStack().concat({ type, name, direction }));
+    }
+
+    protected moveTaskToCallStack(task: ITask<TTaskType>) {
+        task.direction = 'out';
+        this.callStack.set(this.callStack().concat(task));
     }
 
     private removeTaskFromCallStack(task: ITask<TTaskType>) {
         const cs = this.callStack();
-        const itemIndex = cs.findIndex((item) => item === task);
-        if (itemIndex !== -1) {
-            this.callStack.set(cs.slice(0, itemIndex).concat(cs.slice(itemIndex + 1)));
-        }
+        this.callStack.set(cs.filter((item) => item !== task));
+    }
+
+    private popLastTaskFromCallStackByType<T extends TTaskType>(taskType: T): ITask<T> | null {
+        const cs = this.callStack();
+        let lastTaskByType: ITask<T> | null = null;
+        const newCallStack = cs.reduceRight((acc, task) => {
+            if (task.type === taskType && !lastTaskByType) {
+                lastTaskByType = task as ITask<T>; // May need assertion
+            } else {
+                acc.push(task);
+            }
+            return acc;
+        }, [] as ITask<TTaskType>[]);
+
+        this.callStack.set(newCallStack.reverse());
+        return lastTaskByType;
     }
 
     private updateExplanation(text: string) {
@@ -271,7 +302,7 @@ export class EventLoopComponent implements AfterViewInit {
                 width: '160',
                 height: '48',
                 rx: '4',
-                fill: '#4caf50',
+                fill: item.type === 'sync' ? '#4caf50' : item.type === 'macro' ? '#ff9800' : '#2196f3',
                 opacity: '0.9'
             });
             stackGroup.appendChild(itemRect);
@@ -290,7 +321,7 @@ export class EventLoopComponent implements AfterViewInit {
 
         // Event Loop Circle
         const loopCircle = this.createSvgElement('circle', {
-            cx: '500',
+            cx: '450',
             cy: '300',
             r: '80',
             fill: '#9c27b0',
@@ -302,7 +333,7 @@ export class EventLoopComponent implements AfterViewInit {
         svg.appendChild(loopCircle);
 
         const loopText1 = this.createSvgElement('text', {
-            x: '500',
+            x: '450',
             y: '295',
             'text-anchor': 'middle',
             'font-size': '20',
@@ -313,7 +344,7 @@ export class EventLoopComponent implements AfterViewInit {
         svg.appendChild(loopText1);
 
         const loopText2 = this.createSvgElement('text', {
-            x: '500',
+            x: '450',
             y: '320',
             'text-anchor': 'middle',
             'font-size': '20',
@@ -337,9 +368,9 @@ export class EventLoopComponent implements AfterViewInit {
             const animateTransform = this.createSvgElement('animateTransform', {
                 attributeName: 'transform',
                 type: 'rotate',
-                from: '0 500 300',
-                to: '360 500 300',
-                dur: '2s',
+                from: '0 450 300',
+                to: '360 450 300',
+                dur: '1.5s',
                 repeatCount: 'indefinite'
             });
             rotatingCircle.appendChild(animateTransform);
@@ -457,7 +488,7 @@ export class EventLoopComponent implements AfterViewInit {
         // Arrows
         if (microTaskQueue.length > 0) {
             const arrow1 = this.createSvgElement('path', {
-                d: 'M 650 175 L 566 250',
+                d: 'M 650 175 L 519 261',
                 stroke: '#2196f3',
                 'stroke-width': '3',
                 fill: 'none',
@@ -468,7 +499,7 @@ export class EventLoopComponent implements AfterViewInit {
 
         if (taskQueue.length > 0) {
             const arrow2 = this.createSvgElement('path', {
-                d: 'M 650 400 L 569 347',
+                d: 'M 650 400 L 519 347',
                 stroke: '#ff9800',
                 'stroke-width': '3',
                 fill: 'none',
@@ -479,7 +510,7 @@ export class EventLoopComponent implements AfterViewInit {
 
         if (callStack.length > 0) {
             const arrow3 = this.createSvgElement('path', {
-                d: 'M 230 300 L 420 300',
+                d: 'M 230 300 L 370 300',
                 stroke: '#4CAF50',
                 'stroke-width': '3',
                 fill: 'none',
@@ -527,67 +558,69 @@ export class EventLoopComponent implements AfterViewInit {
             return;
         }
 
-        const callStack = this.callStack();
-        const microtaskQueue = this.microTaskQueue();
-        const taskQueue = this.taskQueue();
+        const callStack = this.callStack;
+        const microtaskQueue = this.microTaskQueue;
+        const taskQueue = this.taskQueue;
 
         this.isRunning.set(true);
 
-        while (callStack.length > 0 || microtaskQueue.length > 0 || taskQueue.length > 0) {
+        while (callStack().length > 0 || microtaskQueue().length > 0 || taskQueue().length > 0) {
             // Process call stack
-            while (callStack.length > 0) {
-                const item = callStack.pop();
+            if (callStack().length > 0) {
+                this.updateExplanation(`⚡ Executing synchronous code from call stack`);
+                await this.sleep(200);
+            }
+            while (callStack().length > 0) {
+                const item = this.popLastTaskFromCallStackByType('sync');
                 if (item) {
-                    this.callStack.set([...callStack]);
-                    this.updateExplanation(`⚡ Executing synchronous code from call stack: ${item.name}`);
                     this.addConsoleLog(`Executing: ${item.name}`);
-                    console.log(`⚡ Executing synchronous code from call stack: ${item.name}`);
-                    await this.sleep(800);
+                    await this.sleep(1500);
                 }
             }
 
             // Process all microtasks
-            if (microtaskQueue.length > 0) {
+            if (microtaskQueue().length > 0) {
                 this.updateExplanation(`🔵 Processing ALL microtasks before moving to tasks...`);
-                await this.sleep(500);
             }
 
-            while (microtaskQueue.length > 0) {
-                const item = microtaskQueue.shift();
+            while (microtaskQueue().length > 0 && callStack().length === 0) {
+                // Removing from the microtask queue...
+                const item = this.removeMicroTask();
                 if (item) {
-                    this.microTaskQueue.set([...microtaskQueue]);
-                    this.callStack.set([...this.callStack()].concat(item));
-                    await this.sleep(500);
+                    // ...and adding to the call stack
+                    this.moveTaskToCallStack(item);
+                    await this.sleep(300);
 
-                    this.callStack.set(this.callStack().slice(0, this.callStack().length - 1));
-                    this.updateExplanation(`🔵 Executing microtask: ${item.name}`);
-                    this.addConsoleLog(`Executing: ${item.name}`);
+                    const lastTask = this.popLastTaskFromCallStackByType('micro');
+                    if (lastTask) {
+                        this.addConsoleLog(`Executing microtask: ${lastTask.name}`);
+                    }
                 }
-                await this.sleep(1000);
+                await this.sleep(1200);
             }
 
             // Process one task
-            if (taskQueue.length > 0) {
+            if (taskQueue().length > 0 && callStack().length === 0) {
                 this.updateExplanation(`🔵 Processing ONE task (microtask), then back to microtasks...`);
-                await this.sleep(500);
-
-                const item = taskQueue.shift();
+                // Removing from the macrotask queue...
+                const item = this.removeMacroTask();
                 if (item) {
-                    // Removing from the task queue...
-                    this.taskQueue.set([...taskQueue]);
                     // ...and adding to the call stack
-                    this.callStack.set([...this.callStack()].concat(item));
-                    await this.sleep(500);
-                    this.callStack.set(this.callStack().slice(0, this.callStack().length - 1));
-                    this.updateExplanation(`🔵 Completed task ${item.name}. Checking microtasks again...`);
-                    this.addConsoleLog(`Executing: ${item.name}`);
-                    await this.sleep(800);
+                    this.moveTaskToCallStack(item);
+                    await this.sleep(300);
+
+                    const lastTask = this.popLastTaskFromCallStackByType('macro');
+                    if (lastTask) {
+                        this.addConsoleLog(`🔵 Executing macrotask: ${lastTask.name}`);
+                        this.updateExplanation(`Completed task ${lastTask.name}. Checking microtasks again...`);
+                        await this.sleep(1200);
+                    }
                 }
             }
         }
 
         this.isRunning.set(false);
-        this.updateExplanation('Event loop completed! All queues are empty.');
+        this.updateExplanation('Event loop completed! The call stack and queues are empty.');
         this.renderVisualization();
     }
 
@@ -598,7 +631,7 @@ export class EventLoopComponent implements AfterViewInit {
         this.isRunning.set(false);
         this.taskCounter.set(0);
         this.updateExplanation(
-            'Click buttons above to add operations, then clicke "Start :vent loop" to see how they are processed.'
+            'Click buttons above to add operations, then click "Start event loop" to see how they are processed.'
         );
         this.resetConsoleLog();
     }

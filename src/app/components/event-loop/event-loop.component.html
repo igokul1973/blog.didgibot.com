@@ -10,13 +10,11 @@
     <div id="canvas-container">
         <svg viewBox="0 0 1000 600" id="visualization" #visualization class="crackme"></svg>
     </div>
-    <div class="explanation">Current action: {{ explanation() }}</div>
+    <div class="explanation"><span class="explanation-label">Current action: </span>{{ explanation() }}</div>
     <div class="console-output" #console>
-        <div>Log:</div>
+        <span class="console-label">Log:</span>
         @for (output of consoleOutput(); track $index) {
             <div class="console-line">{{ output }}</div>
         }
     </div>
-    <!-- <div>Task counter: {{ taskCounter() || 0 }}</div> -->
-    <!-- <div>Call stack: {{ callStack().join(', ') || '[]' }}</div> -->
 </article>
