@@ -32,7 +32,8 @@
                 "codeium.codeium",
                 "codeandstuff.package-json-upgrade",
                 "buenon.scratchpads",
-                "wallabyjs.quokka-vscode"
+                "eamodio.gitlens",
+                "wallabyjs.quokka-vscode",
             ]
         }
     },

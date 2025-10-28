@@ -1,5 +1,4 @@
 import {
-    afterRenderEffect,
     AfterViewInit,
     Component,
     effect,
@@ -82,13 +81,11 @@ export class EventLoopComponent implements AfterViewInit {
     protected explanation = signal<string>(
         'Click buttons above to add operations, then click "Start event loop" to see how they are processed.'
     );
+    private renderTimeout: number | null = null;
 
     constructor() {
         // Add tasks to the call stack
-        afterRenderEffect(() => {
-            if (!this.visualizationRef || !this.consoleRef) {
-                return;
-            }
+        effect(() => {
             const { task, action } = this.callStackChange();
             if (task) {
                 if (action === 'add') {
@@ -113,9 +110,8 @@ export class EventLoopComponent implements AfterViewInit {
                         this.updateExplanation('The call stack is empty.');
                     }
                 }
+                this.renderVisualizationDebounced();
             }
-
-            this.renderVisualization();
         });
 
         // Add tasks to or remove from the task queue.
@@ -141,7 +137,7 @@ export class EventLoopComponent implements AfterViewInit {
                     this.updateExplanation('The task queue is empty.');
                 }
             }
-            this.renderVisualization();
+            this.renderVisualizationDebounced();
         });
 
         // Add microtasks to or remove from the microtask queue.
@@ -166,7 +162,7 @@ export class EventLoopComponent implements AfterViewInit {
                     this.updateExplanation('The microtask queue is empty.');
                 }
             }
-            this.renderVisualization();
+            this.renderVisualizationDebounced();
         });
     }
 
@@ -246,6 +242,14 @@ export class EventLoopComponent implements AfterViewInit {
             el.setAttribute(key, attrs[key]);
         }
         return el;
+    }
+
+    private renderVisualizationDebounced() {
+        if (this.renderTimeout) {
+            clearTimeout(this.renderTimeout);
+            this.renderTimeout = null;
+        }
+        this.renderTimeout = setTimeout(() => this.renderVisualization(), 50) as unknown as number;
     }
 
     private renderVisualization() {
@@ -572,18 +576,20 @@ export class EventLoopComponent implements AfterViewInit {
             }
             while (callStack().length > 0) {
                 const item = this.popLastTaskFromCallStackByType('sync');
-                if (item) {
-                    this.addConsoleLog(`Executing: ${item.name}`);
-                    await this.sleep(1500);
+                if (!item) {
+                    break;
                 }
+                this.addConsoleLog(`Executing: ${item.name}`);
+                await this.sleep(1500);
             }
 
             // Process all microtasks
-            if (microtaskQueue().length > 0) {
+            if (microtaskQueue().length > 0 && callStack().length === 0) {
                 this.updateExplanation(`🔵 Processing ALL microtasks before moving to tasks...`);
             }
 
             while (microtaskQueue().length > 0 && callStack().length === 0) {
+                // while (microtaskQueue().length > 0) {
                 // Removing from the microtask queue...
                 const item = this.removeMicroTask();
                 if (item) {
@@ -594,13 +600,14 @@ export class EventLoopComponent implements AfterViewInit {
                     const lastTask = this.popLastTaskFromCallStackByType('micro');
                     if (lastTask) {
                         this.addConsoleLog(`Executing microtask: ${lastTask.name}`);
+                        await this.sleep(1200);
                     }
                 }
-                await this.sleep(1200);
             }
 
             // Process one task
             if (taskQueue().length > 0 && callStack().length === 0) {
+                // if (taskQueue().length > 0) {
                 this.updateExplanation(`🔵 Processing ONE task (microtask), then back to microtasks...`);
                 // Removing from the macrotask queue...
                 const item = this.removeMacroTask();

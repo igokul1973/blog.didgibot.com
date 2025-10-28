@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { IOutputBlockData } from '../../../types';
 import { TEditorJsRaw } from './types';
@@ -23,7 +23,9 @@ export class RawBlockComponent implements OnInit {
     ngOnInit() {
         if (this.item.data.html) {
             const rawHtml = this.item.data.html;
-            this.code = this.sanitizer.bypassSecurityTrustHtml(rawHtml);
+            this.code =
+                this.sanitizer.sanitize(SecurityContext.SCRIPT, rawHtml) ||
+                '<div class="warning">The contents of the raw HTML are not safe.</div>';
         }
     }
 }
