@@ -24,8 +24,8 @@ export class RawBlockComponent implements OnInit {
         if (this.item.data.html) {
             const rawHtml = this.item.data.html;
             this.code =
-                this.sanitizer.sanitize(SecurityContext.SCRIPT, rawHtml) ||
-                '<div class="warning">The contents of the raw HTML are not safe.</div>';
+                this.sanitizer.sanitize(SecurityContext.HTML, rawHtml) ||
+                '<div>The contents of the raw HTML are not safe.</div>';
         }
     }
 }
