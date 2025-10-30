@@ -1,22 +1,26 @@
 <article class="article-wrapper" [ngClass]="{ 'no-animation': isAnimationFinished }">
     @let article = articleInput();
     @let translation = translationSignal();
+    @let goBackText = selectedLanguage() === languageEnum.EN ? 'Go Back' : 'Назад';
     @if (article && translation) {
         <mat-card [ngClass]="{ 'blog-article': true, 'no-animation': true }">
             @if (!isPreview) {
                 <button mat-button (click)="goBack()" class="back-btn info">
                     <mat-icon>arrow_back</mat-icon>
-                    Go Back
+                    {{ goBackText }}
                 </button>
             }
             <mat-card-header class="padding-top-8">
                 <mat-card-title class="mat-headline no-animation">
+                    @let dateLang = selectedLanguage() === languageEnum.EN ? 'Date updated' : 'Дата обновления';
+                    @let dateUpdated =
+                        selectedLanguage() === languageEnum.EN
+                            ? (article.updatedAt?.toDate() | date: 'dd MMMM yyyy HH:mm')
+                            : (article.updatedAt?.toDate() | ruDate);
                     <h1>
                         {{ translation.header }}
                     </h1>
-                    <span class="meta"
-                        >Date updated:&nbsp; {{ article.updatedAt?.toDate() | date: 'dd MMMM yyyy HH:mm' }}</span
-                    >
+                    <span class="meta"> {{ dateLang }}: {{ dateUpdated }} </span>
                 </mat-card-title>
             </mat-card-header>
             <mat-card-content *ngIf="translation.content" [ngClass]="{ preview: isPreview }">
@@ -30,7 +34,11 @@
                         class="success action-btn"
                     >
                         <mat-icon>article</mat-icon>
-                        Go to article
+                        @if (selectedLanguage() === languageEnum.EN) {
+                            Go to article
+                        } @else {
+                            Перейти в статью
+                        }
                     </button>
                 </mat-card-actions>
             }

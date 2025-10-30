@@ -8,16 +8,18 @@ import { IArticlePartial } from 'types/article';
 import { LanguageEnum } from 'types/translation';
 import { BlockParserComponent } from '../editorjs-parser/block-parser/block-parser.component';
 import { TCodeLanguage } from '../editorjs-parser/block-parser/parsers/code-block/types';
+import { RuDatePipe } from '@/app/pipes/ru-date.pipe';
 
 @Component({
     selector: 'app-article',
-    imports: [CommonModule, RouterLink, MatCardModule, BlockParserComponent, MatButton, DatePipe, MatIcon],
+    imports: [CommonModule, RouterLink, MatCardModule, RuDatePipe, BlockParserComponent, MatButton, DatePipe, MatIcon],
     templateUrl: './article.component.html',
     styleUrl: './article.component.scss'
 })
 export class ArticleComponent implements OnInit {
     public selectedLanguage = input<LanguageEnum>();
     public articleInput = input<IArticlePartial>();
+    protected readonly languageEnum = LanguageEnum;
     protected translationSignal = linkedSignal(() =>
         this.articleInput()?.translations.find((t) => t.language === this.selectedLanguage())
     );
