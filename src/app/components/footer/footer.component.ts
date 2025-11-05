@@ -1,3 +1,4 @@
+import { CookieConsentService } from '@/app/services/cookie/cookie-consent.service';
 import { Component } from '@angular/core';
 import packageJson from '../../../../package.json';
 
@@ -10,4 +11,10 @@ import packageJson from '../../../../package.json';
 export class FooterComponent {
     public appVersion: string = packageJson.version;
     public year: number = new Date().getFullYear();
+
+    constructor(private readonly cookieConsentService: CookieConsentService) {}
+
+    protected openCookieSettings() {
+        this.cookieConsentService.openBanner();
+    }
 }

@@ -1,0 +1,36 @@
+<article class="cookie-consent-banner" [@slideIn]>
+    <div class="cookie-content">
+        <div class="cookie-text">
+            <h3>Cookie Settings</h3>
+            <p>
+                {{ noDetailsText() }}
+            </p>
+            <form class="cookie-details" [formGroup]="form">
+                @for (cookie of cookies; track cookie) {
+                    <div class="cookie-category">
+                        <div class="category-header">
+                            <input
+                                [id]="cookie.id"
+                                type="checkbox"
+                                class="cookie-checkbox"
+                                formControlName="{{ cookie.formControl }}"
+                            />
+                            <label [for]="cookie.id">
+                                <strong>{{ cookie.name }}</strong>
+                                <span class="required-badge">{{
+                                    isCookieRequired(cookie.name) ? 'Required' : 'Optional'
+                                }}</span>
+                            </label>
+                        </div>
+                        <p class="category-description">{{ cookie.description }}</p>
+                    </div>
+                }
+            </form>
+        </div>
+        <div class="cookie-actions">
+            <button (click)="savePreferences()" class="btn btn-primary">Save preferences</button>
+            <button (click)="rejectNonEssential()" class="btn">Reject All</button>
+            <button (click)="acceptAll()" class="btn">Accept all</button>
+        </div>
+    </div>
+</article>

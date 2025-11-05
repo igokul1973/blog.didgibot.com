@@ -1,4 +1,5 @@
 import { ApplicationConfig, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withRouterConfig } from '@angular/router';
 
 import { provideHttpClient } from '@angular/common/http';
@@ -24,6 +25,7 @@ const ngxHighlightJsOptions = {
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        provideAnimations(),
         provideZoneChangeDetection({ eventCoalescing: true }),
         ConfigService,
         provideAppInitializer(initializeApp),

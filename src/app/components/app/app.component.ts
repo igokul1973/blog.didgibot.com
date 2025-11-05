@@ -1,9 +1,12 @@
+import { AnalyticsService } from '@/app/services/analytics/analytics.service';
 import { ArticleService } from '@/app/services/article/article.service';
+import { CookieConsentService } from '@/app/services/cookie/cookie-consent.service';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, effect, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, map, mergeMap, Observable, of, switchMap, take } from 'rxjs';
 import { InitializationService } from '../../services/initialization/initialization.service';
+import { CookieConsentComponent } from '../cookie-consent/cookie-consent.component';
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
 import { ScrollToTopComponent } from '../scroll-to-top/scroll-to-top.component';
@@ -12,19 +15,29 @@ import { ScrollToTopComponent } from '../scroll-to-top/scroll-to-top.component';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    imports: [CommonModule, HeaderComponent, RouterModule, FooterComponent, ScrollToTopComponent]
+    imports: [
+        CommonModule,
+        HeaderComponent,
+        RouterModule,
+        FooterComponent,
+        ScrollToTopComponent,
+        CookieConsentComponent
+    ]
 })
 export class AppComponent implements OnInit, AfterViewInit {
     protected title = 'Didgibot.com Blog';
     protected routeName$: Observable<string> | null = null;
     protected urlPath$: Observable<string> | null = null;
     protected mode = signal('light');
+    protected isShowCookieConsentBanner = this.cookieConsentService.isShowBanner;
 
     constructor(
         private readonly router: Router,
         private readonly activatedRoute: ActivatedRoute,
+        private readonly analyticsService: AnalyticsService,
         private readonly initializationService: InitializationService,
-        private readonly articleService: ArticleService
+        private readonly articleService: ArticleService,
+        private readonly cookieConsentService: CookieConsentService
     ) {
         effect(() => {
             if (this.mode() === 'dark') {
@@ -36,7 +49,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-        console.log('AppComponent is starting to initialize...');
+        this.cookieConsentService.consent$.subscribe((consent) => {
+            if (consent?.analytics) {
+                this.analyticsService.init();
+            }
+        });
+
         this.routeName$ = this.router.events.pipe(
             filter((e) => e instanceof NavigationEnd),
             map(() => {

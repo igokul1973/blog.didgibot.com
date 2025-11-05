@@ -6,5 +6,8 @@
     </section>
 </ng-container>
 
+@if (isShowCookieConsentBanner()) {
+    <app-cookie-consent></app-cookie-consent>
+}
 <app-footer></app-footer>
 <app-scroll-to-top />
