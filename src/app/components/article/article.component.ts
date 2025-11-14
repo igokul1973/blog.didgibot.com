@@ -1,5 +1,6 @@
+import { RuDatePipe } from '@/app/pipes/ru-date.pipe';
 import { CommonModule, DatePipe, Location } from '@angular/common';
-import { Component, input, Input, linkedSignal, OnInit } from '@angular/core';
+import { Component, input, Input, linkedSignal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
@@ -8,7 +9,6 @@ import { IArticlePartial } from 'types/article';
 import { LanguageEnum } from 'types/translation';
 import { BlockParserComponent } from '../editorjs-parser/block-parser/block-parser.component';
 import { TCodeLanguage } from '../editorjs-parser/block-parser/parsers/code-block/types';
-import { RuDatePipe } from '@/app/pipes/ru-date.pipe';
 
 @Component({
     selector: 'app-article',
@@ -16,7 +16,7 @@ import { RuDatePipe } from '@/app/pipes/ru-date.pipe';
     templateUrl: './article.component.html',
     styleUrl: './article.component.scss'
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent {
     public selectedLanguage = input<LanguageEnum>();
     public articleInput = input<IArticlePartial>();
     protected readonly languageEnum = LanguageEnum;
@@ -25,7 +25,6 @@ export class ArticleComponent implements OnInit {
     );
     @Input() isAnimationFinished: boolean = false;
     @Input() isPreview: boolean = false;
-    public id: string | null = null;
 
     protected blockParserConfig: { code: { languages: TCodeLanguage[]; showLineNumbers: boolean } } = {
         code: {
@@ -121,13 +120,6 @@ export class ArticleComponent implements OnInit {
         private readonly activatedRoute: ActivatedRoute
     ) {}
 
-    ngOnInit(): void {
-        this.activatedRoute.paramMap.subscribe({
-            next: (params) => {
-                this.id = params.get('id');
-            }
-        });
-    }
     goBack() {
         this.location.back();
     }

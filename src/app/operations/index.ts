@@ -46,6 +46,8 @@ export const GET_ARTICLES = gql`
             translations {
                 ...ArticleTranslations
             }
+            slug
+            priority
             created_at
             updated_at
         }
@@ -65,6 +67,8 @@ export const READ_ARTICLE = gql`
             translations {
                 ...ArticleTranslations
             }
+            slug
+            priority
         }
     }
     ${TRANSLATION_FRAGMENT}

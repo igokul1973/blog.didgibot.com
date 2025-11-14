@@ -120,11 +120,11 @@ export const transformRawArticle = (
     removeTranslationFields: (keyof IArticle['translations'][number] | '__typename')[] = [],
     isRemoveDateFields = false
 ): IArticlePartial => {
-    const { id, translations: rawTranslations, created_at, updated_at } = article;
+    const { translations: rawTranslations, created_at, updated_at, ...rest } = article;
     const translations = transformRawTranslations(rawTranslations, removeTranslationFields, isRemoveDateFields);
     let a: IArticlePartial = {
-        id,
-        translations
+        translations,
+        ...rest
     };
 
     if (!isRemoveDateFields) {
