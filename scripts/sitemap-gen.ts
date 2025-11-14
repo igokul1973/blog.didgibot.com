@@ -5,8 +5,9 @@ import { fileURLToPath } from 'url';
 type TLanguage = 'ru' | 'en';
 
 interface IBlogPost {
-    slug: string;
     title: string;
+    slug: string;
+    priority: number;
     publishedAt: Date;
     updatedAt: Date;
     language: TLanguage;
@@ -32,31 +33,24 @@ function formatDate(date: Date): string {
 }
 
 async function fetchBlogPosts(): Promise<IBlogPost[]> {
-    return [
-        {
-            slug: '6901fb9c730380c3393308b0',
-            title: 'Binary Search using Python',
-            publishedAt: new Date('2025-10-30'),
-            updatedAt: new Date('2025-10-30'),
-            language: 'en'
-        },
-        // same as above but in Russian
-        {
-            slug: '6901fb9c730380c3393308b0',
-            title: 'Бинарный поиск используя Питон',
-            publishedAt: new Date('2025-10-30'),
-            updatedAt: new Date('2025-10-30'),
-            language: 'ru'
-        }
-    ];
+    // const res = await fetch('https://api.didgibot.com/api/sitemap');
+    const res = await fetch('http://host.docker.internal:8888/api/sitemap');
+
+    if (!res.ok) {
+        throw new Error(`Failed to fetch sitemap data: ${res.statusText}`);
+    }
+
+    const { data } = await res.json();
+
+    return data;
 }
 
 async function generateSitemap(): Promise<string> {
     const posts = await fetchBlogPosts();
     const staticPages = [
-        { url: '/', priority: '1.0', changefreq: 'daily' },
-        { url: '/en/blog', priority: '0.9', changefreq: 'daily' },
-        { url: '/ru/blog', priority: '0.9', changefreq: 'daily' }
+        { url: '/', priority: '1.0', changefreq: 'weekly' },
+        { url: '/en/blog', priority: '0.9', changefreq: 'weekly' },
+        { url: '/ru/blog', priority: '0.9', changefreq: 'weekly' }
     ];
 
     let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -80,12 +74,22 @@ xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     });
 
     sortedPosts.forEach((post) => {
+        const updatedAt = formatDate(new Date(post.updatedAt));
         sitemap += `
         <url>
             <loc>${escapeXml(BASE_URL + '/en/blog/article/' + post.slug)}</loc>
-            <lastmod>${formatDate(post.updatedAt)}</lastmod>
-            <changefreq>daily</changefreq>
-            <priority>0.8</priority>`;
+            <lastmod>${updatedAt}</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>${post.priority}</priority>`;
+
+        sitemap += `
+        </url>`;
+        sitemap += `
+        <url>
+            <loc>${escapeXml(BASE_URL + '/ru/blog/article/' + post.slug)}</loc>
+            <lastmod>${updatedAt}</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>${post.priority}</priority>`;
 
         sitemap += `
         </url>`;

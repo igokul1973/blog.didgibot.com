@@ -17,7 +17,7 @@ export const routes: Routes = [
                 path: 'blog',
                 children: [
                     {
-                        path: 'article/:id',
+                        path: 'article/:slug',
                         component: ArticlePageComponent,
                         title: 'Article',
                         pathMatch: 'full',

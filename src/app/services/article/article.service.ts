@@ -3,7 +3,7 @@ import { transformRawArticle, transformRawArticles } from '@/utils/transformers'
 import { Injectable, signal } from '@angular/core';
 import { OperationVariables } from '@apollo/client/core';
 import { Apollo } from 'apollo-angular';
-import { BehaviorSubject, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { IArticlePartial, IRawArticle } from 'types/article';
 import { LanguageEnum } from 'types/translation';
 
@@ -43,6 +43,25 @@ export class ArticleService {
                 variables: {
                     entityName: 'article',
                     filterInput: { ids: [id] }
+                }
+            })
+            .valueChanges.pipe(
+                map(({ data }) => {
+                    if (!data) {
+                        return null;
+                    }
+                    return transformRawArticle(data.articles[0]);
+                })
+            );
+    }
+
+    getArticleBySlug(slug: string): Observable<IArticlePartial | null> {
+        return this.apollo
+            .watchQuery<{ articles: IRawArticle[] }>({
+                query: GET_ARTICLES,
+                variables: {
+                    entityName: 'article',
+                    filterInput: { slug }
                 }
             })
             .valueChanges.pipe(
