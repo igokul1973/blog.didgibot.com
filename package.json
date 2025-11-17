@@ -11,7 +11,7 @@
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
-        "generate:sitemap": "npx ts-node scripts/sitemap-gen.ts",
+        "generate:sitemap": "npx tsx scripts/sitemap-gen.ts",
         "postbuild": "yarn generate:sitemap"
     },
     "private": true,
@@ -63,6 +63,6 @@
         "stylelint": "^16.19.1",
         "stylelint-config-standard-scss": "^14.0.0",
         "typescript": "~5.8.3",
-        "ts-node": "^10.9.2"
+        "tsx": "^4.20.6"
     }
 }
