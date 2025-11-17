@@ -11,7 +11,7 @@
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
-        "generate:sitemap": "ts-node scripts/sitemap-gen.ts",
+        "generate:sitemap": "npx ts-node scripts/sitemap-gen.ts",
         "postbuild": "yarn generate:sitemap"
     },
     "private": true,

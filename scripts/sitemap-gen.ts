@@ -33,8 +33,8 @@ function formatDate(date: Date): string {
 }
 
 async function fetchBlogPosts(): Promise<IBlogPost[]> {
-    // const res = await fetch('https://api.didgibot.com/api/sitemap');
-    const res = await fetch('http://host.docker.internal:8888/api/sitemap');
+    const res = await fetch('https://blog.didgibot.com/api/sitemap');
+    // const res = await fetch('http://host.docker.internal:8888/api/sitemap');
 
     if (!res.ok) {
         throw new Error(`Failed to fetch sitemap data: ${res.statusText}`);
