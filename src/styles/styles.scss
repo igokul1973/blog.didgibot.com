@@ -116,6 +116,17 @@ a {
     gap: 2rem;
 }
 
+// Note, this is not recommended by the Angular Material team as
+// the inner surface of the snackbar is not part of the public API.
+// I, however, did not want to delve into theming - the recommended
+// way to change styling of Angular Material elements is to use
+// the Angular Material theming system.
+.mat-mdc-snack-bar-container.error-snackbar {
+    .mat-mdc-snackbar-surface {
+        background-color: #c62828;
+    }
+}
+
 .para-block {
     .cdx-annotation {
         cursor: help;

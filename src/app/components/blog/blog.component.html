@@ -12,9 +12,14 @@
             <div>Please type more than 2 characters to trigger the filter...</div>
         </article>
     }
+
+    @if (isLoading) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    }
+
     <cdk-virtual-scroll-viewport scrollWindow [itemSize]="453" minBufferPx="0" maxBufferPx="0">
         <app-article
-            [isAnimationFinished]="(isAnimationFinished$ | async) || false"
+            [isAnimationFinished]="true"
             *cdkVirtualFor="let article of ds"
             [articleInput]="article"
             [isPreview]="true"

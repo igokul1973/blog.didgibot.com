@@ -4,7 +4,7 @@ import { CookieConsentService } from '@/app/services/cookie/cookie-consent.servi
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, effect, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
-import { filter, map, mergeMap, Observable, of, switchMap, take } from 'rxjs';
+import { filter, map, mergeMap, Observable, of, switchMap } from 'rxjs';
 import { InitializationService } from '../../services/initialization/initialization.service';
 import { CookieConsentComponent } from '../cookie-consent/cookie-consent.component';
 import { FooterComponent } from '../footer/footer.component';
@@ -84,21 +84,19 @@ export class AppComponent implements OnInit, AfterViewInit {
         );
         this.initializeApp();
         this.articleService
-            .getArticles({
+            .watchArticles({
                 entityName: 'article',
                 sortInput: { field: 'updated_at', dir: 'desc' },
                 limit: 3
-                // run the subscription only once and then unsubscribe...
             })
-            .pipe(take(1))
             .subscribe({
                 next: (homePageArticles) => {
+                    console.log('The value has changed!');
                     this.articleService.homePageArticles.set(homePageArticles);
                 },
                 error: (error) => {
                     console.error(error);
-                },
-                complete: () => {}
+                }
             });
     }
 

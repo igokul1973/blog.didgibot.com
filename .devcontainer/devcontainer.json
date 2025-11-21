@@ -30,12 +30,13 @@
         "vscode": {
             "extensions": [
                 "angular.ng-template",
-                "johnpapa.angular-essentials",
-                "codeium.codeium",
                 "codeandstuff.package-json-upgrade",
                 "buenon.scratchpads",
+                "esbenp.prettier-vscode",
+                "dbaeumer.vscode-eslint",
                 "eamodio.gitlens",
-                "wallabyjs.quokka-vscode"
+                "wallabyjs.quokka-vscode",
+                "gruntfuggly.todo-tree"
             ]
         }
     },

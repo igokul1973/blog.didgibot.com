@@ -1,7 +1,9 @@
 import { ArticleService } from '@/app/services/article/article.service';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { ApolloError } from '@apollo/client/errors';
+import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { IArticlePartial, IArticleQueryInput } from 'types/article';
+import { DataSourceErrorsEnum, IDataSourceError } from './types';
 
 export default class BlogDataSource extends DataSource<IArticlePartial> {
     private readonly cachedDataLength = 20;
@@ -12,9 +14,20 @@ export default class BlogDataSource extends DataSource<IArticlePartial> {
     private readonly dataStreamSubject = new BehaviorSubject<IArticlePartial[]>(
         this.cachedData.get(JSON.stringify(this.query)) ?? []
     );
-    private readonly subscriptions: Subscription[] = [];
+    private readonly dataStream$ = this.dataStreamSubject.asObservable();
     private readonly querySubject = new BehaviorSubject<IArticleQueryInput>(this.query);
+    // Error handling subjects
+    private readonly errorsSubject = new Subject<IDataSourceError>();
+    public readonly errors$ = this.errorsSubject.asObservable();
+    // Loading state
+    private readonly loadingSubject = new BehaviorSubject<boolean>(false);
+    public readonly loading$ = this.loadingSubject.asObservable();
+    // Track failed pages to prevent retry loops
+    private readonly failedPages = new Set<string>();
+
     public articlesTotal = 0;
+
+    private readonly subscriptions: Subscription[] = [];
 
     constructor(
         private readonly articleService: ArticleService,
@@ -35,28 +48,157 @@ export default class BlogDataSource extends DataSource<IArticlePartial> {
                 }
             })
         );
-        return this.dataStreamSubject.asObservable();
+        return this.dataStream$;
     }
+
     private fetchPage(page: number, query: IArticleQueryInput) {
-        this.subscriptions.push(
-            this.articleService.getArticles({ ...query, skip: page * this.limit }).subscribe({
-                next: (response) => {
-                    let existingData = this.cachedData.get(JSON.stringify(query));
-                    if (!existingData) {
-                        existingData = Array.from<IArticlePartial>({ length: this.cachedDataLength });
-                        this.cachedData.set(JSON.stringify(query), existingData);
-                    }
-                    existingData.splice(page * this.limit, this.limit, ...response);
-                    this.cachedData.set(JSON.stringify(query), existingData);
-                    this.dataStreamSubject.next(existingData);
-                    this.articlesTotal = existingData.length;
+        const pageKey = `${JSON.stringify(query)}_page_${page}`;
+        // Skip if the page already failed
+        if (this.failedPages.has(pageKey)) {
+            return;
+        }
+        // Check if page is already loaded
+        const existingData = this.cachedData.get(JSON.stringify(query));
+        const pageStart = page * this.limit;
+        const pageEnd = pageStart + this.limit;
+
+        if (existingData && existingData.slice(pageStart, pageEnd).every((item) => item !== undefined)) {
+            // Page is already loaded, skip the fetch request
+            return;
+        }
+
+        this.setLoading(true);
+
+        this.articleService.getArticles({ ...query, skip: page * this.limit }).subscribe({
+            next: (response) => {
+                // Get or initialize the data array for this query
+                let data =
+                    this.cachedData.get(pageKey) ?? Array.from<IArticlePartial>({ length: this.cachedDataLength });
+
+                // Calculate the insertion point and update the data array
+                const insertAt = page * this.limit;
+                data.splice(insertAt, this.limit, ...response);
+
+                // Update cache and notify subscribers
+                this.cachedData.set(pageKey, data);
+                this.dataStreamSubject.next(data);
+                this.articlesTotal = data.length;
+                this.setLoading(false);
+                // Mark page as not failed in case of retries
+                this.failedPages.delete(pageKey);
+            },
+            error: (error: ApolloError) => {
+                this.setLoading(false);
+
+                // Mark page as failed to prevent retry loops
+                this.failedPages.add(pageKey);
+                // Determine error type
+                const errorType = this.determineErrorType(error);
+                const errorMessage = this.getErrorMessage(error, errorType);
+
+                // Emit error through error stream
+                const dataSourceError: IDataSourceError = {
+                    message: errorMessage,
+                    type: errorType,
+                    page,
+                    originalError: error
+                };
+                this.setError(dataSourceError);
+
+                // For permission errors, you might want to clear the cache
+                // and stop trying to fetch more data
+                if (errorType === DataSourceErrorsEnum.PERMISSION_DENIED) {
+                    this.handlePermissionError(pageKey);
                 }
-            })
-        );
+
+                // Update the cached data with empty/error state for this page
+                this.updateCacheWithError(page, pageKey);
+            }
+        });
+    }
+
+    private determineErrorType(error: ApolloError): DataSourceErrorsEnum {
+        if (error.networkError) {
+            // Network error occurred
+            return DataSourceErrorsEnum.NETWORK_ERROR;
+        }
+        if (error.graphQLErrors) {
+            if (error.cause?.extensions && 'error_code' in error.cause?.extensions) {
+                const errorCode = error.cause?.extensions['error_code'];
+                switch (errorCode) {
+                    case 401:
+                        return DataSourceErrorsEnum.PERMISSION_DENIED;
+                    case 404:
+                        return DataSourceErrorsEnum.NOT_FOUND;
+                    case 500:
+                        return DataSourceErrorsEnum.SERVER_ERROR;
+                    default:
+                        return DataSourceErrorsEnum.UNKNOWN;
+                }
+            }
+        }
+
+        return DataSourceErrorsEnum.UNKNOWN;
+    }
+
+    private getErrorMessage(error: any, errorType: DataSourceErrorsEnum): string {
+        switch (errorType) {
+            case DataSourceErrorsEnum.PERMISSION_DENIED:
+                return 'You do not have permission to access these articles';
+            case DataSourceErrorsEnum.NETWORK_ERROR:
+                return 'Network error. Please check your connection';
+            case DataSourceErrorsEnum.NOT_FOUND:
+                return 'The requested articles could not be found';
+            default:
+                return error?.message || error?.error?.message || 'An error occurred while fetching articles';
+        }
+    }
+
+    private handlePermissionError(pageKey: string) {
+        // Clear all cached data for this query since we do not have permission
+        this.cachedData.delete(pageKey);
+        // Optionally emit and empty array to clear the view
+        this.dataStreamSubject.next([]);
+        this.articlesTotal = 0;
+    }
+
+    private updateCacheWithError(page: number, pageKey: string) {
+        // You can either leave the page empty or mark items as error placeholders
+        let existingData = this.cachedData.get(JSON.stringify(pageKey));
+        if (!existingData) {
+            existingData = Array.from<IArticlePartial>({ length: this.cachedDataLength });
+            this.cachedData.set(JSON.stringify(pageKey), existingData);
+        }
+
+        // Mark this page's items as null/undefined to indicate error
+        const errorItems = Array.from<IArticlePartial>({ length: this.limit });
+        existingData.splice(page * this.limit, this.limit, ...errorItems);
+        this.cachedData.set(JSON.stringify(pageKey), existingData);
+        this.dataStreamSubject.next(existingData);
+    }
+
+    // Public method to retry failed pages
+    public retryFailedPages() {
+        const currentQuery = this.querySubject.value;
+        const failedPagesArray = Array.from(this.failedPages);
+
+        // Clear failed pages
+        this.failedPages.clear();
+
+        // Retry each failed page
+        failedPagesArray.forEach((pageKey) => {
+            const match = pageKey.match(/_page_(\d+)$/);
+            if (match) {
+                const pageNumber = parseInt(match[1], 10);
+                this.fetchPage(pageNumber, currentQuery);
+            }
+        });
     }
 
     override disconnect(): void {
-        this.subscriptions.forEach((s) => s.unsubscribe());
+        for (const s of this.subscriptions) {
+            s.unsubscribe();
+        }
     }
 
     private getPageForIndex(index: number) {
@@ -65,5 +207,18 @@ export default class BlogDataSource extends DataSource<IArticlePartial> {
 
     public setQuery(query: IArticleQueryInput) {
         this.querySubject.next(query);
+    }
+
+    private setLoading(loading: boolean) {
+        this.loadingSubject.next(loading);
+    }
+
+    private setError(dataSourceError: IDataSourceError) {
+        this.errorsSubject.next(dataSourceError);
+    }
+
+    // Public method to clear errors
+    public clearErrors() {
+        this.failedPages.clear();
     }
 }
