@@ -18,8 +18,8 @@ pipeline {
         //   }
         //   steps {
         //       container('node-git-chromium') {
-        //         sh 'yarn'
-        //         sh 'yarn test:headless'
+        //         sh 'pnpm'
+        //         sh 'pnpm test:headless'
         //       }
         //   } // }
         stage('Bump version') {
@@ -62,8 +62,8 @@ pipeline {
         container('node-git-chromium') {
           sh '''
             echo 'Building the app...'
-            yarn
-            yarn build
+            pnpm install
+            pnpm build
           '''
         }
       }
