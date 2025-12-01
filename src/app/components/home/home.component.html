@@ -2,12 +2,13 @@
     <app-intro [isAnimationFinished]="(isAnimationFinished$ | async) || false"></app-intro>
     @if (!!(isAnimationFinished$ | async) === true) {
         <h3 class="latest-articles info">Latest articles...</h3>
-        <app-article
-            [isAnimationFinished]="(isAnimationFinished$ | async) || false"
-            *ngFor="let article of articles()"
-            [articleInput]="article"
-            [isPreview]="true"
-            [selectedLanguage]="selectedLanguage()"
-        ></app-article>
+        @for (article of articles(); track article.slug) {
+            <app-article
+                [isAnimationFinished]="(isAnimationFinished$ | async) || false"
+                [articleInput]="article"
+                [isPreview]="true"
+                [selectedLanguage]="selectedLanguage()"
+            ></app-article>
+        }
     }
 </section>

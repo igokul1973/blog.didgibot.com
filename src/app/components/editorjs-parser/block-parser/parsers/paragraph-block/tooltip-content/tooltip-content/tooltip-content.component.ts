@@ -7,6 +7,6 @@ import { Component, Input } from '@angular/core';
     styleUrl: './tooltip-content.component.scss'
 })
 export class TooltipContentComponent {
-    @Input() title: string = 'Generic title';
-    @Input() definition: string = 'Generic definition';
+    @Input() title = 'Generic title';
+    @Input() definition = 'Generic definition';
 }

@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { IOutputBlockData } from '../../../types';
-import { TEditorJsRaw } from './types';
+import { IEditorJsRaw } from './types';
 
 @Component({
     selector: 'app-raw-block',
@@ -16,7 +16,7 @@ import { TEditorJsRaw } from './types';
     ]
 })
 export class RawBlockComponent implements OnInit {
-    @Input() item!: IOutputBlockData<TEditorJsRaw>;
+    @Input() item!: IOutputBlockData<IEditorJsRaw>;
     private readonly sanitizer = inject(DomSanitizer);
     protected code: SafeHtml = '';
 

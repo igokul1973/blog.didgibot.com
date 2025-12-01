@@ -1,5 +1,4 @@
 import { ApplicationConfig, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withRouterConfig } from '@angular/router';
 
 import { provideHttpClient } from '@angular/common/http';
@@ -10,7 +9,6 @@ import { graphqlProvider } from './graphql.provider';
 import { ConfigService } from './services/config/config.service';
 
 const ngxHighlightJsOptions = {
-    // fullLibraryLoader: () => import('highlight.js'),
     coreLibraryLoader: () => import('highlight.js/lib/core'),
     lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'), // Optional, add line numbers if needed
     languages: {
@@ -25,12 +23,10 @@ const ngxHighlightJsOptions = {
 
 export const appConfig: ApplicationConfig = {
     providers: [
-        provideAnimations(),
         provideZoneChangeDetection({ eventCoalescing: true }),
         ConfigService,
         provideAppInitializer(initializeApp),
         provideRouter(routes, withRouterConfig({ paramsInheritanceStrategy: 'always' })),
-        // provideRouter(routes),
         provideHttpClient(),
         graphqlProvider,
         provideHighlightOptions(ngxHighlightJsOptions)

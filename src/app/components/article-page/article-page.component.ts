@@ -1,11 +1,11 @@
 import { ArticleService } from '@/app/services/article/article.service';
 import { transformRawArticle } from '@/utils/transformers';
 import { AsyncPipe } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client/core';
+import { ApolloClient } from '@apollo/client';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, first, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { IArticlePartial, IRawArticle } from 'types/article';
 import { ArticleComponent } from '../article/article.component';
 
@@ -22,15 +22,12 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     public slug$ = this.slugSubject$.asObservable();
     private readonly articleSubject$ = new BehaviorSubject<IArticlePartial | null>(null);
     public article$ = this.articleSubject$.asObservable();
-    private client!: ApolloClient<NormalizedCacheObject>;
+    private client!: ApolloClient;
     private readonly unsubscribed$ = new Subject<void>();
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly apollo = inject(Apollo);
+    private readonly articleService = inject(ArticleService);
     protected selectedLanguage = this.articleService.selectedLanguage;
-
-    constructor(
-        private readonly activatedRoute: ActivatedRoute,
-        private readonly apollo: Apollo,
-        private readonly articleService: ArticleService
-    ) {}
 
     ngOnInit(): void {
         this.client = this.apollo.client;
@@ -46,7 +43,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
                 if (!slug) {
                     return;
                 }
-                let article = this.client.readFragment<IRawArticle>({
+                const article = this.client.readFragment<IRawArticle>({
                     id: `ArticleType:${slug}`,
                     fragment: gql`
                         fragment Z on ArticleType {
@@ -82,18 +79,15 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
                 });
 
                 if (!article) {
-                    this.articleService
-                        .getArticleBySlug(slug)
-                        .pipe(first())
-                        .subscribe({
-                            next: (article: IArticlePartial | null) => {
-                                if (!article) {
-                                    return;
-                                }
-                                this.setArticle$(article);
-                            },
-                            error: (err: any) => console.error('Error fetching article:', err)
-                        });
+                    this.articleService.getArticleBySlug(slug).subscribe({
+                        next: (article: IArticlePartial | null) => {
+                            if (!article) {
+                                return;
+                            }
+                            this.setArticle$(article);
+                        },
+                        error: (err: unknown) => console.error('Error fetching article:', err)
+                    });
                 } else {
                     const transformedArticle = transformRawArticle(article);
                     this.setArticle$(transformedArticle);

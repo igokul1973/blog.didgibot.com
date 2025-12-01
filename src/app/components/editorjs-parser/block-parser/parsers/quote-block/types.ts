@@ -1,8 +1,8 @@
-export type TEditorJsQuote = {
+export interface IEditorJsQuote {
     text: string;
     caption: string;
     alignment: QuoteAlignmentEnum;
-};
+}
 
 export enum QuoteAlignmentEnum {
     left = 'left',
@@ -10,7 +10,7 @@ export enum QuoteAlignmentEnum {
     right = 'right'
 }
 
-export type TQuoteConfig = {
+export interface IQuoteConfig {
     classNames: {
         alignCenter?: string;
         alignRight?: string;
@@ -18,4 +18,4 @@ export type TQuoteConfig = {
         quote?: string;
         caption?: string;
     };
-};
+}

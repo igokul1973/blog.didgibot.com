@@ -1,6 +1,6 @@
 import { ArticleService } from '@/app/services/article/article.service';
 import { UrlService } from '@/app/services/url/url.service';
-import { Component, OnDestroy, OnInit, OutputRefSubscription } from '@angular/core';
+import { Component, OnDestroy, OnInit, OutputRefSubscription, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,13 +17,12 @@ import { LanguageEnum } from 'types/translation';
 })
 export class LanguageSwitcherComponent implements OnInit, OnDestroy {
     protected languageEnum = LanguageEnum;
-    protected selectedLanguage = this.articleService.selectedLanguage;
-    private readonly subscriptions: Array<Subscription | OutputRefSubscription> = [];
-
-    constructor(
-        private readonly articleService: ArticleService,
-        private readonly urlService: UrlService
-    ) {}
+    protected get selectedLanguage() {
+        return this.articleService.selectedLanguage;
+    }
+    private readonly subscriptions: (Subscription | OutputRefSubscription)[] = [];
+    private readonly articleService = inject(ArticleService);
+    private readonly urlService = inject(UrlService);
 
     ngOnInit(): void {
         this.subscriptions.push(

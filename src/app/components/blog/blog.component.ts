@@ -36,6 +36,7 @@ export class BlogComponent implements OnInit, OnDestroy {
     public currentError: IDataSourceError | null = null;
     public isLoading = false;
     private subscriptions: Subscription[] = [];
+    private readonly snackBar = inject(MatSnackBar);
 
     public ds = new BlogDataSource(this.articleService, {
         entityName: 'article',
@@ -44,8 +45,6 @@ export class BlogComponent implements OnInit, OnDestroy {
         limit: this.limit,
         skip: 0
     });
-
-    constructor(private snackBar: MatSnackBar) {}
 
     ngOnInit(): void {
         this.subscriptions.push(
@@ -84,7 +83,7 @@ export class BlogComponent implements OnInit, OnDestroy {
         );
     }
 
-    private showError(message: string, duration: number, action: string = 'Close'): MatSnackBarRef<TextOnlySnackBar> {
+    private showError(message: string, duration: number, action = 'Close'): MatSnackBarRef<TextOnlySnackBar> {
         return this.snackBar.open(message, action, {
             duration,
             horizontalPosition: 'right',
@@ -95,21 +94,25 @@ export class BlogComponent implements OnInit, OnDestroy {
 
     private handleError(error: IDataSourceError) {
         switch (error.type) {
-            case DataSourceErrorsEnum.NETWORK_ERROR:
+            case DataSourceErrorsEnum.NETWORK_ERROR: {
                 const snackbarRef = this.showError('Network error occurred. Retry?', 5000, 'Retry');
                 snackbarRef.onAction().subscribe(() => {
                     this.retryFailed();
                 });
                 break;
-            case DataSourceErrorsEnum.SERVER_ERROR:
+            }
+            case DataSourceErrorsEnum.SERVER_ERROR: {
                 this.showError('Server error occurred.', 5000);
                 break;
-            case DataSourceErrorsEnum.PERMISSION_DENIED:
+            }
+            case DataSourceErrorsEnum.PERMISSION_DENIED: {
                 this.showError('Permission denied!', 5000);
                 break;
-            case DataSourceErrorsEnum.UNKNOWN:
+            }
+            case DataSourceErrorsEnum.UNKNOWN: {
                 this.showError('An unknown error occurred.', 5000);
                 break;
+            }
         }
     }
 

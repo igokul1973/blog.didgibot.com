@@ -1,6 +1,6 @@
 import { RuDatePipe } from '@/app/pipes/ru-date.pipe';
 import { CommonModule, DatePipe, Location } from '@angular/common';
-import { Component, input, Input, linkedSignal } from '@angular/core';
+import { Component, inject, input, Input, linkedSignal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
@@ -8,7 +8,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IArticlePartial } from 'types/article';
 import { LanguageEnum } from 'types/translation';
 import { BlockParserComponent } from '../editorjs-parser/block-parser/block-parser.component';
-import { TCodeLanguage } from '../editorjs-parser/block-parser/parsers/code-block/types';
+import { ICodeLanguage } from '../editorjs-parser/block-parser/parsers/code-block/types';
 
 @Component({
     selector: 'app-article',
@@ -23,10 +23,10 @@ export class ArticleComponent {
     protected translationSignal = linkedSignal(() =>
         this.articleInput()?.translations.find((t) => t.language === this.selectedLanguage())
     );
-    @Input() isAnimationFinished: boolean = false;
-    @Input() isPreview: boolean = false;
+    @Input() isAnimationFinished = false;
+    @Input() isPreview = false;
 
-    protected blockParserConfig: { code: { languages: TCodeLanguage[]; showLineNumbers: boolean } } = {
+    protected blockParserConfig: { code: { languages: ICodeLanguage[]; showLineNumbers: boolean } } = {
         code: {
             languages: [
                 {
@@ -63,7 +63,6 @@ export class ArticleComponent {
                     shortName: 'groovy',
                     language: 'groovy',
                     logoSrc: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/groovy/groovy-original.svg',
-                    // "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jenkins/jenkins-original.svg" />
                     logoAlt: 'Jenkinsfile Groovy language',
                     displayText: 'Jenkinsfile/Groovy'
                 },
@@ -115,10 +114,8 @@ export class ArticleComponent {
         }
     };
 
-    constructor(
-        private readonly location: Location,
-        private readonly activatedRoute: ActivatedRoute
-    ) {}
+    private readonly location = inject(Location);
+    private readonly activatedRoute = inject(ActivatedRoute);
 
     goBack() {
         this.location.back();

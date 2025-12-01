@@ -1,9 +1,9 @@
 import { IOutputBlockData } from '@/app/components/editorjs-parser/types';
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { AlertAlignmentEnum, AlertTypeEnum, TAlertConfig, TEditorJsAlert } from './types';
+import { AlertAlignmentEnum, AlertTypeEnum, IAlertConfig, IEditorJsAlert } from './types';
 
-const defaultAlertConfig: TAlertConfig = {
+const defaultAlertConfig: IAlertConfig = {
     classNames: {
         baseElement: 'mt-2 p-2 mt-2 px-4 flex bg-opacity-50 shadow-sm rounded-lg',
         info: 'mt-2 bg-gray-300 text-gray-600',
@@ -26,9 +26,9 @@ const defaultAlertConfig: TAlertConfig = {
     styleUrl: './alert-block.component.scss'
 })
 export class AlertBlockComponent implements OnInit {
-    @Input() item!: IOutputBlockData<TEditorJsAlert>;
-    @Input() config?: TAlertConfig = defaultAlertConfig;
-    private currentConfig: TAlertConfig = { ...defaultAlertConfig, ...this.config };
+    @Input() item!: IOutputBlockData<IEditorJsAlert>;
+    @Input() config?: IAlertConfig = defaultAlertConfig;
+    private currentConfig: IAlertConfig = { ...defaultAlertConfig, ...this.config };
     public classNames = this.currentConfig.classNames;
     public alertTypeClass?: string;
     public alertAlignmentClass?: string;

@@ -1,14 +1,14 @@
 import { IOutputBlockData } from '@/app/components/editorjs-parser/types';
 
-export type TEditorJsParagraph = {
+export interface IEditorJsParagraph {
     text: string;
-};
+}
 
-export type TParagraphConfig = {
+export interface IParagraphConfig {
     className?: string;
-};
+}
 
 export interface IParagraphProps {
-    item: IOutputBlockData<TEditorJsParagraph>;
-    config?: TParagraphConfig;
+    item: IOutputBlockData;
+    config?: IParagraphConfig;
 }

@@ -1,6 +1,20 @@
-<h1 *ngIf="item.data.level === 1 || !item.data.level">{{ item.data.text }}</h1>
-<h2 *ngIf="item.data.level === 2">{{ item.data.text }}</h2>
-<h3 *ngIf="item.data.level === 3">{{ item.data.text }}</h3>
-<h4 *ngIf="item.data.level === 4">{{ item.data.text }}</h4>
-<h5 *ngIf="item.data.level === 5">{{ item.data.text }}</h5>
-<h6 *ngIf="item.data.level === 6">{{ item.data.text }}</h6>
+@switch (item.data.level) {
+    @case (1) {
+        <h1>{{ item.data.text }}</h1>
+    }
+    @case (2) {
+        <h2>{{ item.data.text }}</h2>
+    }
+    @case (3) {
+        <h3>{{ item.data.text }}</h3>
+    }
+    @case (4) {
+        <h4>{{ item.data.text }}</h4>
+    }
+    @case (5) {
+        <h5>{{ item.data.text }}</h5>
+    }
+    @case (6) {
+        <h6>{{ item.data.text }}</h6>
+    }
+}

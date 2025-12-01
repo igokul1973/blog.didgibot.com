@@ -1,4 +1,8 @@
-<article class="cookie-consent-banner" [@slideIn]>
+<article
+    class="cookie-consent-banner cookie-banner"
+    [@animate.enter]="{ classes: ['cookie-banner-enter'] }"
+    [@animate.leave]="{ classes: ['cookie-banner-leave'] }"
+>
     <div class="cookie-content">
         <div class="cookie-text">
             <h3>Cookie Settings</h3>

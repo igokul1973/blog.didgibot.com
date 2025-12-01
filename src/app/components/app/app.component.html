@@ -1,10 +1,10 @@
 <app-header [routeName$]="routeName$!" [(mode)]="mode"></app-header>
 
-<ng-container *ngIf="routeName$ | async as routeName">
+@if (routeName$ | async; as routeName) {
     <section [ngClass]="['content', routeName]">
         <router-outlet></router-outlet>
     </section>
-</ng-container>
+}
 
 @if (isShowCookieConsentBanner()) {
     <app-cookie-consent></app-cookie-consent>

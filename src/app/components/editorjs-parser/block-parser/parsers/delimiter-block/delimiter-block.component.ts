@@ -1,9 +1,9 @@
 import { NgClass } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IOutputBlockData } from '../../../types';
-import { TDelimiterConfig } from './types';
+import { IDelimiterConfig } from './types';
 
-const defaultDelimiterConfig: TDelimiterConfig = {
+const defaultDelimiterConfig: IDelimiterConfig = {
     classNames: {
         container: 'grid my-8',
         delimiter: 'w-1/3 justify-self-center'
@@ -16,11 +16,11 @@ const defaultDelimiterConfig: TDelimiterConfig = {
     templateUrl: './delimiter-block.component.html',
     styleUrl: './delimiter-block.component.scss'
 })
-export class DelimiterBlockComponent {
-    @Input() item!: IOutputBlockData<{}>;
-    public currentConfig!: TDelimiterConfig;
+export class DelimiterBlockComponent implements OnInit {
+    @Input() item!: IOutputBlockData<Record<string, never>>;
+    public currentConfig!: IDelimiterConfig;
 
     ngOnInit(): void {
-        this.currentConfig = { ...defaultDelimiterConfig, ...this.item };
+        this.currentConfig = { ...defaultDelimiterConfig, ...(this.item.data as unknown as IDelimiterConfig) };
     }
 }

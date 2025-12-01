@@ -1,10 +1,10 @@
 import { IOutputBlockData } from '@/app/components/editorjs-parser/types';
 
-export type TErrorConfig = {
+export interface IErrorConfig {
     className?: string;
-};
+}
 
 export interface IErrorProps {
     item: IOutputBlockData;
-    config?: TErrorConfig;
+    config?: IErrorConfig;
 }

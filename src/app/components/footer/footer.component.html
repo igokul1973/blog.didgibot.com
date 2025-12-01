@@ -1,5 +1,14 @@
 <footer class="footer">
     <p class="copywrite">&copy; {{ year }} Didgibot.com</p>
     <p class="copywrite">v.{{ appVersion }}</p>
-    <a class="copywrite" (click)="openCookieSettings()">Cookie settings</a>
+    <a
+        class="copywrite"
+        href="#"
+        role="button"
+        tabindex="0"
+        (click)="openCookieSettings()"
+        (keyup.enter)="openCookieSettings()"
+    >
+        Cookie settings
+    </a>
 </footer>

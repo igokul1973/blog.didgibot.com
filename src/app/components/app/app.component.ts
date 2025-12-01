@@ -2,7 +2,7 @@ import { AnalyticsService } from '@/app/services/analytics/analytics.service';
 import { ArticleService } from '@/app/services/article/article.service';
 import { CookieConsentService } from '@/app/services/cookie/cookie-consent.service';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, effect, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, map, mergeMap, Observable, of, switchMap } from 'rxjs';
 import { InitializationService } from '../../services/initialization/initialization.service';
@@ -29,16 +29,15 @@ export class AppComponent implements OnInit, AfterViewInit {
     protected routeName$: Observable<string> | null = null;
     protected urlPath$: Observable<string> | null = null;
     protected mode = signal('light');
+    private readonly router = inject(Router);
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly analyticsService = inject(AnalyticsService);
+    private readonly initializationService = inject(InitializationService);
+    private readonly articleService = inject(ArticleService);
+    private readonly cookieConsentService = inject(CookieConsentService);
     protected isShowCookieConsentBanner = this.cookieConsentService.isShowBanner;
 
-    constructor(
-        private readonly router: Router,
-        private readonly activatedRoute: ActivatedRoute,
-        private readonly analyticsService: AnalyticsService,
-        private readonly initializationService: InitializationService,
-        private readonly articleService: ArticleService,
-        private readonly cookieConsentService: CookieConsentService
-    ) {
+    constructor() {
         effect(() => {
             if (this.mode() === 'dark') {
                 document.body.classList.add('dark');
@@ -91,7 +90,6 @@ export class AppComponent implements OnInit, AfterViewInit {
             })
             .subscribe({
                 next: (homePageArticles) => {
-                    console.log('The value has changed!');
                     this.articleService.homePageArticles.set(homePageArticles);
                 },
                 error: (error) => {

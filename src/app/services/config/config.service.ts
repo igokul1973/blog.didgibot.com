@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Injectable, inject } from '@angular/core';
 import { firstValueFrom, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -9,8 +8,7 @@ import { catchError } from 'rxjs/operators';
 })
 export class ConfigService {
     private config: Record<string, unknown> = {};
-
-    constructor(private readonly http: HttpClient) {}
+    private readonly http = inject(HttpClient);
 
     async loadConfig() {
         const data = (await firstValueFrom(

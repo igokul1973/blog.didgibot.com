@@ -1,9 +1,8 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { BlockToolTypeEnum, IOutputBlockData } from '../../../types';
-import { IListItem, ListStyleEnum, TEditorJsList, TListConfig } from './types';
+import { IEditorJsList, IListConfig, IListItem, ListStyleEnum } from './types';
 
-const defaultListConfig: TListConfig = {
+const defaultListConfig: IListConfig = {
     classNames: {
         unordered: 'list-disc ml-7',
         ordered: 'list-decimal ml-7'
@@ -12,15 +11,15 @@ const defaultListConfig: TListConfig = {
 
 @Component({
     selector: 'app-list-block',
-    imports: [NgFor, NgIf, ListBlockComponent],
+    imports: [ListBlockComponent],
     templateUrl: './list-block.component.html',
     styleUrl: './list-block.component.scss'
 })
 export class ListBlockComponent implements OnInit {
-    @Input() item!: IOutputBlockData<TEditorJsList>;
-    @Input() config?: TListConfig;
-    public currentConfig!: TListConfig;
-    public currentClasses!: TListConfig['classNames'];
+    @Input() item!: IOutputBlockData<IEditorJsList>;
+    @Input() config?: IListConfig;
+    public currentConfig!: IListConfig;
+    public currentClasses!: IListConfig['classNames'];
     public listElements: string[] = [];
     public readonly blockToolTypeEnum = BlockToolTypeEnum;
 

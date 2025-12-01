@@ -4,9 +4,9 @@ import { AfterViewInit, Component, ElementRef, inject, Input, OnInit, Renderer2,
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TooltipService } from './tooltip-service.service';
-import { TEditorJsParagraph, TParagraphConfig } from './types';
+import { IEditorJsParagraph, IParagraphConfig } from './types';
 
-const defaultParagraphConfig: TParagraphConfig = {
+const defaultParagraphConfig: IParagraphConfig = {
     className: 'mt-1'
 };
 
@@ -17,13 +17,13 @@ const defaultParagraphConfig: TParagraphConfig = {
     styleUrl: './paragraph-block.component.scss'
 })
 export class ParagraphBlockComponent implements OnInit, AfterViewInit {
-    @Input() item!: IOutputBlockData<TEditorJsParagraph>;
-    @Input() config?: TParagraphConfig = defaultParagraphConfig;
+    @Input() item!: IOutputBlockData<IEditorJsParagraph>;
+    @Input() config?: IParagraphConfig = defaultParagraphConfig;
     @ViewChild('para') para?: ElementRef<HTMLParagraphElement>;
     private readonly renderer = inject(Renderer2);
     private readonly tooltipService = inject(TooltipService);
     private readonly sanitizer = inject(DomSanitizer);
-    public currentConfig: TParagraphConfig = { ...defaultParagraphConfig, ...this.config };
+    public currentConfig: IParagraphConfig = { ...defaultParagraphConfig, ...this.config };
     public message: SafeHtml = '';
 
     ngOnInit(): void {

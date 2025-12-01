@@ -18,25 +18,25 @@ export interface IListItem {
 
 export type TListItems = IListItem[] | string[];
 
-export type TEditorJsList = {
+export interface IEditorJsList {
     style: ListStyleEnum;
     meta: object;
     items: NgIterable<IListItem | string>;
-};
+}
 
 export enum ListStyleEnum {
     ordered = 'ordered',
     unordered = 'unordered'
 }
 
-export type TListConfig = {
+export interface IListConfig {
     classNames: {
         unordered?: string;
         ordered?: string;
     };
-};
+}
 
 export interface IListProps {
-    item: IOutputBlockData<TEditorJsList>;
-    config?: TListConfig;
+    item: IOutputBlockData;
+    config?: IListConfig;
 }

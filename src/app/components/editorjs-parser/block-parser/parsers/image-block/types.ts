@@ -1,6 +1,6 @@
 import { IOutputBlockData } from '@/app/components/editorjs-parser/types';
 
-export type TEditorJsImage = {
+export interface IEditorJsImage {
     file: {
         url: string;
     };
@@ -8,9 +8,9 @@ export type TEditorJsImage = {
     withBorder: boolean;
     stretched: boolean;
     withBackground: boolean;
-};
+}
 
-export type TImageConfig = {
+export interface IImageConfig {
     classNames?: {
         container?: string;
         image?: string;
@@ -19,9 +19,9 @@ export type TImageConfig = {
         width?: number | string;
         height?: number | string;
     };
-};
+}
 
 export interface IImageProps {
-    item: IOutputBlockData<TEditorJsImage>;
-    config?: TImageConfig;
+    item: IOutputBlockData;
+    config?: IImageConfig;
 }

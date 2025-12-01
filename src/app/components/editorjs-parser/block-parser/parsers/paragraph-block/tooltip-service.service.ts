@@ -1,6 +1,6 @@
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TooltipContentComponent } from './tooltip-content/tooltip-content/tooltip-content.component';
 
 @Injectable({
@@ -8,8 +8,7 @@ import { TooltipContentComponent } from './tooltip-content/tooltip-content/toolt
 })
 export class TooltipService {
     private overlayRef?: OverlayRef;
-
-    constructor(private readonly overlay: Overlay) {}
+    private readonly overlay = inject(Overlay);
 
     show(element: Element, title: string, definition: string) {
         this.hide();

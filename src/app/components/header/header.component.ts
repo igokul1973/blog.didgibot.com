@@ -5,6 +5,7 @@ import {
     Component,
     ElementRef,
     HostListener,
+    inject,
     Input,
     model,
     OnDestroy,
@@ -58,19 +59,25 @@ import { SearchFieldComponent } from '../search-field/search-field.component';
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() routeName$!: Observable<string>;
-    @Input() urlPath: string = '';
+    @Input() urlPath = '';
     @ViewChild('headerToolbarWrapper', { read: ElementRef }) headerToolbarWrapper!: ElementRef<HTMLDivElement>;
     @ViewChild('mobileMenu', { read: ElementRef }) mobileMenu!: ElementRef<HTMLDivElement>;
     @ViewChild('sandwich', { read: ElementRef }) sandwich!: ElementRef<HTMLDivElement>;
+
+    private readonly router = inject(Router);
+    private readonly initializationService = inject(InitializationService);
+    private readonly articleService = inject(ArticleService);
 
     public mode = model('light');
     public isOpen = signal<boolean>(false);
     public isAnimationFinished$: Observable<boolean> = this.initializationService.isAnimationFinished$;
     public searchQuery = signal('');
     private readonly search$ = toObservable(this.searchQuery);
-    private readonly subscriptions: Subscription[] = [];
+
     protected readonly selectedLanguage = this.articleService.selectedLanguage;
     protected isExpanded = signal(false);
+
+    private readonly subscriptions: Subscription[] = [];
 
     @HostListener('document:mousedown', ['$event'])
     @HostListener('document:touchstart', ['$event'])
@@ -86,12 +93,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
             this.isOpen.set(false);
         }
     }
-
-    constructor(
-        private readonly router: Router,
-        private readonly initializationService: InitializationService,
-        private readonly articleService: ArticleService
-    ) {}
 
     /**
      * Subscribe to search$ observable and articleService's searchQuery$ observable.

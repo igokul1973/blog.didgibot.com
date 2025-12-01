@@ -1,20 +1,26 @@
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import localizedFormat from 'dayjs/plugin/localizedFormat';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
+import type { DeepPartial } from '@apollo/client/utilities';
+import dayjs from 'dayjs/esm';
+import customParseFormat from 'dayjs/esm/plugin/customParseFormat';
+import localizedFormat from 'dayjs/esm/plugin/localizedFormat';
+import timezone from 'dayjs/esm/plugin/timezone';
+import utc from 'dayjs/esm/plugin/utc';
 import { IArticle, IArticlePartial, IRawArticle } from 'types/article';
 import { ICategory, IRawCategory } from 'types/category';
 import { IRawTag, ITag } from 'types/tag';
-import { IArticleTranslation, IContent, IRawArticleTranslation } from 'types/translation';
+import { IArticleTranslation, IContent, IContentBlock, IRawArticleTranslation } from 'types/translation';
 
 dayjs.extend(utc);
 dayjs.extend(localizedFormat);
 dayjs.extend(customParseFormat);
 dayjs.extend(timezone);
 
-export const transformRawCategory = (category: IRawCategory, isRemoveDateFields = false): ICategory => {
-    let { id, name, created_at, updated_at } = category;
+export const transformRawCategory = (category: DeepPartial<IRawCategory>, isRemoveDateFields = false): ICategory => {
+    const { id, name, created_at, updated_at } = category;
+
+    if (!id || !name) {
+        throw new Error('Category must have id and name');
+    }
+
     let c: ICategory = { id, name };
 
     if (!isRemoveDateFields) {
@@ -27,12 +33,13 @@ export const transformRawCategory = (category: IRawCategory, isRemoveDateFields 
     return c;
 };
 
-export const transformRawCategories = (categories: IRawCategory[], isRemoveDateFields = false): ICategory[] => {
-    return categories.map((category) => transformRawCategory(category, isRemoveDateFields));
-};
+export const transformRawTag = (tag: DeepPartial<IRawTag>, isRemoveDateFields = false): ITag => {
+    const { id, name, created_at, updated_at } = tag;
 
-export const transformRawTag = (tag: IRawTag, isRemoveDateFields = false): ITag => {
-    let { id, name, created_at, updated_at } = tag;
+    if (!id || !name) {
+        throw new Error('Tag must have id and name');
+    }
+
     let t: ITag = { id, name };
 
     if (!isRemoveDateFields) {
@@ -45,15 +52,20 @@ export const transformRawTag = (tag: IRawTag, isRemoveDateFields = false): ITag 
     return t;
 };
 
-export const transformRawTags = (tags: IRawTag[], isRemoveDateFields = false): ITag[] => {
-    return tags.map((tag) => transformRawTag(tag, isRemoveDateFields));
+export const transformRawTags = (tags: (DeepPartial<IRawTag> | undefined)[], isRemoveDateFields = false): ITag[] => {
+    const filteredTags = tags.filter((tag): tag is DeepPartial<IRawTag> => tag !== undefined);
+    return filteredTags.map((tag) => transformRawTag(tag, isRemoveDateFields));
 };
 
-export function transformRawContent(rawContent: IContent) {
-    const { __typename, version, time, blocks, ...content } = rawContent;
-    const transformedBlocks = [];
-    for (const block of blocks) {
-        const { __typename, ...blockRest } = block;
+export function transformRawContent(rawContent: DeepPartial<IContent>) {
+    const { __typename: _typename, version, time, blocks, ...content } = rawContent;
+    const filteredBlocks =
+        blocks?.filter((block): block is IContentBlock => !!block && !!block.type && !!block.data) || [];
+    void _typename;
+    const transformedBlocks: IContent['blocks'] = [];
+    for (const block of filteredBlocks) {
+        const { __typename: _blockTypename, ...blockRest } = block;
+        void _blockTypename;
         transformedBlocks.push(blockRest);
     }
 
@@ -74,12 +86,15 @@ export function transformRawContent(rawContent: IContent) {
 }
 
 export const transformRawTranslations = (
-    translations: IRawArticleTranslation[],
+    translations: DeepPartial<IRawArticleTranslation>[],
     removeTranslationFields: (keyof IArticleTranslation)[] = [],
     isRemoveDateFields = false
-) => {
-    return translations.map((t) => {
+): Partial<IArticleTranslation>[] => {
+    return translations.filter(Boolean).map((t) => {
         const { is_published, published_at, category: rawCategory, content: rawContent, tags: rawTags, ...rest } = t;
+        if (!rawCategory || !rawContent || !rawTags) {
+            throw new Error('category, content, and tags are required for translation transformation');
+        }
 
         const category = transformRawCategory(rawCategory, isRemoveDateFields);
         const tags = transformRawTags(rawTags, isRemoveDateFields);
@@ -102,7 +117,7 @@ export const transformRawTranslations = (
             >((acc, key) => {
                 if (!removeTranslationFields.includes(key)) {
                     const s = transformedTranslation[key];
-                    // @ts-expect-error
+                    // @ts-expect-error - assigning dynamic key from transformedTranslation
                     acc[key] = s;
                 }
                 return acc;
@@ -116,13 +131,18 @@ export const transformRawTranslations = (
 };
 
 export const transformRawArticle = (
-    article: IRawArticle,
+    article: DeepPartial<IRawArticle>,
     removeTranslationFields: (keyof IArticle['translations'][number] | '__typename')[] = [],
     isRemoveDateFields = false
 ): IArticlePartial => {
-    const { translations: rawTranslations, created_at, updated_at, ...rest } = article;
-    const translations = transformRawTranslations(rawTranslations, removeTranslationFields, isRemoveDateFields);
+    const { id, translations: rawTranslations, created_at, updated_at, ...rest } = article;
+    if (!id || !created_at || !updated_at) {
+        throw new Error('"id", "created_at" and "updated_at" are required for article transformation');
+    }
+    const filteredTranslations = rawTranslations?.filter(Boolean) as DeepPartial<IRawArticleTranslation>[];
+    const translations = transformRawTranslations(filteredTranslations, removeTranslationFields, isRemoveDateFields);
     let a: IArticlePartial = {
+        id,
         translations,
         ...rest
     };
@@ -136,10 +156,4 @@ export const transformRawArticle = (
     }
 
     return a;
-};
-
-export const transformRawArticles = (rawArticles: IRawArticle[]): IArticlePartial[] => {
-    return rawArticles.map((rawArticle: IRawArticle): IArticlePartial => {
-        return transformRawArticle(rawArticle);
-    });
 };

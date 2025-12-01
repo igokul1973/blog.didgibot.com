@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
@@ -8,7 +8,7 @@ import { MatIcon } from '@angular/material/icon';
     styleUrl: './scroll-to-top.component.scss',
     imports: [MatFabButton, MatIcon]
 })
-export class ScrollToTopComponent {
+export class ScrollToTopComponent implements AfterViewInit {
     protected showButton = false;
 
     ngAfterViewInit() {

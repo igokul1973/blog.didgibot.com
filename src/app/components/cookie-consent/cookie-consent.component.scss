@@ -145,3 +145,27 @@
         min-width: 120px;
     }
 }
+
+.cookie-banner {
+    /* final visible state */
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ENTER: from bottom over 700ms ease-out */
+.cookie-banner-enter {
+    transform: translateY(100%);
+    opacity: 0;
+    transition:
+        transform 700ms ease-out,
+        opacity 700ms ease-out;
+}
+
+/* LEAVE: to bottom over 300ms ease-in */
+.cookie-banner-leave {
+    transform: translateY(100%);
+    opacity: 0;
+    transition:
+        transform 300ms ease-in,
+        opacity 300ms ease-in;
+}

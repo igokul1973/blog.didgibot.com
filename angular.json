@@ -4,7 +4,10 @@
     "newProjectRoot": "projects",
     "cli": {
         "packageManager": "pnpm",
-        "analytics": false
+        "analytics": false,
+        "schematicCollections": [
+            "angular-eslint"
+        ]
     },
     "projects": {
         "dgb-blog": {
@@ -127,6 +130,15 @@
                             "./node_modules/highlight.js/styles/github.css"
                         ],
                         "scripts": []
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": [
+                            "src/**/*.ts",
+                            "src/**/*.html"
+                        ]
                     }
                 }
             }

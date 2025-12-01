@@ -1,20 +1,20 @@
 import { IBlockParserConfig, IOutputBlockData, IOutputData } from '@/app/components/editorjs-parser/types';
 
-export type TEditorJsColumns = {
+export interface IEditorJsColumns {
     cols: IOutputData[];
-};
+}
 
-export type TColumnsConfig = {
+export interface IColumnsConfig {
     classNames?: {
         outerContainer?: string;
         innerBlocksContainers?: string;
         twoColumns?: string;
         threeColumns?: string;
     };
-};
+}
 
 export interface IColumnsProps {
-    item: IOutputBlockData<TEditorJsColumns>;
-    config?: TColumnsConfig;
+    item: IOutputBlockData;
+    config?: IColumnsConfig;
     blockRendererConfig?: IBlockParserConfig;
 }

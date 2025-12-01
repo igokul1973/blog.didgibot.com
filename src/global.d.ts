@@ -1,1 +1,1 @@
-declare let gtag: Function;
+declare let gtag: (...args: unknown[]) => void;

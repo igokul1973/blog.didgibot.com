@@ -1,6 +1,7 @@
 import { ArticleService } from '@/app/services/article/article.service';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { ApolloError } from '@apollo/client/errors';
+import { CombinedGraphQLErrors, ServerError, ServerParseError } from '@apollo/client';
+import { GraphQLError } from 'graphql';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { IArticlePartial, IArticleQueryInput } from 'types/article';
 import { DataSourceErrorsEnum, IDataSourceError } from './types';
@@ -72,7 +73,7 @@ export default class BlogDataSource extends DataSource<IArticlePartial> {
         this.articleService.getArticles({ ...query, skip: page * this.limit }).subscribe({
             next: (response) => {
                 // Get or initialize the data array for this query
-                let data =
+                const data =
                     this.cachedData.get(pageKey) ?? Array.from<IArticlePartial>({ length: this.cachedDataLength });
 
                 // Calculate the insertion point and update the data array
@@ -87,7 +88,7 @@ export default class BlogDataSource extends DataSource<IArticlePartial> {
                 // Mark page as not failed in case of retries
                 this.failedPages.delete(pageKey);
             },
-            error: (error: ApolloError) => {
+            error: (error: GraphQLError) => {
                 this.setLoading(false);
 
                 // Mark page as failed to prevent retry loops
@@ -117,31 +118,53 @@ export default class BlogDataSource extends DataSource<IArticlePartial> {
         });
     }
 
-    private determineErrorType(error: ApolloError): DataSourceErrorsEnum {
-        if (error.networkError) {
-            // Network error occurred
-            return DataSourceErrorsEnum.NETWORK_ERROR;
-        }
-        if (error.graphQLErrors) {
-            if (error.cause?.extensions && 'error_code' in error.cause?.extensions) {
-                const errorCode = error.cause?.extensions['error_code'];
-                switch (errorCode) {
-                    case 401:
-                        return DataSourceErrorsEnum.PERMISSION_DENIED;
-                    case 404:
-                        return DataSourceErrorsEnum.NOT_FOUND;
-                    case 500:
-                        return DataSourceErrorsEnum.SERVER_ERROR;
-                    default:
-                        return DataSourceErrorsEnum.UNKNOWN;
+    private hasErrorCodeExtension(extensions: unknown): extensions is { error_code: number | string } {
+        return typeof extensions === 'object' && extensions !== null && 'error_code' in extensions;
+    }
+
+    private determineErrorType(error: unknown): DataSourceErrorsEnum {
+        // 1) GraphQL errors (HTTP 200 with `errors` array)
+        if (CombinedGraphQLErrors.is(error)) {
+            for (const graphQLError of error.errors as GraphQLError[]) {
+                if (this.hasErrorCodeExtension(graphQLError.extensions)) {
+                    const errorCode = Number(graphQLError.extensions.error_code);
+                    switch (errorCode) {
+                        case 401:
+                            return DataSourceErrorsEnum.PERMISSION_DENIED;
+                        case 404:
+                            return DataSourceErrorsEnum.NOT_FOUND;
+                        case 500:
+                            return DataSourceErrorsEnum.SERVER_ERROR;
+                        default:
+                            // keep checking other GraphQL errors
+                            break;
+                    }
                 }
+            }
+            // GraphQL errors present but no recognized error_code
+            return DataSourceErrorsEnum.UNKNOWN;
+        }
+
+        // 2) Network / HTTP layer errors (non‑200, parse failures, etc.)
+        if (ServerError.is(error) || ServerParseError.is(error)) {
+            const statusCode = (error as ServerError | ServerParseError).statusCode;
+            switch (statusCode) {
+                case 401:
+                    return DataSourceErrorsEnum.PERMISSION_DENIED;
+                case 404:
+                    return DataSourceErrorsEnum.NOT_FOUND;
+                case 500:
+                    return DataSourceErrorsEnum.SERVER_ERROR;
+                default:
+                    return DataSourceErrorsEnum.NETWORK_ERROR;
             }
         }
 
+        // 3) Fallback
         return DataSourceErrorsEnum.UNKNOWN;
     }
 
-    private getErrorMessage(error: any, errorType: DataSourceErrorsEnum): string {
+    private getErrorMessage(error: unknown, errorType: DataSourceErrorsEnum): string {
         switch (errorType) {
             case DataSourceErrorsEnum.PERMISSION_DENIED:
                 return 'You do not have permission to access these articles';
@@ -149,8 +172,15 @@ export default class BlogDataSource extends DataSource<IArticlePartial> {
                 return 'Network error. Please check your connection';
             case DataSourceErrorsEnum.NOT_FOUND:
                 return 'The requested articles could not be found';
-            default:
-                return error?.message || error?.error?.message || 'An error occurred while fetching articles';
+            default: {
+                if (typeof error === 'object' && error !== null) {
+                    const maybeError = error as { message?: string; error?: { message?: string } };
+                    return (
+                        maybeError.message || maybeError.error?.message || 'An error occurred while fetching articles'
+                    );
+                }
+                return 'An error occurred while fetching articles';
+            }
         }
     }
 

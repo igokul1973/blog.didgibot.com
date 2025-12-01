@@ -1,9 +1,9 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { IOutputBlockData } from '../../../types';
-import { QuoteAlignmentEnum, TEditorJsQuote, TQuoteConfig } from './types';
+import { IEditorJsQuote, IQuoteConfig, QuoteAlignmentEnum } from './types';
 
-const defaultQuoteConfig: TQuoteConfig = {
+const defaultQuoteConfig: IQuoteConfig = {
     classNames: {
         alignCenter: 'text-center',
         alignRight: 'text-right',
@@ -20,9 +20,9 @@ const defaultQuoteConfig: TQuoteConfig = {
     styleUrl: './quote-block.component.scss'
 })
 export class QuoteBlockComponent implements OnInit {
-    @Input() item!: IOutputBlockData<TEditorJsQuote>;
-    @Input() config?: TQuoteConfig = defaultQuoteConfig;
-    public currentConfig!: TQuoteConfig;
+    @Input() item!: IOutputBlockData<IEditorJsQuote>;
+    @Input() config?: IQuoteConfig = defaultQuoteConfig;
+    public currentConfig!: IQuoteConfig;
     public alertTypeClass?: string;
 
     ngOnInit(): void {

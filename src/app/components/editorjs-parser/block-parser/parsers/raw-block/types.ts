@@ -1,3 +1,3 @@
-export type TEditorJsRaw = {
+export interface IEditorJsRaw {
     html: string;
-};
+}

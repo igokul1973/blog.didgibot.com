@@ -1,10 +1,10 @@
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { IBlockParserConfig, IOutputBlockData, IOutputData } from '../../../types';
 import { BlockParserComponent } from '../../block-parser.component';
-import { TColumnsConfig, TEditorJsColumns } from './types';
+import { IColumnsConfig, IEditorJsColumns } from './types';
 
-const defaultColumnsConfig: TColumnsConfig = {
+const defaultColumnsConfig: IColumnsConfig = {
     classNames: {
         outerContainer: 'my-2 md:grid md:gap-4',
         innerBlocksContainers: 'self-center',
@@ -15,15 +15,15 @@ const defaultColumnsConfig: TColumnsConfig = {
 
 @Component({
     selector: 'app-columns-block',
-    imports: [NgFor, NgClass, forwardRef(() => BlockParserComponent)],
+    imports: [NgClass, forwardRef(() => BlockParserComponent)],
     templateUrl: './columns-block.component.html',
     styleUrl: './columns-block.component.scss'
 })
 export class ColumnsBlockComponent implements OnInit {
-    @Input() item!: IOutputBlockData<TEditorJsColumns>;
-    @Input() config?: TColumnsConfig;
+    @Input() item!: IOutputBlockData<IEditorJsColumns>;
+    @Input() config?: IColumnsConfig;
     @Input() blockRendererConfig?: IBlockParserConfig;
-    public currentConfig!: TColumnsConfig;
+    public currentConfig!: IColumnsConfig;
     public cols!: number;
     ngOnInit(): void {
         this.currentConfig = { ...defaultColumnsConfig, ...this.config };

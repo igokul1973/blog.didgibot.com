@@ -1,5 +1,5 @@
 import { CookieConsentService } from '@/app/services/cookie/cookie-consent.service';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import packageJson from '../../../../package.json';
 
 @Component({
@@ -9,10 +9,9 @@ import packageJson from '../../../../package.json';
     standalone: true
 })
 export class FooterComponent {
-    public appVersion: string = packageJson.version;
-    public year: number = new Date().getFullYear();
-
-    constructor(private readonly cookieConsentService: CookieConsentService) {}
+    public appVersion = packageJson.version;
+    public year = new Date().getFullYear();
+    private readonly cookieConsentService = inject(CookieConsentService);
 
     protected openCookieSettings() {
         this.cookieConsentService.openBanner();

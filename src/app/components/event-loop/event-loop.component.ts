@@ -238,7 +238,7 @@ export class EventLoopComponent implements AfterViewInit {
 
     private createSvgElement(tag: string, attrs: Record<string, string> = {}) {
         const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
-        for (let key in attrs) {
+        for (const key in attrs) {
             el.setAttribute(key, attrs[key]);
         }
         return el;

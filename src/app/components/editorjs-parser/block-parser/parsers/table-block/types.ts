@@ -1,19 +1,19 @@
 import { IOutputBlockData } from '@/app/components/editorjs-parser/types';
 
-export type TEditorJsTable = {
+export interface IEditorJsTable {
     with_headings: boolean;
-    content: Array<string[]>;
-};
+    content: string[][];
+}
 
-export type TTableConfig = {
+export interface ITableConfig {
     classNames: {
         tableHeader?: string;
         tableData?: string;
         table?: string;
     };
-};
+}
 
 export interface ITableProps {
-    item: IOutputBlockData<TEditorJsTable>;
-    config?: TTableConfig;
+    item: IOutputBlockData;
+    config?: ITableConfig;
 }

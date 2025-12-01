@@ -36,8 +36,11 @@
                 [ngClass]="{ info: mode() === 'light', 'header-icon': true }"
                 matTooltip="Brightness mode"
             >
-                <mat-icon *ngIf="mode() === 'light'">wb_sunny</mat-icon>
-                <mat-icon *ngIf="mode() === 'dark'">brightness_2</mat-icon>
+                @if (mode() === 'light') {
+                    <mat-icon>wb_sunny</mat-icon>
+                } @else if (mode() === 'dark') {
+                    <mat-icon>brightness_2</mat-icon>
+                }
             </button>
             <button
                 mat-icon-button
@@ -61,8 +64,11 @@
                 <div>
                     <span> Mode: </span>
                     <button mat-icon-button (click)="toggleMode()" [ngClass]="{ info: mode() === 'light' }">
-                        <mat-icon *ngIf="mode() === 'light'">wb_sunny</mat-icon>
-                        <mat-icon *ngIf="mode() === 'dark'">brightness_2</mat-icon>
+                        @if (mode() === 'light') {
+                            <mat-icon>wb_sunny</mat-icon>
+                        } @else if (mode() === 'dark') {
+                            <mat-icon>brightness_2</mat-icon>
+                        }
                     </button>
                 </div>
             </div>
@@ -84,7 +90,7 @@
         <mat-list-item
             class="menu-item"
             role="listitem"
-            routerLink="/:language/blog"
+            [routerLink]="['/', selectedLanguage(), 'blog']"
             routerLinkActive="active"
             (click)="toggleTabletMenu()"
             (onKeyPress)="toggleTabletMenu()"
@@ -94,7 +100,7 @@
         <mat-list-item
             class="menu-item"
             role="listitem"
-            routerLink="/:language/cv"
+            [routerLink]="['/', selectedLanguage(), 'cv']"
             routerLinkActive="active"
             (click)="toggleTabletMenu()"
             (onKeyPress)="toggleTabletMenu()"

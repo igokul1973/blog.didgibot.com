@@ -15,7 +15,7 @@ import { LanguageEnum } from 'types/translation';
     styleUrl: './intro.component.scss'
 })
 export class IntroComponent {
-    @Input() isAnimationFinished: boolean = false;
+    @Input() isAnimationFinished = false;
     private readonly articleService = inject(ArticleService);
     protected readonly selectedLanguage = this.articleService.selectedLanguage;
     protected readonly languageEnum = LanguageEnum;

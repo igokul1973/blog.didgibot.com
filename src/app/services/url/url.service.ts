@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { delay, distinctUntilChanged, map, merge, Observable, of, switchMap } from 'rxjs';
 import { LanguageEnum } from 'types/translation';
@@ -7,10 +7,8 @@ import { LanguageEnum } from 'types/translation';
     providedIn: 'root'
 })
 export class UrlService {
-    constructor(
-        private readonly router: Router,
-        private readonly activatedRoute: ActivatedRoute
-    ) {}
+    private readonly router = inject(Router);
+    private readonly activatedRoute = inject(ActivatedRoute);
 
     replaceRouteParam<T extends string>(paramName: string, newValue: T): void {
         const currentParamValue = this.getCurrentRouteParam(paramName);
@@ -26,19 +24,19 @@ export class UrlService {
     }
 
     getCurrentRouteParam(param: string): string | null {
-        let route: ActivatedRoute | null = this.activatedRoute.root;
+        const route: ActivatedRoute | null = this.activatedRoute.root;
 
         let paramValue = route.snapshot.paramMap.get(param);
         if (paramValue) {
             return paramValue;
         }
 
-        for (let child of route.children) {
+        for (const child of route.children) {
             paramValue = child.snapshot.paramMap.get(param);
             if (paramValue) {
                 return paramValue;
             }
-            for (let child2 of child.children) {
+            for (const child2 of child.children) {
                 paramValue = child2.snapshot.paramMap.get(param);
                 if (paramValue) {
                     return paramValue;
@@ -58,17 +56,17 @@ export class UrlService {
         return of(null).pipe(
             delay(500),
             switchMap(() => {
-                let route: ActivatedRoute | null = this.activatedRoute.root;
+                const route: ActivatedRoute | null = this.activatedRoute.root;
 
                 let allParams$ = route.params;
                 let childParams$: Observable<Params> | null = null;
                 let grandChildParams$: Observable<Params> | null = null;
 
                 if (route.children.length) {
-                    for (let child of route.children) {
+                    for (const child of route.children) {
                         childParams$ = child.params;
                         if (child.children.length) {
-                            for (let child2 of child.children) {
+                            for (const child2 of child.children) {
                                 grandChildParams$ = child2.params;
                             }
                         }

@@ -1,8 +1,7 @@
 import { environment } from '@/environments/environment';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
-import { CookieConsentService } from '../cookie/cookie-consent.service';
 
 /**
  * Service for Google Analytics
@@ -11,10 +10,7 @@ import { CookieConsentService } from '../cookie/cookie-consent.service';
     providedIn: 'root'
 })
 export class AnalyticsService {
-    constructor(
-        private readonly router: Router,
-        private readonly cookieConsentService: CookieConsentService
-    ) {}
+    private readonly router = inject(Router);
 
     public init(): void {
         this.listenForRouteChanges();

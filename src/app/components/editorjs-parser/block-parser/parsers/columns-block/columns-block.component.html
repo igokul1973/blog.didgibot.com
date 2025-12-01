@@ -1,8 +1,7 @@
 <section [ngClass]="[currentConfig.classNames?.outerContainer, getClasses()]">
-    <div
-        *ngFor="let col of item.data.cols; trackBy: identify"
-        [ngClass]="currentConfig.classNames?.innerBlocksContainers"
-    >
-        <app-block-parser [data]="col" [config]="blockRendererConfig" />
-    </div>
+    @for (col of item.data.cols; let i = $index; track identify(i, col)) {
+        <div [ngClass]="currentConfig.classNames?.innerBlocksContainers">
+            <app-block-parser [data]="col" [config]="blockRendererConfig" />
+        </div>
+    }
 </section>

@@ -1,8 +1,6 @@
-import { IOutputBlockData } from '@/app/components/editorjs-parser/types';
-
-export type TDelimiterConfig = {
+export interface IDelimiterConfig {
     classNames?: {
         container?: string;
         delimiter?: string;
     };
-};
+}

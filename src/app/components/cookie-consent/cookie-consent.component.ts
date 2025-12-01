@@ -1,7 +1,6 @@
 import { ArticleService } from '@/app/services/article/article.service';
 import { CookieConsentService } from '@/app/services/cookie/cookie-consent.service';
-import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, computed, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { LanguageEnum } from 'types/translation';
@@ -11,19 +10,13 @@ import { ICookieConsent } from './types';
     selector: 'app-cookie-consent',
     imports: [ReactiveFormsModule, FormsModule],
     templateUrl: './cookie-consent.component.html',
-    styleUrl: './cookie-consent.component.scss',
-    animations: [
-        trigger('slideIn', [
-            transition(':enter', [
-                style({ transform: 'translateY(100%)', opacity: 0 }),
-                animate('700ms ease-out', style({ transform: 'translateY(0)', opacity: 1 }))
-            ]),
-            transition(':leave', [animate('300ms ease-in', style({ transform: 'translateY(100%)', opacity: 0 }))])
-        ])
-    ]
+    styleUrl: './cookie-consent.component.scss'
 })
 export class CookieConsentComponent implements OnInit, OnDestroy {
     private readonly CONSENT_EXPIRY_DAYS = 365;
+    private readonly articleService = inject(ArticleService);
+    private readonly cookieConsentService = inject(CookieConsentService);
+    private readonly fb = inject(FormBuilder);
     private selectedLanguage = this.articleService.selectedLanguage;
     protected noDetailsText = computed(() => {
         if (this.selectedLanguage() === LanguageEnum.EN) {
@@ -61,12 +54,6 @@ export class CookieConsentComponent implements OnInit, OnDestroy {
     });
 
     private subscription: Subscription | null = null;
-
-    constructor(
-        private readonly articleService: ArticleService,
-        private readonly cookieConsentService: CookieConsentService,
-        private fb: FormBuilder
-    ) {}
 
     ngOnInit(): void {
         this.cookieConsentService.consent$.subscribe((consent) => {
@@ -124,9 +111,6 @@ export class CookieConsentComponent implements OnInit, OnDestroy {
             }
         }
     }
-
-    // Here we'll apply the cookie settings set by the user
-    private applyCookieSettings() {}
 
     ngOnDestroy(): void {
         this.subscription?.unsubscribe();

@@ -1,20 +1,20 @@
 import { IOutputBlockData } from '@/app/components/editorjs-parser/types';
 
-export type TEditorJsCode = {
+export interface IEditorJsCode {
     code: string;
     showlinenumbers: boolean;
     mode?: string;
     language?: string;
     lang?: string;
-};
+}
 
-export type TCodeLanguage = {
+export interface ICodeLanguage {
     shortName: string;
     language: string;
     logoSrc: string;
     logoAlt: string;
     displayText: string;
-};
+}
 
 /**
  * Changes the default configured values for a code block
@@ -23,18 +23,18 @@ export type TCodeLanguage = {
  *
  * Only fields set will be overridden
  */
-export type TCodeConfig = {
+export interface ICodeConfig {
     classNames?: {
         container?: string;
         languageInfoBar?: string;
         languageInfoBarText?: string;
     };
-    codeStyle?: { [key: string]: CSSStyleDeclaration };
-    languages?: TCodeLanguage[];
+    codeStyle?: Record<string, CSSStyleDeclaration>;
+    languages?: ICodeLanguage[];
     showLineNumbers?: boolean;
-};
+}
 
 export interface ICodeProps {
-    item: IOutputBlockData<TEditorJsCode>;
-    config?: TCodeConfig;
+    item: IOutputBlockData;
+    config?: ICodeConfig;
 }

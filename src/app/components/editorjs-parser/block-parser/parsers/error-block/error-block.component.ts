@@ -1,9 +1,9 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { IOutputBlockData } from '../../../types';
-import { TErrorConfig } from './types';
+import { IErrorConfig } from './types';
 
-const defaultErrorConfig: TErrorConfig = {
+const defaultErrorConfig: IErrorConfig = {
     className: 'mt-2 p-2 bg-red-300 text-red-900'
 };
 
@@ -15,8 +15,8 @@ const defaultErrorConfig: TErrorConfig = {
 })
 export class ErrorBlockComponent implements OnInit {
     @Input() item!: IOutputBlockData;
-    @Input() config?: TErrorConfig;
-    public currentConfig!: TErrorConfig;
+    @Input() config?: IErrorConfig;
+    public currentConfig!: IErrorConfig;
 
     ngOnInit(): void {
         this.currentConfig = { ...defaultErrorConfig, ...this.config };

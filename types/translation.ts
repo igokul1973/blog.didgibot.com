@@ -1,4 +1,4 @@
-import { BlockToolTypeEnum } from '@/app/components/editorjs-parser/types';
+import { IOutputBlockData, IOutputData } from '@/app/components/editorjs-parser/types';
 import { Dayjs } from 'dayjs';
 import { ICategory, IRawCategory } from './category';
 import { IRawTag, ITag } from './tag';
@@ -8,17 +8,12 @@ export enum LanguageEnum {
     EN = 'en'
 }
 
-export interface IContentBlock {
+export interface IContentBlock extends IOutputBlockData {
     __typename?: string;
-    id: string;
-    type: BlockToolTypeEnum;
-    data: object[];
 }
 
-export interface IContent {
+export interface IContent extends IOutputData {
     __typename?: string;
-    version?: string;
-    time?: number;
     blocks: IContentBlock[];
 }
 

@@ -1,4 +1,4 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import hljs from 'highlight.js/lib/core';
@@ -11,7 +11,7 @@ import scss from 'highlight.js/lib/languages/scss';
 import { Highlight } from 'ngx-highlightjs';
 import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 import { IOutputBlockData } from '../../../types';
-import { TCodeConfig, TCodeLanguage, TEditorJsCode } from './types';
+import { ICodeConfig, ICodeLanguage, IEditorJsCode } from './types';
 
 hljs.registerLanguage('go', go);
 hljs.registerLanguage('php', php);
@@ -20,7 +20,7 @@ hljs.registerLanguage('scss', scss);
 hljs.registerLanguage('groovy', groovy);
 hljs.registerLanguage('dockerfile', dockerfile);
 
-const defaultCodeConfig: TCodeConfig = {
+const defaultCodeConfig: ICodeConfig = {
     classNames: {
         container: 'text-sm rounded-md overflow-hidden shadow-sm mt-2',
         languageInfoBar: 'flex px-1 py-1 items-center bg-gray-300/15',
@@ -31,7 +31,7 @@ const defaultCodeConfig: TCodeConfig = {
     showLineNumbers: false
 };
 
-const defaultLanguage: TCodeLanguage = {
+const defaultLanguage: ICodeLanguage = {
     shortName: 'html',
     language: 'html',
     logoSrc: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg',
@@ -40,16 +40,16 @@ const defaultLanguage: TCodeLanguage = {
 };
 @Component({
     selector: 'app-code-block',
-    imports: [NgClass, NgIf, Highlight, HighlightLineNumbers, MatIcon],
+    imports: [NgClass, Highlight, HighlightLineNumbers, MatIcon],
     templateUrl: './code-block.component.html',
     styleUrl: './code-block.component.scss'
 })
 export class CodeBlockComponent implements OnInit {
-    @Input() item!: IOutputBlockData<TEditorJsCode>;
-    @Input() config?: TCodeConfig;
+    @Input() item!: IOutputBlockData<IEditorJsCode>;
+    @Input() config?: ICodeConfig;
     @ViewChild('codeContainer') codeContainer!: ElementRef<HTMLElement>;
-    protected currentConfig!: TCodeConfig;
-    protected language!: TCodeLanguage;
+    protected currentConfig!: ICodeConfig;
+    protected language!: ICodeLanguage;
 
     ngOnInit(): void {
         this.currentConfig = { ...defaultCodeConfig, ...this.config, showLineNumbers: this.item.data.showlinenumbers };

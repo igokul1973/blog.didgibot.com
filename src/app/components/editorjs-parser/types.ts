@@ -1,13 +1,13 @@
-import { TAlertConfig } from './block-parser/parsers/alert-block/types';
-import { TCodeConfig } from './block-parser/parsers/code-block/types';
-import { TColumnsConfig } from './block-parser/parsers/columns-block/types';
-import { TDelimiterConfig } from './block-parser/parsers/delimiter-block/types';
-import { TErrorConfig } from './block-parser/parsers/error-block/types';
-import { TImageConfig } from './block-parser/parsers/image-block/types';
-import { TListConfig } from './block-parser/parsers/list-block/types';
-import { TParagraphConfig } from './block-parser/parsers/paragraph-block/types';
-import { TQuoteConfig } from './block-parser/parsers/quote-block/types';
-import { TTableConfig } from './block-parser/parsers/table-block/types';
+import { IAlertConfig } from './block-parser/parsers/alert-block/types';
+import { ICodeConfig } from './block-parser/parsers/code-block/types';
+import { IColumnsConfig } from './block-parser/parsers/columns-block/types';
+import { IDelimiterConfig } from './block-parser/parsers/delimiter-block/types';
+import { IErrorConfig } from './block-parser/parsers/error-block/types';
+import { IImageConfig } from './block-parser/parsers/image-block/types';
+import { IListConfig } from './block-parser/parsers/list-block/types';
+import { IParagraphConfig } from './block-parser/parsers/paragraph-block/types';
+import { IQuoteConfig } from './block-parser/parsers/quote-block/types';
+import { ITableConfig } from './block-parser/parsers/table-block/types';
 
 export interface IBlockParserProps {
     data: IOutputData;
@@ -15,16 +15,16 @@ export interface IBlockParserProps {
 }
 
 export interface IBlockParserConfig {
-    alert?: TAlertConfig;
-    code?: TCodeConfig;
-    columns?: TColumnsConfig;
-    table?: TTableConfig;
-    image?: TImageConfig;
-    paragraph?: TParagraphConfig;
-    list?: TListConfig;
-    quote?: TQuoteConfig;
-    delimiter?: TDelimiterConfig;
-    error?: TErrorConfig;
+    alert?: IAlertConfig;
+    code?: ICodeConfig;
+    columns?: IColumnsConfig;
+    table?: ITableConfig;
+    image?: IImageConfig;
+    paragraph?: IParagraphConfig;
+    list?: IListConfig;
+    quote?: IQuoteConfig;
+    delimiter?: IDelimiterConfig;
+    error?: IErrorConfig;
 }
 
 export enum BlockToolTypeEnum {
@@ -42,11 +42,11 @@ export enum BlockToolTypeEnum {
     Error = 'error'
 }
 
-export interface IOutputBlockData<Data extends object = any> {
+export interface IOutputBlockData<Data extends object = Record<string, unknown>> {
     id?: string;
     type: BlockToolTypeEnum;
     data: TBlockToolData<Data>;
-    tunes?: { [name: string]: any };
+    tunes?: Record<string, unknown>;
 }
 
 export interface IOutputData {
@@ -55,4 +55,4 @@ export interface IOutputData {
     blocks: IOutputBlockData[];
 }
 
-export type TBlockToolData<T extends object = any> = T;
+export type TBlockToolData<T extends object = Record<string, unknown>> = T;

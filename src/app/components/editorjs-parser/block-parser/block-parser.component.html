@@ -1,46 +1,44 @@
-<div *ngFor="let item of data.blocks; trackBy: identify">
-    <ng-container [ngSwitch]="item.type">
-        <app-alert-block
-            *ngSwitchCase="blockToolTypeEnum.Alert"
-            [item]="item"
-            [config]="config?.alert"
-        ></app-alert-block>
-        <app-code-block
-            *ngSwitchCase="blockToolTypeEnum.Code"
-            [item]="item"
-            [config]="config?.code"
-            class="code-block"
-        />
-        <app-header-block *ngSwitchCase="blockToolTypeEnum.Header" [item]="item"></app-header-block>
-        <app-list-block *ngSwitchCase="blockToolTypeEnum.List" [item]="item" [config]="config?.list"></app-list-block>
-        <app-paragraph-block
-            *ngSwitchCase="blockToolTypeEnum.Paragraph"
-            [item]="item"
-            [config]="config?.paragraph"
-        ></app-paragraph-block>
-        <app-quote-block
-            *ngSwitchCase="blockToolTypeEnum.Quote"
-            [item]="item"
-            [config]="config?.quote"
-        ></app-quote-block>
-        <app-raw-block *ngSwitchCase="blockToolTypeEnum.Raw" [item]="item"></app-raw-block>
-        <app-table-block
-            *ngSwitchCase="blockToolTypeEnum.Table"
-            [item]="item"
-            [config]="config?.table"
-        ></app-table-block>
-        <app-delimiter-block *ngSwitchCase="blockToolTypeEnum.Delimiter" [item]="item"></app-delimiter-block>
-        <app-columns-block
-            *ngSwitchCase="blockToolTypeEnum.Columns"
-            [item]="item"
-            [config]="config?.columns"
-            [blockRendererConfig]="config"
-        ></app-columns-block>
-        <app-image-block
-            *ngSwitchCase="blockToolTypeEnum.Image"
-            [item]="item"
-            [config]="config?.image"
-        ></app-image-block>
-        <app-error-block *ngSwitchDefault [item]="item" [config]="config?.error"></app-error-block>
-    </ng-container>
-</div>
+@for (item of data.blocks; track identify(item)) {
+    @switch (item.type) {
+        @case (blockToolTypeEnum.Alert) {
+            <app-alert-block [item]="$any(item)" [config]="config?.alert"></app-alert-block>
+        }
+        @case (blockToolTypeEnum.Code) {
+            <app-code-block [item]="$any(item)" [config]="config?.code" class="code-block" />
+        }
+        @case (blockToolTypeEnum.Header) {
+            <app-header-block [item]="$any(item)"></app-header-block>
+        }
+        @case (blockToolTypeEnum.List) {
+            <app-list-block [item]="$any(item)" [config]="config?.list"></app-list-block>
+        }
+        @case (blockToolTypeEnum.Paragraph) {
+            <app-paragraph-block [item]="$any(item)" [config]="config?.paragraph"></app-paragraph-block>
+        }
+        @case (blockToolTypeEnum.Quote) {
+            <app-quote-block [item]="$any(item)" [config]="config?.quote"></app-quote-block>
+        }
+        @case (blockToolTypeEnum.Raw) {
+            <app-raw-block [item]="$any(item)"></app-raw-block>
+        }
+        @case (blockToolTypeEnum.Table) {
+            <app-table-block [item]="$any(item)" [config]="config?.table"></app-table-block>
+        }
+        @case (blockToolTypeEnum.Delimiter) {
+            <app-delimiter-block [item]="$any(item)"></app-delimiter-block>
+        }
+        @case (blockToolTypeEnum.Columns) {
+            <app-columns-block
+                [item]="$any(item)"
+                [config]="config?.columns"
+                [blockRendererConfig]="config"
+            ></app-columns-block>
+        }
+        @case (blockToolTypeEnum.Image) {
+            <app-image-block [item]="$any(item)" [config]="config?.image"></app-image-block>
+        }
+        @default {
+            <app-error-block [item]="item" [config]="config?.error"></app-error-block>
+        }
+    }
+}

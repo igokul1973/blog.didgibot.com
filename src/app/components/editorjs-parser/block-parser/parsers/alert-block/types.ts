@@ -1,10 +1,10 @@
 import { IOutputBlockData } from '@/app/components/editorjs-parser/types';
 
-export type TEditorJsAlert = {
+export interface IEditorJsAlert {
     type: AlertTypeEnum;
     align: AlertAlignmentEnum;
     message: string;
-};
+}
 
 export enum AlertAlignmentEnum {
     left = 'left',
@@ -22,7 +22,7 @@ export enum AlertTypeEnum {
     primary = 'primary'
 }
 
-export type TAlertConfig = {
+export interface IAlertConfig {
     classNames?: {
         baseElement?: string;
         info?: string;
@@ -36,9 +36,9 @@ export type TAlertConfig = {
         textRight?: string;
         textLeft?: string;
     };
-};
+}
 
 export interface IAlertProps {
-    item: IOutputBlockData<TEditorJsAlert>;
-    config?: TAlertConfig;
+    item: IOutputBlockData;
+    config?: IAlertConfig;
 }

@@ -1,14 +1,19 @@
 <table [class]="currentConfig.classNames.table">
     <tbody>
-        <tr *ngFor="let rowArray of item.data.content; let index = index">
-            <ng-container *ngFor="let text of rowArray; let index2 = index">
-                <th *ngIf="item.data.with_headings && index === 0" [class]="currentConfig.classNames.tableHeader">
-                    {{ text }}
-                </th>
-                <td *ngIf="!item.data.with_headings || index !== 0" [class]="currentConfig.classNames.tableData">
-                    {{ text }}
-                </td>
-            </ng-container>
-        </tr>
+        @for (rowArray of item.data.content; track i; let i = $index) {
+            <tr>
+                @for (text of rowArray; track j; let j = $index) {
+                    @if (item.data.with_headings && i === 0) {
+                        <th [class]="currentConfig.classNames.tableHeader">
+                            {{ text }}
+                        </th>
+                    } @else {
+                        <td [class]="currentConfig.classNames.tableData">
+                            {{ text }}
+                        </td>
+                    }
+                }
+            </tr>
+        }
     </tbody>
 </table>

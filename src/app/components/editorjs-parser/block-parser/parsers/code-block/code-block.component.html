@@ -1,12 +1,20 @@
 <div [ngClass]="[currentConfig.classNames?.container, 'code-block']">
     <div class="actions">
-        <div *ngIf="language" [ngClass]="['lang', currentConfig.classNames?.languageInfoBar]">
-            <img [src]="language.logoSrc" [alt]="language.logoAlt" />
-            <figcaption [ngClass]="currentConfig.classNames?.languageInfoBarText">
-                {{ language.displayText }}
-            </figcaption>
-        </div>
-        <span class="content-copy" (click)="copyToClipboard()" (keydown)="copyToClipboard()">
+        @if (language) {
+            <div [ngClass]="['lang', currentConfig.classNames?.languageInfoBar]">
+                <img [src]="language.logoSrc" [alt]="language.logoAlt" />
+                <figcaption [ngClass]="currentConfig.classNames?.languageInfoBarText">
+                    {{ language.displayText }}
+                </figcaption>
+            </div>
+        }
+        <span
+            class="content-copy"
+            tabindex="0"
+            role="button"
+            (click)="copyToClipboard()"
+            (keyup.enter)="copyToClipboard()"
+        >
             <mat-icon class="info">content_copy</mat-icon>
         </span>
     </div>
