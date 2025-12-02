@@ -1,3 +1,2 @@
-// Temporary file with linting errors
-var unused = 123; // Should cause linting error
-console.log('test');
+// Temporary file with TypeScript error that will be caught
+const invalid: string = 123; // This will be caught by type checking
