@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is an Angular (v19) blog application using TypeScript, Apollo Client for GraphQL, and Angular Material for UI components.
+This is an Angular (v20) blog application using TypeScript, Apollo Client for GraphQL, and Angular Material for UI components.
 
 ## Code Style
 
@@ -18,7 +18,7 @@ This is an Angular (v19) blog application using TypeScript, Apollo Client for Gr
 - Use **kebab-case** for file names (e.g., `article.service.ts`)
 - Use **dash-case** for component selectors (e.g., `app-article`)
 - Use **unknown** instead of **any** in typescript
-- Use object with **next**, **error**, and **complete** when handling observables
+- Use object with **next**, **error**, and **complete** when subscribing to observables
 - Prefer **interfaces** over types unless you need union types or other type-specific features
 
 ### File Structure
@@ -73,9 +73,9 @@ Types:
 ### Testing
 
 - Write unit tests for all services, pipes, and components with complex logic
-- Use Jasmine for unit tests
+- The tests must use Vitest package
 - Run tests before pushing code: `pnpm test`
-- Aim for at least 80% test coverage
+- Aim for at least 90% test coverage
 
 ### Code Quality
 
@@ -89,8 +89,9 @@ Types:
 
 - Use OnPush change detection strategy for better performance
 - Unsubscribe from observables to prevent memory leaks
-- Use `trackBy` with `*ngFor` for better rendering performance
+- Use `trackBy` with `@for` for better rendering performance
 - Lazy load feature modules
+- use Signals wherever possible instead of the rxjs, unless rxjs makes more sense
 
 ## CI/CD
 
