@@ -11,8 +11,11 @@
         "watch": "ng build --watch --configuration development",
         "lint": "ng lint",
         "lint:fix": "ng lint --fix",
-        "test": "ng test",
-        "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
+        "test": "vitest",
+        "test:headless": "vitest run",
+        "test:ui": "vitest --ui",
+        "test:coverage": "vitest run --coverage",
+        "test:karma": "ng test",
         "check:types": "echo '🔍 Running TypeScript type checking...' && npx tsc --noEmit --project tsconfig.check-types.json && echo '✅ Type checking completed successfully'",
         "prepare": "husky",
         "postinstall": "husky install",
@@ -58,11 +61,12 @@
         "angular-eslint": "^21.0.1",
         "dotenv": "^17.2.3",
         "eslint": "^9.39.1",
-        "vitest": "^4.0.14",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-import": "^2.32.0",
         "eslint-plugin-prettier": "^5.5.4",
         "eslint-plugin-rxjs-updated": "^1.0.50",
+        "husky": "^9.1.7",
+        "jsdom": "^27.2.0",
         "postcss": "^8.5.6",
         "postcss-scss": "^4.0.9",
         "prettier": "^3.7.3",
@@ -71,6 +75,6 @@
         "tsx": "^4.21.0",
         "typescript": "~5.9.3",
         "typescript-eslint": "^8.48.1",
-        "husky": "^9.1.7"
+        "vitest": "^4.0.14"
     }
 }
