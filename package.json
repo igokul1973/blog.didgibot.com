@@ -13,6 +13,9 @@
         "lint:fix": "ng lint --fix",
         "test": "ng test",
         "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
+        "check:types": "echo '🔍 Running TypeScript type checking...' && npx tsc --noEmit --project tsconfig.check-types.json && echo '✅ Type checking completed successfully'",
+        "prepare": "husky",
+        "postinstall": "husky install",
         "generate:sitemap": "npx tsx scripts/sitemap-gen.ts",
         "postbuild": "pnpm generate:sitemap"
     },
@@ -67,6 +70,7 @@
         "stylelint-config-standard-scss": "^16.0.0",
         "tsx": "^4.21.0",
         "typescript": "~5.9.3",
-        "typescript-eslint": "^8.48.1"
+        "typescript-eslint": "^8.48.1",
+        "husky": "^9.1.7"
     }
 }
