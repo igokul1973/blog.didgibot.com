@@ -96,6 +96,9 @@ importers:
       '@angular/compiler-cli':
         specifier: ~20.3.15
         version: 20.3.15(@angular/compiler@20.3.15)(typescript@5.9.3)
+      '@eslint/js':
+        specifier: ^9.39.1
+        version: 9.39.1
       '@types/node':
         specifier: ^22.15.18
         version: 22.19.1
