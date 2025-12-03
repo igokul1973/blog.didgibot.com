@@ -1,23 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
-import { RawComponent } from './raw.component';
+import { BlockToolTypeEnum, IOutputBlockData } from '../../../types';
+import { RawBlockComponent } from './raw-block.component';
+import { IEditorJsRaw } from './types';
 
-describe('RawComponent', () => {
-  let component: RawComponent;
-  let fixture: ComponentFixture<RawComponent>;
+describe('RawBlockComponent', () => {
+    let component: RawBlockComponent;
+    let fixture: ComponentFixture<RawBlockComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [RawComponent]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [RawBlockComponent]
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(RawComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(RawBlockComponent);
+        component = fixture.componentInstance;
+        const item: IOutputBlockData<IEditorJsRaw> = {
+            type: BlockToolTypeEnum.Raw,
+            data: { html: '' }
+        };
+        component.item = item;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

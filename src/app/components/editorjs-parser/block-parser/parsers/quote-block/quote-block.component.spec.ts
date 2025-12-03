@@ -1,23 +1,34 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
-import { QuoteComponent } from './quote.component';
+import { BlockToolTypeEnum, IOutputBlockData } from '../../../types';
+import { QuoteBlockComponent } from './quote-block.component';
+import { IEditorJsQuote, QuoteAlignmentEnum } from './types';
 
-describe('QuoteComponent', () => {
-  let component: QuoteComponent;
-  let fixture: ComponentFixture<QuoteComponent>;
+describe('QuoteBlockComponent', () => {
+    let component: QuoteBlockComponent;
+    let fixture: ComponentFixture<QuoteBlockComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [QuoteComponent]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [QuoteBlockComponent]
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(QuoteComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(QuoteBlockComponent);
+        component = fixture.componentInstance;
+        const item: IOutputBlockData<IEditorJsQuote> = {
+            type: BlockToolTypeEnum.Quote,
+            data: {
+                text: '',
+                caption: '',
+                alignment: QuoteAlignmentEnum.left
+            }
+        };
+        component.item = item;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

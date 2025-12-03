@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
+
+import { BlockToolTypeEnum, IOutputBlockData } from '../../../types';
 import { HeaderBlockComponent } from './header-block.component';
+import { IEditorJsHeader } from './types';
 
 describe('HeaderComponent', () => {
     let component: HeaderBlockComponent;
@@ -12,6 +16,11 @@ describe('HeaderComponent', () => {
 
         fixture = TestBed.createComponent(HeaderBlockComponent);
         component = fixture.componentInstance;
+        const item: IOutputBlockData<IEditorJsHeader> = {
+            type: BlockToolTypeEnum.Header,
+            data: { text: '', level: 1 }
+        };
+        component.item = item;
         fixture.detectChanges();
     });
 

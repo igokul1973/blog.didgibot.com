@@ -1,18 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
-import { ListComponent } from './list-block.component';
+import { BlockToolTypeEnum, IOutputBlockData } from '../../../types';
+import { ListBlockComponent } from './list-block.component';
+import { IEditorJsList, ListStyleEnum } from './types';
 
-describe('ListComponent', () => {
-    let component: ListComponent;
-    let fixture: ComponentFixture<ListComponent>;
+describe('ListBlockComponent', () => {
+    let component: ListBlockComponent;
+    let fixture: ComponentFixture<ListBlockComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [ListComponent]
+            imports: [ListBlockComponent]
         }).compileComponents();
 
-        fixture = TestBed.createComponent(ListComponent);
+        fixture = TestBed.createComponent(ListBlockComponent);
         component = fixture.componentInstance;
+        const item: IOutputBlockData<IEditorJsList> = {
+            type: BlockToolTypeEnum.List,
+            data: { style: ListStyleEnum.unordered, meta: {}, items: [] }
+        };
+        component.item = item;
         fixture.detectChanges();
     });
 

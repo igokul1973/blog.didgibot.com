@@ -21,7 +21,7 @@ This repository contains the source code for https://blog.didgibot.com – a sta
 - **UI**: Angular Material with custom theming
 - **Language**: TypeScript 5.9
 - **Build tooling**: Angular CLI, Vite (dev tooling)
-- **Testing**: Vitest (in progress migration from Karma/Jasmine)
+- **Testing**: Vitest
 - **Code quality**: ESLint, Prettier, Stylelint
 - **GraphQL**: Apollo Client / apollo-angular
 - **Package manager**: pnpm
@@ -65,12 +65,9 @@ pnpm build          # Production build
 pnpm lint           # Run ESLint
 pnpm lint:fix       # ESLint with --fix
 
-pnpm test           # Run Vitest in watch mode
-pnpm test:headless  # Run Vitest once (CI-style)
+pnpm test           # Run Angular tests in watch mode (ng test, runner: Vitest)
+pnpm test:headless  # Run Angular tests once (CI-style, ng test --no-watch)
 pnpm test:ui        # Vitest UI
-pnpm test:coverage  # Vitest with coverage
-
-pnpm test:karma     # Legacy Angular CLI Karma tests (kept for reference; deprecated)
 
 pnpm check:types    # Type check TypeScript (no emit) using a dedicated tsconfig
 ```
@@ -112,10 +109,9 @@ Hook file: `.husky/pre-push`
 
 Currently:
 
-- Prints a message that tests are **temporarily disabled** while Angular tests are migrated from Karma/Jasmine to Vitest
-- Allows pushes to proceed
-
-Once test migration is complete, this hook can be updated to run `pnpm test:headless` and block pushes on failing tests.
+- Runs `pnpm test:headless` to validate unit tests
+- Blocks pushes when tests fail
+- Component template tests are deferred to User Story 3 (templateUrl resolution)
 
 ---
 
@@ -123,14 +119,26 @@ Once test migration is complete, this hook can be updated to run `pnpm test:head
 
 ### Current state
 
-- **Vitest** is configured (see `vitest.config.ts` and `src/test-setup.ts`).
-- Existing Angular tests were originally written for Karma/Jasmine and are being migrated to Vitest.
-- A legacy `test:karma` script remains for running the old Angular CLI test runner if needed.
+- **Vitest** is configured via Angular CLI (`ng test` with `"runner": "vitest"` in `angular.json`).
+- Unit tests for services, pipes, and Angular components (including standalone components with `templateUrl`/`styleUrl`) are migrated and passing.
+- Browser-only APIs used in components (e.g. `ResizeObserver`, `matchMedia`, `IntersectionObserver`) are mocked or stubbed in individual specs where needed.
+- Karma/Jasmine have been completely removed from the project.
 
 ### Recommended usage
 
-- For new tests, prefer **Vitest** test files under `src/**/*.spec.ts`.
-- Use `pnpm test` during development and `pnpm test:headless` for CI-style runs once migration is complete.
+- Use `pnpm test:headless` for fast unit tests, including in pre-push hooks.
+- Use `pnpm test` during development and `pnpm test:headless` for running the full Angular test suite (Vitest via `ng test`) locally and in CI-style runs.
+- When adding or updating specs, follow the testing guidelines in `development_guidelines.md` (no `any` in specs, proper Angular `TestBed` setup, typed mocks, and browser API stubs where required).
+
+### Testing checklist
+
+- Before committing:
+    - `pnpm lint`
+    - `pnpm check:types`
+- On `git push`:
+    - Husky runs `pnpm test:headless` and blocks the push if tests fail.
+- Before merging or for larger changes:
+    - Run `pnpm test:headless` to execute the full Angular test suite once.
 
 ---
 

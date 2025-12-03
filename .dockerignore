@@ -1,5 +1,7 @@
+# Docker
 Dockerfile
 .dockerignore
+
 node_modules
 .pnpm-store
 npm-debug.log
@@ -7,6 +9,33 @@ README.md
 docker
 .git
 .tasks
+
+# environment
 .env
+.env.local
 .env.production
-r
+
+# Build outputs
+dist
+build
+out-tsc
+coverage
+
+# Vitest
+.vitest
+
+# Logs
+*.log
+yarn-error.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode
+.idea
+
+# Cache
+.angular
+.sass-cache
