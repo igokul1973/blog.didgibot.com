@@ -1,0 +1,68 @@
+// Vitest setup file for Angular testing
+
+import { TestBed } from '@angular/core/testing';
+import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
+import { vi } from 'vitest';
+import 'zone.js';
+
+// Define global interface for gtag
+declare global {
+    interface Window {
+        gtag: (...args: unknown[]) => void;
+    }
+
+    var resolveComponentResources: () => Promise<void>;
+}
+
+// Initialize Angular testing environment for Vitest
+TestBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting());
+
+// Mock gtag (Google Analytics)
+global.gtag = vi.fn();
+
+// Mock window.matchMedia
+Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: (query: string) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
+        removeListener: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
+        addEventListener: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
+        removeEventListener: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
+        dispatchEvent: () => {} // eslint-disable-line @typescript-eslint/no-empty-function
+    })
+});
+
+// Mock ResizeObserver
+global.ResizeObserver = class {
+    observe(): void {} // eslint-disable-line @typescript-eslint/no-empty-function
+    unobserve(): void {} // eslint-disable-line @typescript-eslint/no-empty-function
+    disconnect(): void {} // eslint-disable-line @typescript-eslint/no-empty-function
+} as new () => ResizeObserver;
+
+// Mock IntersectionObserver
+global.IntersectionObserver = class implements IntersectionObserver {
+    readonly root: Element | null = null;
+    readonly rootMargin: string = '';
+    readonly thresholds: readonly number[] = [];
+
+    constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {} // eslint-disable-line @typescript-eslint/no-empty-function
+
+    observe(): void {} // eslint-disable-line @typescript-eslint/no-empty-function
+    unobserve(): void {} // eslint-disable-line @typescript-eslint/no-empty-function
+    disconnect(): void {} // eslint-disable-line @typescript-eslint/no-empty-function
+    takeRecords(): IntersectionObserverEntry[] {
+        return [];
+    }
+};
+
+// Import Angular compiler for component resource resolution
+import { Compiler } from '@angular/core';
+
+// Helper to resolve component resources for standalone components
+global.resolveComponentResources = async (): Promise<void> => {
+    const compiler = TestBed.inject(Compiler);
+    await compiler.compileModuleAndAllComponentsAsync(TestBed);
+};

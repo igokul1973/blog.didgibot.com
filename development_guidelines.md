@@ -72,10 +72,19 @@ Types:
 
 ### Testing
 
-- Write unit tests for all services, pipes, and components with complex logic
-- The tests must use Vitest package
-- Run tests before pushing code: `pnpm test`
-- Aim for at least 90% test coverage
+- Write and maintain unit tests for all services, pipes, and components with non-trivial logic
+- All tests use Vitest (Angular specs via `ng test` with the Vitest runner; direct Vitest commands where appropriate)
+- Run `pnpm test` during development locally before merging significant changes; Husky runs `pnpm test:headless` on `git push`
+- Aim for at least 90% test coverage on new or heavily modified code
+- In spec files, avoid `any` (prefer `unknown`, `Partial<T>`, and explicit interfaces for mocks)
+
+#### Angular testing patterns
+
+- Use `imports: [...]` for standalone components in `TestBed.configureTestingModule` instead of `declarations`
+- Provide router dependencies via `provideRouter([...])` in `providers` when components use `Router`, `ActivatedRoute`, or routing directives
+- Mock injected services with `Partial<MyService>` and `vi.fn()`; avoid real network or GraphQL calls in unit tests
+- For components using browser-only APIs (e.g. `ResizeObserver`, `matchMedia`, `IntersectionObserver`), add typed stubs in the relevant spec
+- For components with animations, prefer `provideNoopAnimations()` and/or `overrideComponent(..., { set: { template: '<div></div>' } })` when only creation or simple logic is under test
 
 ### Code Quality
 

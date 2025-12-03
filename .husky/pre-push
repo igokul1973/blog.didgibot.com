@@ -1,6 +1,11 @@
 echo "🧪 Running pre-push hooks..."
 
-# For now, skip tests since they need migration from Karma to Vitest
-# TODO: Re-enable test validation after migrating tests to Vitest
-echo "⚠️  Tests temporarily disabled - Karma tests need migration to Vitest"
-echo "✅ Pre-push checks completed ( tests will be re-enabled after migration )"
+echo "▶ Running Vitest unit tests via pnpm test:unit..."
+pnpm test:headless
+
+if [ $? -ne 0 ]; then
+  echo "❌ Vitest unit tests failed. Push aborted."
+  exit 1
+fi
+
+echo "✅ Pre-push checks completed successfully"

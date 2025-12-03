@@ -1,23 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { ScrollToTopComponent } from './scroll-to-top.component';
 
 describe('ScrollToTopComponent', () => {
-  let component: ScrollToTopComponent;
-  let fixture: ComponentFixture<ScrollToTopComponent>;
+    let component: ScrollToTopComponent;
+    let fixture: ComponentFixture<ScrollToTopComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ScrollToTopComponent]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [ScrollToTopComponent]
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(ScrollToTopComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(ScrollToTopComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

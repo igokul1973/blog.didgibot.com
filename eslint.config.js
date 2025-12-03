@@ -7,7 +7,33 @@ const angular = require('angular-eslint');
 module.exports = defineConfig([
     {
         files: ['**/*.ts'],
-        ignores: ['**/*.js'],
+        ignores: [
+            '**/*.js',
+            // Dependencies
+            'node_modules',
+            '.pnpm-store',
+            // Build outputs
+            'dist',
+            'build',
+            'out-tsc',
+            'coverage',
+            // Logs
+            '**/*.log',
+            // Environment files
+            '.env',
+            '.env.*',
+            // IDE files
+            '.vscode',
+            '.idea',
+            // OS files
+            '.DS_Store',
+            'Thumbs.db',
+            // Cache
+            '.angular',
+            '.sass-cache',
+            // Temporary files
+            '**/*.tmp'
+        ],
         extends: [
             eslint.configs.recommended,
             tseslint.configs.recommended,
