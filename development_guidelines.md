@@ -44,6 +44,7 @@ src/
 - `hotfix/` - Critical production fixes
 - `chore/` - Maintenance tasks
 - `docs/` - Documentation updates
+- `test/` - Adding or modifying tests
 
 ### Commit Messages
 

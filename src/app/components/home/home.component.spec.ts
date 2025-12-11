@@ -1,15 +1,19 @@
 import { ArticleService } from '@/app/services/article/article.service';
+import { InitializationService } from '@/app/services/initialization/initialization.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { Apollo } from 'apollo-angular';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { vi } from 'vitest';
 import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
     let component: HomeComponent;
     let fixture: ComponentFixture<HomeComponent>;
+    let initializationServiceSpy: Pick<InitializationService, 'setIsAnimationFinished'>;
 
     beforeEach(async () => {
+        vi.useFakeTimers();
+
         const mockApollo = {
             watchQuery: vi.fn(() => ({
                 valueChanges: {
@@ -20,10 +24,23 @@ describe('HomeComponent', () => {
             }))
         } as unknown as Apollo;
 
+        initializationServiceSpy = {
+            setIsAnimationFinished: vi.fn() as InitializationService['setIsAnimationFinished']
+        };
+
         await TestBed.configureTestingModule({
             imports: [HomeComponent],
-            providers: [ArticleService, { provide: Apollo, useValue: mockApollo }, provideRouter([])]
+            providers: [
+                ArticleService,
+                { provide: Apollo, useValue: mockApollo },
+                provideRouter([]),
+                { provide: InitializationService, useValue: initializationServiceSpy }
+            ]
         }).compileComponents();
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
     });
 
     beforeEach(() => {
@@ -34,5 +51,13 @@ describe('HomeComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should call setIsAnimationFinished after 9 seconds', () => {
+        expect(initializationServiceSpy.setIsAnimationFinished).not.toHaveBeenCalled();
+
+        vi.advanceTimersByTime(9000);
+
+        expect(initializationServiceSpy.setIsAnimationFinished).toHaveBeenCalled();
     });
 });

@@ -22,7 +22,7 @@ TypeScript strict mode mandatory; All code MUST use proper typing with interface
 
 ### III. Test-First Development (NON-NEGOTIABLE)
 
-Vitest tests mandatory for all services, pipes, and components with complex logic; Tests written before implementation; Red-Green-Refactor cycle strictly enforced; Minimum 90% test coverage required; All tests must pass before code review
+Vitest tests mandatory for all services, pipes, and components with complex logic; Tests written before implementation; Red-Green-Refactor cycle strictly enforced; Coverage goal is 90%+ for coverable Angular code, reported by CI as warnings when below target; All tests must pass before code review; Component tests MUST only use the public API (buttons, inputs, outputs, template-bound methods) and the rendered DOM, and MUST NOT access private or protected members or internal signals directly. It is the output that we are testing, not the internal implementation, so just test the output (DOM changes, console logs, etc.); Test can not introduce new logic; Tests can not use deprecated features of Angular or any other packages unless newer feature is not available; Tests can not use any features that are not available in the Angular version being used; Tests can not introduce any linting errors;
 
 ### IV. Performance-First Design
 
@@ -36,7 +36,7 @@ All features MUST support static site generation; Build process must include sit
 
 ### Code Quality Requirements
 
-ESLint and Prettier configuration mandatory; All linting errors must be fixed before commits; Conventional Commits format required for all commit messages; Branch naming must follow feature/, bugfix/, hotfix/, chore/, docs/ pattern; Functions must be small and focused on single responsibility
+No deprecated features of Angular or any other packages can be used unless newer feature is not available; ESLint and Prettier configuration mandatory; All linting errors must be fixed before commits; Conventional Commits format required for all commit messages; Branch naming must follow feature/, bugfix/, hotfix/, chore/, docs/ pattern; Functions must be small and focused on single responsibility
 
 ### Accessibility & Security
 

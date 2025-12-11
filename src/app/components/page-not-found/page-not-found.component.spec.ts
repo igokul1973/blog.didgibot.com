@@ -1,7 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { beforeEach, describe, expect, it } from 'vitest';
-
 import { routes } from '@/app/app.routes';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, withRouterConfig } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found.component';
 

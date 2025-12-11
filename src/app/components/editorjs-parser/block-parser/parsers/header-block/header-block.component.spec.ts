@@ -1,6 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { beforeEach, describe, expect, it } from 'vitest';
-
 import { BlockToolTypeEnum, IOutputBlockData } from '../../../types';
 import { HeaderBlockComponent } from './header-block.component';
 import { IEditorJsHeader } from './types';

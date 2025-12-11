@@ -15,6 +15,7 @@ const defaultQuoteConfig: IQuoteConfig = {
 
 @Component({
     selector: 'app-quote-block',
+    standalone: true,
     imports: [NgClass],
     templateUrl: './quote-block.component.html',
     styleUrl: './quote-block.component.scss'
@@ -26,11 +27,19 @@ export class QuoteBlockComponent implements OnInit {
     public alertTypeClass?: string;
 
     ngOnInit(): void {
-        this.currentConfig = { ...defaultQuoteConfig, ...this.config };
-        this.alertTypeClass = {
-            [QuoteAlignmentEnum.left]: this.currentConfig.classNames.alignLeft,
-            [QuoteAlignmentEnum.center]: this.currentConfig.classNames.alignCenter,
-            [QuoteAlignmentEnum.right]: this.currentConfig.classNames.alignRight
-        }[this.item.data.alignment];
+        this.currentConfig = {
+            ...defaultQuoteConfig,
+            ...this.config,
+            classNames: {
+                ...defaultQuoteConfig.classNames,
+                ...this.config?.classNames
+            }
+        };
+        this.alertTypeClass =
+            {
+                [QuoteAlignmentEnum.left]: this.currentConfig.classNames.alignLeft,
+                [QuoteAlignmentEnum.center]: this.currentConfig.classNames.alignCenter,
+                [QuoteAlignmentEnum.right]: this.currentConfig.classNames.alignRight
+            }[this.item.data.alignment] || '';
     }
 }

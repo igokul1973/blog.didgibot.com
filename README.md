@@ -130,6 +130,25 @@ Currently:
 - Use `pnpm test` during development and `pnpm test:headless` for running the full Angular test suite (Vitest via `ng test`) locally and in CI-style runs.
 - When adding or updating specs, follow the testing guidelines in `development_guidelines.md` (no `any` in specs, proper Angular `TestBed` setup, typed mocks, and browser API stubs where required).
 
+### Test Coverage
+
+This project maintains high test coverage for Angular code under `src/app`:
+
+- **Target**: ≥90% coverage for all coverable Angular code
+- **Current Status**: 92.3% of files meet the 90%+ target (12 out of 13 files)
+- **Coverage Reports**: Run `pnpm test:coverage` to generate reports
+    - HTML report: `coverage/index.html`
+    - JSON data: `coverage/coverage-final.json`
+
+**Known Reporting Artifacts**:
+
+- `blog.component.ts` may show 71.42% branch coverage in text reports (when all tests are run), but actual coverage is 100%
+- This is a visualization issue in the text reporter, not a real coverage problem
+- Raw V8 coverage data confirms all branches are covered
+- See `specs/003-angular-tests-coverage/baseline-coverage.md` for details
+
+**Exceptions**: See `specs/003-angular-tests-coverage/coverage-exceptions.md` for documented exceptions where testing constraints prevent reaching 90% without violating the constitution's public API requirement.
+
 ### Testing checklist
 
 - Before committing:

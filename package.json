@@ -12,7 +12,9 @@
         "lint": "ng lint",
         "lint:fix": "ng lint --fix",
         "test": "ng test",
-        "test:headless": "ng test --no-watch",
+        "test:headless": "vitest --no-watch",
+        "test:coverage": "vitest --no-watch --coverage",
+        "test:coverage:debug": "vitest --no-watch --coverage --test-timeout=0 --no-file-parallelism",
         "test:ui": "vitest --ui",
         "check:types": "echo '🔍 Running TypeScript type checking...' && npx tsc --noEmit --project tsconfig.check-types.json && echo '✅ Type checking completed successfully'",
         "prepare": "husky",
@@ -45,6 +47,8 @@
         "zone.js": "~0.15.0"
     },
     "devDependencies": {
+        "@analogjs/vite-plugin-angular": "^2.1.2",
+        "@analogjs/vitest-angular": "^2.1.2",
         "@angular-devkit/build-angular": "~20.3.12",
         "@angular-eslint/builder": "^21.0.1",
         "@angular-eslint/eslint-plugin": "^21.0.1",
@@ -57,6 +61,7 @@
         "@types/node": "^22.15.18",
         "@typescript-eslint/eslint-plugin": "^8.48.1",
         "@typescript-eslint/parser": "^8.48.1",
+        "@vitest/coverage-v8": "^4.0.15",
         "angular-eslint": "^21.0.1",
         "dotenv": "^17.2.3",
         "eslint": "^9.39.1",
@@ -68,12 +73,13 @@
         "jsdom": "^27.2.0",
         "postcss": "^8.5.6",
         "postcss-scss": "^4.0.9",
-        "prettier": "^3.7.3",
+        "prettier": "^3.7.4",
         "stylelint": "^16.26.1",
         "stylelint-config-standard-scss": "^16.0.0",
         "tsx": "^4.21.0",
         "typescript": "~5.9.3",
         "typescript-eslint": "^8.48.1",
-        "vitest": "^4.0.14"
+        "vite-tsconfig-paths": "^5.1.4",
+        "vitest": "^4.0.15"
     }
 }

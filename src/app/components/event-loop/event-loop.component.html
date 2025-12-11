@@ -4,7 +4,7 @@
         <button mat-button (click)="addTaskToCallStack('sync')">Add sync task</button>
         <button mat-button (click)="addTaskToCallStack('macro')">Add timer (macrotask)</button>
         <button mat-button (click)="addTaskToCallStack('micro')">Add promise (microtask)</button>
-        <button mat-button (click)="startLoop()" [disabled]="isRunning()">▶ Start event loop</button>
+        <button mat-button (click)="startEventLoop()" [disabled]="isRunning()">▶ Start event loop</button>
         <button mat-button (click)="reset()">↻ Reset</button>
     </div>
     <div id="canvas-container">

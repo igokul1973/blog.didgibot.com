@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar, MatSnackBarModule, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
-import { IArticleQueryInput, ISortInput } from 'types/article';
+import { IArticleInputFilterInput, IArticleQueryInput, ISortInput } from 'types/article';
 import { ArticleComponent } from '../article/article.component';
 import BlogDataSource from './blog.datasource';
 import { DataSourceErrorsEnum, IDataSourceError } from './types';
@@ -27,9 +27,9 @@ import { DataSourceErrorsEnum, IDataSourceError } from './types';
     standalone: true
 })
 export class BlogComponent implements OnInit, OnDestroy {
-    private readonly filter = { updated_at: { from_: '2022-01-01' } };
+    private readonly filter: IArticleInputFilterInput = { updated_at: { from_: '2022-01-01' } };
     private readonly sort: ISortInput = { field: 'updated_at', dir: 'desc' };
-    private readonly limit = 20;
+    private readonly limit: IArticleQueryInput['limit'] = 20;
     private readonly articleService = inject(ArticleService);
     protected readonly searchQuery$ = this.articleService.searchQuery$;
     protected selectedLanguage = this.articleService.selectedLanguage;

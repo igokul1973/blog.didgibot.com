@@ -47,8 +47,7 @@ export class CookieConsentService {
     private loadConsent(): void {
         const consent = localStorage.getItem(this.CONSENT_KEY);
         try {
-            const parsedConsent = consent ? JSON.parse(consent) : null;
-            this.consent = parsedConsent;
+            this.consent = consent ? JSON.parse(consent) : null;
         } catch (error) {
             console.error('Error parsing cookie consent:', error);
             this.consent = null;
