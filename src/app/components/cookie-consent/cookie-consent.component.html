@@ -22,7 +22,7 @@
                             <label [for]="cookie.id">
                                 <strong>{{ cookie.name }}</strong>
                                 <span class="required-badge">{{
-                                    isCookieRequired(cookie.name) ? 'Required' : 'Optional'
+                                    isCookieRequired(cookie.formControl) ? 'Required' : 'Optional'
                                 }}</span>
                             </label>
                         </div>

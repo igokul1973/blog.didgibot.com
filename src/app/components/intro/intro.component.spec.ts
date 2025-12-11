@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, withRouterConfig } from '@angular/router';
 import { Apollo } from 'apollo-angular';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { vi } from 'vitest';
 
 import { routes } from '@/app/app.routes';
 import { ArticleService } from '@/app/services/article/article.service';

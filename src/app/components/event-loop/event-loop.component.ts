@@ -40,39 +40,21 @@ export class EventLoopComponent implements AfterViewInit {
     private callStackChange = linkedSignal<ITask<TTaskType>[], ITaskAction>({
         source: this.callStack,
         computation: (current, previous) => {
-            if (!previous || previous.source.length === current.length) {
-                return { task: null, action: 'none' };
-            }
-            const prev = previous.source;
-            return prev.length > current.length
-                ? { task: EventLoopComponent.findElementsMissingInSecondArray(prev, current)[0], action: 'remove' }
-                : { task: current[current.length - 1], action: 'add' };
+            return EventLoopComponent.calculateTaskAction(current, previous);
         }
     });
-    private taskQueue = signal<ITask<'macro'>[]>([]);
-    private taskQueueChange = linkedSignal<ITask<'macro'>[], ITaskAction>({
-        source: this.taskQueue,
+    private macroTaskQueue = signal<ITask<'macro'>[]>([]);
+    private macroTaskQueueChange = linkedSignal<ITask<'macro'>[], ITaskAction>({
+        source: this.macroTaskQueue,
         computation: (current, previous) => {
-            if (!previous || previous.source.length === current.length) {
-                return { task: null, action: 'none' };
-            }
-            const prev = previous.source;
-            return prev.length > current.length
-                ? { task: EventLoopComponent.findElementsMissingInSecondArray(prev, current)[0], action: 'remove' }
-                : { task: current[current.length - 1], action: 'add' };
+            return EventLoopComponent.calculateTaskAction(current, previous);
         }
     });
     private microTaskQueue = signal<ITask<'micro'>[]>([]);
     private microTaskQueueChange = linkedSignal<ITask<'micro'>[], ITaskAction>({
         source: this.microTaskQueue,
         computation: (current, previous) => {
-            if (!previous || previous.source.length === current.length) {
-                return { task: null, action: 'none' };
-            }
-            const prev = previous.source;
-            return prev.length > current.length
-                ? { task: EventLoopComponent.findElementsMissingInSecondArray(prev, current)[0], action: 'remove' }
-                : { task: current[current.length - 1], action: 'add' };
+            return EventLoopComponent.calculateTaskAction(current, previous);
         }
     });
     protected isRunning = signal<boolean>(false);
@@ -84,9 +66,14 @@ export class EventLoopComponent implements AfterViewInit {
     private renderTimeout: number | null = null;
 
     constructor() {
-        // Add tasks to the call stack
+        // Add tasks to or remove from the call stack
         effect(() => {
-            const { task, action } = this.callStackChange();
+            const callStack = this.callStack();
+            if (!this.visualizationRef || !this.consoleRef) {
+                return;
+            }
+
+            const { task, action } = untracked(() => this.callStackChange());
             if (task) {
                 if (action === 'add') {
                     this.updateExplanation(`⚡ Added a ${task.type} task code to the call stack: ${task.name}`);
@@ -106,27 +93,28 @@ export class EventLoopComponent implements AfterViewInit {
                     }
                 } else if (action === 'remove') {
                     this.updateExplanation(`⚡ Removed ${task.type} task code from the call stack: ${task.name}`);
-                    if (this.callStack().length === 0) {
+                    if (callStack.length === 0) {
                         this.updateExplanation('The call stack is empty.');
                     }
                 }
+
                 this.renderVisualizationDebounced();
             }
         });
 
-        // Add tasks to or remove from the task queue.
+        // Add macrotasks to or remove from the task queue.
         effect(() => {
+            const macroTaskQueue = this.macroTaskQueue();
             if (!this.visualizationRef || !this.consoleRef) {
                 return;
             }
-            const taskQueue = this.taskQueue();
-            const { task, action } = untracked(() => this.taskQueueChange());
+            const { task, action } = untracked(() => this.macroTaskQueueChange());
 
-            if (action === 'none') {
+            if (!task || action === 'none') {
                 return;
             }
 
-            if (taskQueue.length > 0) {
+            if (macroTaskQueue.length > 0) {
                 if (action === 'add') {
                     this.updateExplanation(`⚡ Added a task ${task?.name} to the task queue.`);
                 } else if (action === 'remove') {
@@ -142,13 +130,13 @@ export class EventLoopComponent implements AfterViewInit {
 
         // Add microtasks to or remove from the microtask queue.
         effect(() => {
+            const microTaskQueue = this.microTaskQueue();
             if (!this.visualizationRef || !this.consoleRef) {
                 return;
             }
-            const microTaskQueue = this.microTaskQueue();
             const { task, action } = untracked(() => this.microTaskQueueChange());
 
-            if (action === 'none') {
+            if (!task || action === 'none') {
                 return;
             }
             if (microTaskQueue.length > 0) {
@@ -170,18 +158,25 @@ export class EventLoopComponent implements AfterViewInit {
         if (!this.visualizationRef || !this.consoleRef) {
             return;
         }
-        this.createSvgElement('svg', { viewBox: '0 0 1000 600' });
         this.renderVisualization();
     }
 
     private addMacroTask(item: ITask<'macro'>) {
-        this.taskQueue.set(this.taskQueue().concat(item));
+        this.macroTaskQueue.set(this.macroTaskQueue().concat(item));
     }
 
     private removeMacroTask() {
-        const q = this.taskQueue();
-        const item = q.shift();
-        this.taskQueue.set([...q]);
+        const q = this.macroTaskQueue();
+        const item = q[0];
+        // Remove the first item from the queue (FIFO - First In, First Out)
+        // The microtask queue operates on a First In, First Out (FIFO) basis,
+        // meaning the oldest task (at index 0) is processed first.
+        // We create a new array containing all elements except the first one
+        // by using slice(1), which returns a shallow copy starting from index 1.
+        // This effectively removes the first element while preserving the order
+        // of all remaining elements in the queue.
+        this.macroTaskQueue.set([...q.slice(1)]);
+
         return item;
     }
 
@@ -191,8 +186,16 @@ export class EventLoopComponent implements AfterViewInit {
 
     private removeMicroTask() {
         const q = this.microTaskQueue();
-        const item = q.shift();
-        this.microTaskQueue.set([...q]);
+        const item = q[0];
+        // Remove the first item from the queue (FIFO - First In, First Out)
+        // The microtask queue operates on a First In, First Out (FIFO) basis,
+        // meaning the oldest task (at index 0) is processed first.
+        // We create a new array containing all elements except the first one
+        // by using slice(1), which returns a shallow copy starting from index 1.
+        // This effectively removes the first element while preserving the order
+        // of all remaining elements in the queue.
+        const remainingTasks = q.slice(1);
+        this.microTaskQueue.set([...remainingTasks]);
         return item;
     }
 
@@ -213,12 +216,31 @@ export class EventLoopComponent implements AfterViewInit {
         this.callStack.set(cs.filter((item) => item !== task));
     }
 
+    /**
+     * Removes and returns the last task of a specific type from the call stack.
+     *
+     * This method searches the call stack from the end (top) to find the most recently
+     * added task matching the specified type. Once found, it removes that task from
+     * the call stack and returns it.
+     *
+     * @template T - The task type to search for (extends TTaskType: 'sync' | 'macro' | 'micro')
+     * @param taskType - The type of task to find and remove from the call stack
+     * @returns The removed task if found, or null if no task of the specified type exists
+     *
+     * @example
+     * // Remove the last synchronous task from the call stack
+     * const syncTask = this.popLastTaskFromCallStackByType('sync');
+     *
+     * @example
+     * // Remove the last microtask from the call stack
+     * const microTask = this.popLastTaskFromCallStackByType('micro');
+     */
     private popLastTaskFromCallStackByType<T extends TTaskType>(taskType: T): ITask<T> | null {
         const cs = this.callStack();
         let lastTaskByType: ITask<T> | null = null;
         const newCallStack = cs.reduceRight((acc, task) => {
             if (task.type === taskType && !lastTaskByType) {
-                lastTaskByType = task as ITask<T>; // May need assertion
+                lastTaskByType = task as ITask<T>;
             } else {
                 acc.push(task);
             }
@@ -249,13 +271,16 @@ export class EventLoopComponent implements AfterViewInit {
             clearTimeout(this.renderTimeout);
             this.renderTimeout = null;
         }
-        this.renderTimeout = setTimeout(() => this.renderVisualization(), 50) as unknown as number;
+
+        this.renderTimeout = setTimeout(() => {
+            this.renderVisualization();
+        }, 50) as unknown as number;
     }
 
     private renderVisualization() {
         const svg = this.visualizationRef.nativeElement;
         const callStack = untracked(() => this.callStack());
-        const taskQueue = untracked(() => this.taskQueue());
+        const taskQueue = untracked(() => this.macroTaskQueue());
         const microTaskQueue = untracked(() => this.microTaskQueue());
         const isRunning = untracked(() => this.isRunning());
 
@@ -557,18 +582,18 @@ export class EventLoopComponent implements AfterViewInit {
         svg.insertBefore(defs, svg.firstChild);
     }
 
-    protected async startLoop() {
+    protected async startEventLoop() {
         if (this.isRunning()) {
             return;
         }
 
         const callStack = this.callStack;
         const microtaskQueue = this.microTaskQueue;
-        const taskQueue = this.taskQueue;
+        const macroTaskQueue = this.macroTaskQueue;
 
         this.isRunning.set(true);
 
-        while (callStack().length > 0 || microtaskQueue().length > 0 || taskQueue().length > 0) {
+        while (callStack().length > 0 || microtaskQueue().length > 0 || macroTaskQueue().length > 0) {
             // Process call stack
             if (callStack().length > 0) {
                 this.updateExplanation(`⚡ Executing synchronous code from call stack`);
@@ -606,9 +631,8 @@ export class EventLoopComponent implements AfterViewInit {
             }
 
             // Process one task
-            if (taskQueue().length > 0 && callStack().length === 0) {
-                // if (taskQueue().length > 0) {
-                this.updateExplanation(`🔵 Processing ONE task (microtask), then back to microtasks...`);
+            if (macroTaskQueue().length > 0 && callStack().length === 0) {
+                this.updateExplanation(`🔵 Processing ONE task (macrotask), then back to microtasks...`);
                 // Removing from the macrotask queue...
                 const item = this.removeMacroTask();
                 if (item) {
@@ -633,7 +657,7 @@ export class EventLoopComponent implements AfterViewInit {
 
     protected reset() {
         this.callStack.set([]);
-        this.taskQueue.set([]);
+        this.macroTaskQueue.set([]);
         this.microTaskQueue.set([]);
         this.isRunning.set(false);
         this.taskCounter.set(0);
@@ -665,5 +689,25 @@ export class EventLoopComponent implements AfterViewInit {
 
     private static findElementsMissingInSecondArray(arr1: ITask<TTaskType>[], arr2: ITask<TTaskType>[]) {
         return arr1.filter((item) => !arr2.includes(item));
+    }
+
+    private static calculateTaskAction<T extends TTaskType>(
+        current: NoInfer<ITask<T>[]>,
+        previous:
+            | {
+                  source: NoInfer<ITask<T>[]>;
+                  value: NoInfer<ITaskAction>;
+              }
+            | undefined
+    ): ITaskAction {
+        if (!previous && current.length > 0) {
+            return { task: current[0], action: 'add' };
+        } else if (!previous || previous.source.length === current.length) {
+            return { task: null, action: 'none' };
+        }
+        const prev = previous.source;
+        return prev.length > current.length
+            ? { task: EventLoopComponent.findElementsMissingInSecondArray(prev, current)[0], action: 'remove' }
+            : { task: current[current.length - 1], action: 'add' };
     }
 }

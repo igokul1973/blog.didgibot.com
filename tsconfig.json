@@ -29,6 +29,10 @@
             "es2022",
             "dom",
             "dom.iterable"
+        ],
+        "types": [
+            "node",
+            "vitest/globals"
         ]
     },
     "angularCompilerOptions": {

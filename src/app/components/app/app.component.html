@@ -1,4 +1,4 @@
-<app-header [routeName$]="routeName$!" [(mode)]="mode"></app-header>
+<app-header [routeName$]="routeName$!" [urlPath]="(urlPath$ | async) ?? ''" [(mode)]="mode"></app-header>
 
 @if (routeName$ | async; as routeName) {
     <section [ngClass]="['content', routeName]">

@@ -57,7 +57,7 @@ export const transformRawTags = (tags: (DeepPartial<IRawTag> | undefined)[], isR
     return filteredTags.map((tag) => transformRawTag(tag, isRemoveDateFields));
 };
 
-export function transformRawContent(rawContent: DeepPartial<IContent>) {
+export function transformRawContent(rawContent: DeepPartial<IContent>): IContent {
     const { __typename: _typename, version, time, blocks, ...content } = rawContent;
     const filteredBlocks =
         blocks?.filter((block): block is IContentBlock => !!block && !!block.type && !!block.data) || [];

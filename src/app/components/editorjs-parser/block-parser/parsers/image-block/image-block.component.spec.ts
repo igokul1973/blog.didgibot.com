@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { beforeEach, describe, expect, it } from 'vitest';
 import { BlockToolTypeEnum } from '../../../types';
 import { ImageBlockComponent } from './image-block.component';
 

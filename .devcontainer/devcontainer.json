@@ -12,12 +12,12 @@
     "mounts": [
         "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
         "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/root/.ssh,type=bind,readonly",
-        "source=${localEnv:HOME}/.docker/.config.json,target=/root/.docker/.config.json,type=bind,readonly"
+        "source=${localEnv:HOME}/.docker/config.json,target=/root/.docker/config.json,type=bind,readonly"
     ],
     "runArgs": [
         //     "--volume",
         //     "/var/run/docker.sock:/var/run/docker.sock"
-        "--memory=5g",
+        "--memory=6g",
         "--memory-swap=8g"
     ],
     // Features to add to the dev container. More info: https://containers.dev/features.

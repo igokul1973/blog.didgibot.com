@@ -66,8 +66,8 @@ export class CookieConsentComponent implements OnInit, OnDestroy {
     }
 
     protected savePreferences() {
-        const hasAnalytics = this.form.get('analytics')?.value ?? false;
-        const hasMarketing = this.form.get('marketing')?.value ?? false;
+        const hasAnalytics = this.form.get('analytics')?.value === true;
+        const hasMarketing = this.form.get('marketing')?.value === true;
         this.cookieConsentService.consent = {
             necessary: true,
             analytics: hasAnalytics,
