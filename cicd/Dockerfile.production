@@ -1,0 +1,32 @@
+# An example of how to create a Dockerfile that could
+# be used as a base for Jenkinsfile stages
+
+# Step 1: Create node container
+FROM python:3.12-alpine AS base
+
+# Step 2: Update apk and install alpine dependencies
+FROM base AS apk
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk update && apk add --no-cache libc6-compat
+ENV ENVIRONMENT=production
+
+# Step 4: Copy application
+FROM apk AS app
+WORKDIR /code
+COPY ./app/ /code/app/
+
+# Step 5: Lint the app
+FROM app AS lint
+COPY ./setup.cfg ./setup.cfg
+RUN pip install flake8 && flake8 --config=setup.cfg --count --show-source --statistics app
+
+# Step 3: Install app dependencies
+FROM app AS deps
+COPY ./requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r /code/requirements.txt
+
+FROM deps AS image-production
+# Step 6: Expose port and run app
+EXPOSE 8888
+# CMD ["sleep", "infinity"]
+CMD ["fastapi", "run", "--host", "0.0.0.0", "--port", "8888"]
