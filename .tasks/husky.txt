@@ -1,0 +1,6 @@
+Add a `husky` npm package (probably as a dev dependency?). 
+Set up and add to package.json a command to check the typing of the code `"check:types": "ng build --configuration development"` (please come up with the right command yourself), 
+just as the ng build does, but without building the code. 
+Set the husky to run to run the pre-commit hook to run the `pnpm run lint` and `pnpm run check:types` commands and the pre-push hook to run the `pnpm run test` command.
+Add necessary commands to the package.json file to run the husky hooks. 
+When committing, make sure it is a `chore` type of commit.

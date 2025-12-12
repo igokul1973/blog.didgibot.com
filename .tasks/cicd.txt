@@ -1,0 +1,31 @@
+## Specification
+I currently have 2 files: `cicd/Dockerfile.production` and `cicd/Jenkinsfile_test`. Those files are written for the CICD process for my Python web backend. 
+I'd like to create the same but for the current project, i.e. Angular FE.
+I want to be able to push changes to the main branch (via push or PR merge), and the CICD system on Jenkins will use container created from image 
+made with Dockerfile.production to run pipeline stages corresponding to stages in Dockerfile.production.
+The stages should be the same as in the current `cicd/Jenkinsfile_test`, with the addition of `testing` stage in parallel with the linting stage (if
+you think it is possible and reasonable, else recommend a different stages order).
+
+All commands running in the `cicd/Dockerfile.production` must be using scripts section commands from package.json.
+Mind you, the package manager used is `pnpm`.
+Specifically, for `testing` stage I'd like to have `pnpm test:coverage` command used. This command, among other existing ones, must create as final 
+pipeline artifact the coverage html file (or any other visual format) that could be checked in Jenkins UI. The pipeline should fail if less than 90% 
+of test coverage has been detected on any tested file (component/pipe/service, etc.) unless it is in the exceptions (please define where the coverage 
+exceptions are in the current codebase - in vite.config.ts?).
+Testing of the new pipeline can be done on current Jenkins server by pushing changes to the remote branch as soon as you come up with the name. I,
+as a human, will modify the current pipeline to get triggered for the branch.
+
+In other words, this task is to modify the `cicd/Jenkinsfile_test` and `cicd/Dockerfile.production` in order to do the same thing they are doing now
+but for the current project for node JS. 
+
+Take the Node.js version from the current `cicd/Dockerfile.node`. As soon as the `cicd/Jenkinsfile_test` is ready and 
+approved, rename the current `cicd/Jenkinsfile` (which you should also consult for the currently running pipeline for comparison and analysis) to 
+`cicd/Jenkinsfile_deprecated` with corresponding comments on it, and rename the `cicd/Jenkinsfile_test` to `cicd/Jenkinsfile`.
+For additional information consult also the pod manifest `cicd/node-git-chromium-pod.yaml`, which is used to run in the Jenkins pipeline in Kubernetes pod now.
+The `image: igk19/node-git-chromium:1.0.10` in that file is the image created from the current `cicd/Dockerfile.node`. You should also consult the 
+`cicd/Dockerfile.node` for comparison and analysis.
+This task should also create a new image for the `cicd/node-git-chromium-pod.yaml` to run, so modify `cicd/node-git-chromium-pod.yaml` after that image
+creation. The image, of course, must be created and pushed to my Docker registry from the new and approved `cicd/Dockerfile.production`. Call the 
+image: `igk19/node-22:1.0.0`.
+
+Ask me questions if anything is not clear.  

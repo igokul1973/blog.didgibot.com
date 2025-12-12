@@ -1,0 +1,5 @@
+Cover all coverable Angular elements with unit tests directly in code and send for my approval.
+The coverage must be >= 90%
+No implicit any in tests.
+No deprecated features can be used.
+Always consult constitution.md if in doubt.
