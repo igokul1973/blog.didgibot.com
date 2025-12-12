@@ -55,50 +55,50 @@ pipeline {
           }
         }
         stage('Build') {
-          when {
-            environment name: 'SHOULD_BUMP_VERSION', value: 'false'
-          }
-      steps {
-        container('node-git-chromium') {
-          sh '''
-            echo 'Building the app...'
-            pnpm install
-            pnpm build
-          '''
-        }
-      }
+            when {
+                environment name: 'SHOULD_BUMP_VERSION', value: 'false'
+            }
+            steps {
+                container('node-git-chromium') {
+                sh '''
+                    echo 'Building the app...'
+                    pnpm install
+                    pnpm build
+                '''
+                }
+            }
         }
         // Build image and push it to Docker Hub
         stage('Kaniko') {
-          when {
-            environment name: 'SHOULD_BUMP_VERSION', value: 'false'
-          }
-          steps {
-            container('kaniko') {
-              sh """
-                        echo 'Starting Kaniko build...'
-                        pwd
-                        ls -lah
-                        /kaniko/executor --dockerfile `pwd`/cicd/Dockerfile \
-                                  --context `pwd`/cicd \
-                                  --destination=${env.DOCKER_IMAGE_NAME}
-              """
+            when {
+                environment name: 'SHOULD_BUMP_VERSION', value: 'false'
             }
-            script {
-              env.BUILD_RESULT = "SUCCESSFULLY BUILT DOCKER IMAGE FOR BLOG.DIDGIBOT.COM WITH VERSION - ${env.DOCKER_IMAGE_NAME} - AND PUSHED TO DOCKER REPOSITORY"
+            steps {
+                container('kaniko') {
+                sh """
+                            echo 'Starting Kaniko build...'
+                            pwd
+                            ls -lah
+                            /kaniko/executor --dockerfile `pwd`/cicd/Dockerfile \
+                                    --context `pwd`/cicd \
+                                    --destination=${env.DOCKER_IMAGE_NAME}
+                """
+                }
+                script {
+                env.BUILD_RESULT = "SUCCESSFULLY BUILT DOCKER IMAGE FOR BLOG.DIDGIBOT.COM WITH VERSION - ${env.DOCKER_IMAGE_NAME} - AND PUSHED TO DOCKER REPOSITORY"
+                }
             }
-          }
         }
         // Start another job
         stage('Change image in blog.didgibot.com deployment') {
-          when {
-            environment name: 'SHOULD_BUMP_VERSION', value: 'false'
-          }
-          steps {
-            build job: 'change-image-name-in-blog-didgibot-com/' + env.BRANCH_NAME, parameters: [
-              string(name: 'IMAGE_TAG_NUMBER', value: env.IMAGE_TAG_NUMBER)
-            ]
-          }
+            when {
+                environment name: 'SHOULD_BUMP_VERSION', value: 'false'
+            }
+            steps {
+                build job: 'change-image-name-in-blog-didgibot-com/' + env.BRANCH_NAME, parameters: [
+                string(name: 'IMAGE_TAG_NUMBER', value: env.IMAGE_TAG_NUMBER)
+                ]
+            }
         }
         }
 
