@@ -1,32 +1,47 @@
-# An example of how to create a Dockerfile that could
-# be used as a base for Jenkinsfile stages
+#
+# Jenkins Kubernetes agent & CI stages for Angular frontend
+# Built manually on AMD64 Linux:
+#   docker build --platform linux/amd64 -f cicd/Dockerfile.production -t igk19/node-22:1.0.0 .
+#
 
-# Step 1: Create node container
-FROM python:3.12-alpine AS base
+# base: Node + system tooling for lint/test/build
+FROM node:22-alpine3.21 AS base
 
-# Step 2: Update apk and install alpine dependencies
-FROM base AS apk
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk update && apk add --no-cache libc6-compat
-ENV ENVIRONMENT=production
+ENV CHROME_BIN=/usr/bin/chromium-browser \
+    PNPM_HOME=/usr/local/share/pnpm \
+    PATH="/usr/local/share/pnpm:${PATH}"
 
-# Step 4: Copy application
-FROM apk AS app
-WORKDIR /code
-COPY ./app/ /code/app/
+RUN apk update && apk add --no-cache \
+    libc6-compat \
+    git \
+    nmap \
+    chromium && \
+    npm install -g pnpm
 
-# Step 5: Lint the app
+WORKDIR /workspace
+
+# deps: install node dependencies (no app code yet)
+FROM base AS deps
+COPY package.json pnpm-lock.yaml* .npmrc* ./ 
+RUN pnpm install --frozen-lockfile --ignore-scripts
+
+# app: bring in source (used by lint/test/build targets)
+FROM deps AS app
+COPY . .
+
+# lint stage: run lint
 FROM app AS lint
-COPY ./setup.cfg ./setup.cfg
-RUN pip install flake8 && flake8 --config=setup.cfg --count --show-source --statistics app
+RUN pnpm lint
 
-# Step 3: Install app dependencies
-FROM app AS deps
-COPY ./requirements.txt /code/requirements.txt
-RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r /code/requirements.txt
+# test stage: run coverage tests
+FROM app AS test
+RUN pnpm test:coverage && pnpm coverage:enforce
 
-FROM deps AS image-production
-# Step 6: Expose port and run app
-EXPOSE 8888
-# CMD ["sleep", "infinity"]
-CMD ["fastapi", "run", "--host", "0.0.0.0", "--port", "8888"]
+# build stage: build Angular app (artifacts used by downstream image build)
+FROM app AS build
+RUN pnpm build
+
+# image-production: base agent image (tools + workspace), default sleep
+FROM base AS image-production
+WORKDIR /workspace
+CMD ["sleep", "infinity"]

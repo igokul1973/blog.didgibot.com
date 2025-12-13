@@ -1,159 +1,142 @@
-// And here is the Jenkinsfile (python example that could be recreated for Node.js/Typescript)
+// Jenkins CI/CD for Angular frontend (Node 22 agent pod + kaniko)
+// Stages align with cicd/Dockerfile.production (lint, test, build) and final image build via kaniko.
+// Two-run behavior: first run bumps version and exits; second run (post-push) executes lint/test/build/image stages.
 
-/* Requires the Kubernetes Pipeline plugin */
 pipeline {
-    environment {
-        RESULTS_FILE_NAME = 'job-results.txt'
-        APP_DOCKER_IMAGE_NAME = "igk19/dgb-blog-api:${BUILD_NUMBER}"
-        IMAGE_TAG_NUMBER = "${BUILD_NUMBER}"
-        SHOULD_BUMP_VERSION_TEXT = 'SHOULD_BUMP_VERSION'
-        DOCKER_CONTAINER_NAME = 'docker'
-        PYTHON_GIT_CONTAINER_NAME = 'python-git'
-        TRUE_STRING = 'true'
-        FALSE_STRING = 'false'
-    }
     agent {
         kubernetes {
-            yamlFile 'python-git-pod.yaml'
+            yamlFile 'cicd/node-git-chromium-pod.yaml'
         }
     }
+    environment {
+        RESULTS_FILE_NAME = 'job-results.txt'
+        IMAGE_TAG_NUMBER = "${BUILD_NUMBER}"
+        DOCKER_IMAGE_NAME = "igk19/blog:${BUILD_NUMBER}"
+        SHOULD_BUMP_VERSION = 'false'
+    }
+    options { timestamps() }
+
     stages {
-        stage('Prepare') { steps { check() } }
-        stage('Bump version') {
-            when {
-                environment name: env.SHOULD_BUMP_VERSION_TEXT, value: env.TRUE_STRING
-            }
+        stage('Prepare') {
             steps {
-                container(env.PYTHON_GIT_CONTAINER_NAME) {
+                script { check() }
+                container('node-git-chromium') {
+                    sh '''
+                        cd /workspace
+                        pnpm install --frozen-lockfile
+                    '''
+                }
+            }
+        }
+
+        stage('Bump version') {
+            when { environment name: 'SHOULD_BUMP_VERSION', value: 'true' }
+            steps {
+                container('node-git-chromium') {
                     withCredentials([
-                        sshUserPrivateKey(
-                            credentialsId: 'github_ssh_credentials',
-                            keyFileVariable: 'SSH_KEY'
-                        ),
-                        usernamePassword(
-                            credentialsId: 'bc934908-4192-4b50-bb32-5fad86943329',
-                            usernameVariable: 'USERNAME',
-                            passwordVariable: 'GH_TOKEN'
-                        )
+                        sshUserPrivateKey(credentialsId: 'github_ssh_credentials', keyFileVariable: 'SSH_KEY'),
+                        usernamePassword(credentialsId: 'bc934908-4192-4b50-bb32-5fad86943329', usernameVariable: 'USERNAME', passwordVariable: 'GH_TOKEN')
                     ]) {
                         script {
                             sh """
+                                git config --global --add safe.directory ${env.WORKSPACE}
                                 git checkout ${env.BRANCH_NAME}
-                                git fetch
-                                semantic-release version --no-vcs-release
+                                pnpm version --no-git-tag-version patch
+                                git add --all
                             """
-                            def newAppVersion = sh(
-                                returnStdout: true,
-                                script: "python -c 'from app.version import __version__; print(__version__)'").trim()
-                            env.NEW_APP_VERSION = newAppVersion
+                            def newAppVersion = readJSON text: sh(returnStdout: true, script: 'pnpm version --json')
+                            env.NEW_APP_VERSION = newAppVersion['blog.didgibot.com']
+                            def commitMessage = "Upgrade to new application version - ${env.NEW_APP_VERSION} - [version bump]"
+                            def encodedPassword = URLEncoder.encode("$GH_TOKEN", 'UTF-8')
+                            sh "git commit -m '${commitMessage}'"
+                            sh "git push https://${USERNAME}:${encodedPassword}@github.com/${USERNAME}/blog.didgibot.com.git"
                         }
                     }
                 }
             }
         }
-        // Create Python docker container
-        stage('Create base Python docker container') {
-            when {
-                environment name: env.SHOULD_BUMP_VERSION_TEXT, value: env.FALSE_STRING
-            }
+
+        stage('Lint (Dockerfile.production:lint)') {
+            when { environment name: 'SHOULD_BUMP_VERSION', value: 'false' }
             steps {
-                container(env.DOCKER_CONTAINER_NAME) {
-                    sh """
-                    echo 'Installing Python in docker container...'
-                    docker build -f `pwd`/Dockerfile.production \
-                        --target=base -t ${env.DOCKER_CONTAINER_NAME} .
-                  """
+                container('kaniko') {
+                    sh '''
+                        cd /workspace
+                        /kaniko/executor --dockerfile `pwd`/cicd/Dockerfile.production \
+                            --context `pwd` \
+                            --target=lint \
+                            --no-push
+                    '''
                 }
             }
         }
-        // Copy app inside docker container
-        stage('Copy app') {
-            when {
-                environment name: env.SHOULD_BUMP_VERSION_TEXT, value: env.FALSE_STRING
-            }
+
+        stage('Test (Dockerfile.production:test)') {
+            when { environment name: 'SHOULD_BUMP_VERSION', value: 'false' }
             steps {
-                container(env.DOCKER_CONTAINER_NAME) {
-                    sh """
-                    echo 'Copying the app...'
-                    docker build --network=host -f `pwd`/Dockerfile.production --target=app -t ${env.DOCKER_CONTAINER_NAME} .
-                  """
+                container('kaniko') {
+                    sh '''
+                        cd /workspace
+                        /kaniko/executor --dockerfile `pwd`/cicd/Dockerfile.production \
+                            --context `pwd` \
+                            --target=test \
+                            --no-push
+                    '''
                 }
             }
         }
-        stage('Lint and dependencies') {
-            parallel {
-                // Lint app source
-                stage('Lint app') {
-                    when {
-                        environment name: env.SHOULD_BUMP_VERSION_TEXT, value: env.FALSE_STRING
-                    }
-                    steps {
-                        container(env.DOCKER_CONTAINER_NAME) {
-                            sh """
-                    echo 'Linting the app...'
-                    docker build --network=host -f `pwd`/Dockerfile.production --target=lint .
-                  """
-                        }
-                    }
+
+        stage('Publish Coverage Artifact') {
+            when { environment name: 'SHOULD_BUMP_VERSION', value: 'false' }
+            steps {
+                archiveArtifacts artifacts: 'coverage/**/*', allowEmptyArchive: false
+            }
+        }
+
+        stage('Build (Dockerfile.production:build)') {
+            when { environment name: 'SHOULD_BUMP_VERSION', value: 'false' }
+            steps {
+                container('kaniko') {
+                    sh '''
+                        cd /workspace
+                        /kaniko/executor --dockerfile `pwd`/cicd/Dockerfile.production \
+                            --context `pwd` \
+                            --target=build \
+                            --no-push
+                    '''
                 }
-                // Install app dependencies
-                stage('Install app dependencies') {
-                    when {
-                        environment name: env.SHOULD_BUMP_VERSION_TEXT, value: env.FALSE_STRING
-                    }
-                    steps {
-                        container(env.DOCKER_CONTAINER_NAME) {
-                            // Using --network=host to access the host's docker socket as
-                            // the installation of pip packages takes forever without it.
-                            sh """
-                    echo 'Installing app dependencies...'
-                    docker build --network=host -f `pwd`/Dockerfile.production --target=deps -t ${env.DOCKER_CONTAINER_NAME} .
-                  """
-                        }
-                    }
+                // Build dist locally for app image input
+                container('node-git-chromium') {
+                    sh '''
+                        cd /workspace
+                        pnpm build
+                    '''
                 }
             }
         }
-        // Build app docker image
-        stage('Expose port and build app docker image') {
-            when {
-                environment name: env.SHOULD_BUMP_VERSION_TEXT, value: env.FALSE_STRING
-            }
+
+        stage('Image Build & Push (kaniko)') {
+            when { environment name: 'SHOULD_BUMP_VERSION', value: 'false' }
             steps {
-                container(env.DOCKER_CONTAINER_NAME) {
+                container('kaniko') {
                     sh """
-                    echo 'Preparing app image for production and starting final docker build...'
-                    docker build --network=host -f `pwd`/Dockerfile.production --target=image-production -t ${env.APP_DOCKER_IMAGE_NAME} .
-                  """
-                }
-            }
-        }
-        // Push app image it to the Docker Hub
-        stage('Push app image') {
-            when {
-                environment name: env.SHOULD_BUMP_VERSION_TEXT, value: env.FALSE_STRING
-            }
-            steps {
-                container(env.DOCKER_CONTAINER_NAME) {
-                    sh """
-                    echo 'Starting app image push...'
-                    docker push ${env.APP_DOCKER_IMAGE_NAME}
-                  """
+                        cd /workspace
+                        /kaniko/executor --dockerfile `pwd`/cicd/Dockerfile \
+                            --context `pwd`/cicd \
+                            --destination=${DOCKER_IMAGE_NAME}
+                    """
                 }
                 script {
-                    env.BUILD_RESULT = 'Successfully built and pushed to docker repository the image ' +
-                    "${env.APP_DOCKER_IMAGE_NAME} for DIDGIBOT.COM Blog API app."
+                    env.BUILD_RESULT = "Built and pushed ${DOCKER_IMAGE_NAME}"
                 }
             }
         }
-        // Start another job
-        stage('Change image in api.blog.didgibot.com deployment') {
-            when {
-                environment name: env.SHOULD_BUMP_VERSION_TEXT, value: env.FALSE_STRING
-            }
+
+        stage('Change image in blog.didgibot.com deployment') {
+            when { environment name: 'SHOULD_BUMP_VERSION', value: 'false' }
             steps {
-                build job: 'change-image-name-in-blog-api-didgibot-com/' + env.BRANCH_NAME, parameters: [
-                  string(name: 'IMAGE_TAG_NUMBER', value: env.IMAGE_TAG_NUMBER)
+                build job: 'change-image-name-in-blog-didgibot-com/' + env.BRANCH_NAME, parameters: [
+                    string(name: 'IMAGE_TAG_NUMBER', value: env.IMAGE_TAG_NUMBER)
                 ]
             }
         }
@@ -168,23 +151,22 @@ pipeline {
 
 void check() {
     env.BUILD_RESULT = 'ABORTED'
-    env.SHOULD_BUMP_VERSION = env.FALSE_STRING
-    // `result` will be equal to 0 if the last commit message contains '[version bump]'.
-    result = sh(script: "git log -1 | grep '.*\\[version bump\\].*'", returnStatus: true)
-    // If the `result` is not equal to 0, the commit message does not contain '[version bump]'
-    // so we should bump the version.
+    env.SHOULD_BUMP_VERSION = 'false'
+    def result = sh(script: "git log -1 | grep '.*\\[version bump\\].*'", returnStatus: true)
     if (result != 0) {
-        env.SHOULD_BUMP_VERSION = env.TRUE_STRING
+        env.SHOULD_BUMP_VERSION = 'true'
     }
 }
 
 void postProcess() {
-    if (env.SHOULD_BUMP_VERSION == env.TRUE_STRING) {
-        if (env.NEW_APP_VERSION != null) {
+    if (env.SHOULD_BUMP_VERSION == 'true') {
+        if (env.NEW_APP_VERSION) {
             env.BUILD_RESULT = "Bumped application version to ${env.NEW_APP_VERSION}"
         } else {
-            env.BUILD_RESULT = 'Bumped application version but the script still failed right after that.'
+            env.BUILD_RESULT = "Version bump attempted; NEW_APP_VERSION unavailable"
         }
+    } else if (!env.BUILD_RESULT) {
+        env.BUILD_RESULT = "Pipeline completed (no version bump)"
     }
     writeFile file: env.RESULTS_FILE_NAME, text: "The job build result: ${env.BUILD_RESULT}"
     archiveArtifacts env.RESULTS_FILE_NAME

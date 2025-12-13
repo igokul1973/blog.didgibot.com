@@ -5,8 +5,11 @@ metadata:
 spec:
     containers:
         - name: node-git-chromium
-          image: igk19/node-git-chromium:1.0.10
+          image: igk19/node-22:1.0.0
           automountServiceAccountToken: false
+          volumeMounts:
+              - name: workspace
+                mountPath: /workspace
           command:
               - sleep
           args:
@@ -25,6 +28,11 @@ spec:
         - name: kaniko
           image: gcr.io/kaniko-project/executor:debug
           automountServiceAccountToken: false
+          volumeMounts:
+              - name: workspace
+                mountPath: /workspace
+              - name: jenkins-docker-cfg
+                mountPath: /kaniko/.docker
           command:
               - sleep
           args:
@@ -39,12 +47,11 @@ spec:
                   memory: '1024Mi'
                   cpu: '400m'
                   ephemeral-storage: '1Gi'
-          volumeMounts:
-              - name: jenkins-docker-cfg
-                mountPath: /kaniko/.docker
     volumes:
         - name: jenkins-docker-cfg
           projected:
               sources:
                   - secret:
                         name: kaniko-secret
+        - name: workspace
+          emptyDir: {}
