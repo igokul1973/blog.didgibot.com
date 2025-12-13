@@ -14,7 +14,7 @@ pipeline {
         DOCKER_IMAGE_NAME = "igk19/blog:${BUILD_NUMBER}"
         SHOULD_BUMP_VERSION = 'false'
     }
-    options { timestamps() }
+    options { disableConcurrentBuilds() }
 
     stages {
         stage('Prepare') {
