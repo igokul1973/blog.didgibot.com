@@ -1,6 +1,6 @@
 {
     "name": "blog.didgibot.com",
-    "version": "0.0.97",
+    "version": "0.0.103",
     "engines": {
         "node": ">=22.0.0"
     },
@@ -14,6 +14,7 @@
         "test": "ng test",
         "test:headless": "vitest --no-watch",
         "test:coverage": "vitest --no-watch --coverage",
+        "coverage:enforce": "node scripts/coverage-check.cjs",
         "test:coverage:debug": "vitest --no-watch --coverage --test-timeout=0 --no-file-parallelism",
         "test:ui": "vitest --ui",
         "check:types": "echo '🔍 Running TypeScript type checking...' && npx tsc --noEmit --project tsconfig.check-types.json && echo '✅ Type checking completed successfully'",

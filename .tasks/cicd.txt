@@ -21,11 +21,13 @@ but for the current project for node JS.
 Take the Node.js version from the current `cicd/Dockerfile.node`. As soon as the `cicd/Jenkinsfile_test` is ready and 
 approved, rename the current `cicd/Jenkinsfile` (which you should also consult for the currently running pipeline for comparison and analysis) to 
 `cicd/Jenkinsfile_deprecated` with corresponding comments on it, and rename the `cicd/Jenkinsfile_test` to `cicd/Jenkinsfile`.
-For additional information consult also the pod manifest `cicd/node-git-chromium-pod.yaml`, which is used to run in the Jenkins pipeline in Kubernetes pod now.
+For additional information consult also the pod manifest `cicd/docker-agent-pod.yaml`, which is used to run in the Jenkins pipeline in Kubernetes pod now.
 The `image: igk19/node-git-chromium:1.0.10` in that file is the image created from the current `cicd/Dockerfile.node`. You should also consult the 
 `cicd/Dockerfile.node` for comparison and analysis.
-This task should also create a new image for the `cicd/node-git-chromium-pod.yaml` to run, so modify `cicd/node-git-chromium-pod.yaml` after that image
-creation. The image, of course, must be created and pushed to my Docker registry from the new and approved `cicd/Dockerfile.production`. Call the 
-image: `igk19/node-22:1.0.0`.
+This task should also create a new image for the `cicd/docker-agent-pod.yaml` to run and rename the pod, so rename the `cicd/node-git-chromium-pod.yaml` 
+to `cicd/docker-agent-pod.yaml` and modify `cicd/docker-agent-pod.yaml` after that.
 
-Ask me questions if anything is not clear.  
+The Angular frontend pipeline uses `cicd/Dockerfile.production` to build an ephemeral CI runner image during the pipeline (via Docker-in-Docker) and does
+not require publishing a separate agent image to a registry.
+
+Ask me questions if anything is not clear.

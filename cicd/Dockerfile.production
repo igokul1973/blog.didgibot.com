@@ -1,32 +1,55 @@
-# An example of how to create a Dockerfile that could
-# be used as a base for Jenkinsfile stages
+#
+# Jenkins Kubernetes agent & CI stages for Angular frontend
 
-# Step 1: Create node container
-FROM python:3.12-alpine AS base
+# base: Node 22 + system tooling for lint/test/build/git commit/git push
+FROM igk19/node-base:22 AS base
 
-# Step 2: Update apk and install alpine dependencies
-FROM base AS apk
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk update && apk add --no-cache libc6-compat
-ENV ENVIRONMENT=production
+WORKDIR /workspace
 
-# Step 4: Copy application
-FROM apk AS app
-WORKDIR /code
-COPY ./app/ /code/app/
+# deps: install node dependencies (no app code yet)
+FROM base AS deps
+COPY package.json pnpm-lock.yaml* .npmrc* ./ 
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
-# Step 5: Lint the app
+# app: bring in source (used by lint/test/build targets)
+FROM deps AS app
+COPY . .
+
+# lint stage: run lint
 FROM app AS lint
-COPY ./setup.cfg ./setup.cfg
-RUN pip install flake8 && flake8 --config=setup.cfg --count --show-source --statistics app
+RUN pnpm lint
 
-# Step 3: Install app dependencies
-FROM app AS deps
-COPY ./requirements.txt /code/requirements.txt
-RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r /code/requirements.txt
+# test stage: run coverage tests
+FROM app AS test
+RUN pnpm test:coverage && pnpm coverage:enforce
 
-FROM deps AS image-production
-# Step 6: Expose port and run app
-EXPOSE 8888
+# Build stage: build Angular app (artifacts used by downstream image build).
+# In essense it creates a `dist` folder with the built app.
+FROM app AS build
+RUN pnpm build
+
+# Bump the version only if the tests pass and have the coverage needed
+FROM app AS bump_version
+RUN pnpm version --no-git-tag-version patch
+
+# Commit the codebase with the new version only if all the previous stages passed
+FROM app AS commit_new_version
+
+ARG GIT_USERNAME
+ARG GIT_PASSWORD
+ARG BRANCH_NAME
+
+COPY --from=bump_version /workspace/package.json ./package.json
+COPY --from=build /workspace/src/sitemap.xml ./src/sitemap.xml
+RUN NEW_APP_VERSION=$(node -p "require('./package.json').version") && \
+    git config --global --add safe.directory ./ && \
+    git config --global user.name "Igor K." && \
+    git config --global user.email "igk19@me.com" && \
+    git add ./package.json ./src/sitemap.xml && \
+    git commit -m "Upgraded to a new application version - ${NEW_APP_VERSION} - [version bump]" && \
+    git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/blog.didgibot.com.git HEAD:${BRANCH_NAME}
+
+# image-production: base agent image (tools + workspace), default sleep
+# FROM base AS image-production
+# WORKDIR /workspace
 # CMD ["sleep", "infinity"]
-CMD ["fastapi", "run", "--host", "0.0.0.0", "--port", "8888"]

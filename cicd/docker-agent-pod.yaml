@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: docker-agent-pod
+spec:
+    containers:
+        - name: kaniko
+          image: gcr.io/kaniko-project/executor:debug
+          automountServiceAccountToken: false
+          volumeMounts:
+              - name: jenkins-docker-cfg
+                mountPath: /kaniko/.docker
+          command:
+              - sleep
+          args:
+              - infinity
+          tty: true
+          resources:
+              requests:
+                  memory: '1024Mi'
+                  cpu: '400m'
+                  ephemeral-storage: '500Mi'
+              limits:
+                  memory: '1024Mi'
+                  cpu: '400m'
+                  ephemeral-storage: '1Gi'
+        - name: docker
+          image: igk19/docker:dind1
+          automountServiceAccountToken: false
+          volumeMounts:
+              - name: jenkins-docker-cfg
+                mountPath: /root/.docker
+          # This env var is for making sure buildx runs in the pipeline.
+          # Else it complains that the /root/.docker/buildx is read-only
+          # It is due to the volume mount into the /root/.docker below...
+          env:
+              - name: BUILDX_CONFIG
+                value: /tmp/buildx
+          tty: true
+          resources:
+              requests:
+                  memory: '1024Mi'
+                  cpu: '400m'
+                  ephemeral-storage: '500Mi'
+              limits:
+                  memory: '1024Mi'
+                  cpu: '400m'
+                  ephemeral-storage: '1Gi'
+          securityContext:
+              privileged: true
+    volumes:
+        - name: jenkins-docker-cfg
+          projected:
+              sources:
+                  - secret:
+                        name: kaniko-secret

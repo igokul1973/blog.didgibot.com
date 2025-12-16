@@ -1,127 +1,208 @@
-/* Requires the Kubernetes Pipeline plugin */
+// Jenkins CI/CD for Angular frontend (Node 22 agent pod + kaniko)
+// Stages align with cicd/Dockerfile.production (lint, test, build) and final image build via kaniko.
+// Two-run behavior: 
+// 1. First run executes lint/test/build/image stages and bumps version and exits; 
+// 2. Second run (post-push) executes without running any stages as it is triggered by a push to the Git
+// remote repository of the version bump commit.
+
 pipeline {
-    environment {
-      RESULTS_FILE_NAME = 'job-results.txt'
-      IMAGE_TAG_NUMBER = "${BUILD_NUMBER}"
-      DOCKER_IMAGE_NAME = "igk19/blog:${BUILD_NUMBER}"
-    }
     agent {
-      kubernetes {
-        yamlFile 'cicd/node-git-chromium-pod.yaml'
-      }
+        kubernetes {
+            yamlFile 'cicd/docker-agent-pod.yaml'
+        }
     }
+    environment {
+        RESULTS_FILE_NAME = 'job-results.txt'
+        IMAGE_TAG_NUMBER = "${BUILD_NUMBER}"
+        DOCKER_IMAGE_NAME = "igk19/blog:${BUILD_NUMBER}"
+        DOCKER_CONTAINER_NAME = "docker-${BUILD_NUMBER}"
+    }
+    options { disableConcurrentBuilds() }
+
     stages {
-        stage('Prepare') { steps { check() } }
-        // stage('Test') {
-        //   when {
-        //       environment name: 'SHOULD_BUMP_VERSION', value: 'false'
-        //   }
-        //   steps {
-        //       container('node-git-chromium') {
-        //         sh 'pnpm'
-        //         sh 'pnpm test:headless'
-        //       }
-        //   } // }
-        stage('Bump version') {
-          when {
-            environment name: 'SHOULD_BUMP_VERSION', value: 'true'
-          }
-          steps {
-            container('node-git-chromium') {
-              withCredentials([
-                sshUserPrivateKey(credentialsId: 'github_ssh_credentials', keyFileVariable: 'SSH_KEY'),
-                usernamePassword(
-                    credentialsId: 'bc934908-4192-4b50-bb32-5fad86943329',
-                    usernameVariable: 'USERNAME',
-                    passwordVariable: 'GH_TOKEN'
-                )
-              ]) {
-                script {
-                  sh """
-                    git config --global --add safe.directory ${env.WORKSPACE}
-                    git checkout ${env.BRANCH_NAME}
-                    npm version --no-git-tag-version patch
-                    git add --all
-                  """
-                  def new_app_version = readJSON text: sh(returnStdout: true, script: 'npm version')
-                  env.NEW_APP_VERSION = new_app_version['blog.didgibot.com']
-                  def commitMessage = "Upgrade to new application version - ${env.NEW_APP_VERSION} - [version bump]"
-                  def encodedPassword = URLEncoder.encode("$GH_TOKEN", 'UTF-8')
-                  sh "git commit -m '${commitMessage}'"
-                  sh "git push https://${USERNAME}:${encodedPassword}@github.com/${USERNAME}/blog.didgibot.com.git"
-                }
-              }
-            }
-          }
-        }
-        stage('Build') {
-            when {
-                environment name: 'SHOULD_BUMP_VERSION', value: 'false'
-            }
+
+        stage('Prepare') {
             steps {
-                container('node-git-chromium') {
-                sh '''
-                    echo 'Building the app...'
-                    pnpm install
-                    pnpm build
-                '''
+                script {
+                    check()
                 }
             }
         }
-        // Build image and push it to Docker Hub
-        stage('Kaniko') {
-            when {
-                environment name: 'SHOULD_BUMP_VERSION', value: 'false'
+
+        stage('Install dependencies') {
+            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
+            steps {
+                container('docker') {
+                    sh """
+                        docker build --network=host -f `pwd`/cicd/Dockerfile.production --target=deps -t ${env.DOCKER_CONTAINER_NAME} .
+                    """
+                }
             }
+        }
+
+        stage('Copy the app codebase') {
+            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
+            steps {
+                container('docker') {
+                    sh """
+                        docker build --network=host -f `pwd`/cicd/Dockerfile.production --target=app -t ${env.DOCKER_CONTAINER_NAME} .
+                    """
+                }
+            }
+        }
+
+        stage('Continuous Integration') {
+            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
+            parallel {
+                stage('Lint') {
+                    steps {
+                        container('docker') {
+                            sh """
+                                docker build --network=host -f `pwd`/cicd/Dockerfile.production --target=lint -t ${env.DOCKER_CONTAINER_NAME}-lint .
+                            """
+                        }
+                    }
+                }
+
+                stage('Test') {
+                    steps {
+                        container('docker') {
+                            sh """
+                                docker build --network=host -f `pwd`/cicd/Dockerfile.production --target=test -t ${env.DOCKER_CONTAINER_NAME}-test .
+                                CID1="\$(docker create ${env.DOCKER_CONTAINER_NAME}-test)"
+                                rm -rf ./coverage
+                                docker cp "\$CID1:/workspace/coverage" ./coverage
+                                # cleanup
+                                docker rm -v "\$CID1"
+                            """
+                        }
+                    }
+                }
+
+                stage('Build app') {
+                    steps {
+                        container ('docker') {
+                            sh """
+                                # build the test stage image (or whatever stage produces coverage)
+                                docker build --network=host -f `pwd`/cicd/Dockerfile.production --target=build -t ${env.DOCKER_CONTAINER_NAME}-build .
+                                # create a stopped container from that image
+                                CID2="\$(docker create ${env.DOCKER_CONTAINER_NAME}-build)"
+                                # copy 'dist' folder out of the container filesystem into Jenkins workspace
+                                rm -rf ./dist
+                                docker cp "\$CID2:/workspace/dist" ./dist
+                                # cleanup
+                                docker rm -v "\$CID2"
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Bump app version') {
+            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
+            steps {
+                container('docker') {
+                        script {
+                            sh """
+                                docker build --network=host -f `pwd`/cicd/Dockerfile.production --target=bump_version -t ${env.DOCKER_CONTAINER_NAME} .
+                            """
+                        }
+                }
+            }
+        }
+
+        stage('Commit new app version') {
+            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
+            steps {
+                container ('docker') {
+                    withCredentials([
+                        sshUserPrivateKey(credentialsId: 'github_ssh_credentials', keyFileVariable: 'SSH_KEY'),
+                        usernamePassword(credentialsId: 'bc934908-4192-4b50-bb32-5fad86943329', usernameVariable: 'USERNAME', passwordVariable: 'GH_TOKEN')
+                    ]) {
+                        sh '''
+                            # it will commit the new version to the git remote repository
+                            docker build --network=host -f cicd/Dockerfile.production \
+                              --build-arg GIT_USERNAME=$USERNAME \
+                              --build-arg GIT_PASSWORD=$GH_TOKEN \
+                              --build-arg BRANCH_NAME=$BRANCH_NAME \
+                              --target=commit_new_version -t $DOCKER_CONTAINER_NAME .
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Image Build & Push') {
+            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
             steps {
                 container('kaniko') {
-                sh """
-                            echo 'Starting Kaniko build...'
-                            pwd
-                            ls -lah
+                        sh """
                             /kaniko/executor --dockerfile `pwd`/cicd/Dockerfile \
-                                    --context `pwd`/cicd \
-                                    --destination=${env.DOCKER_IMAGE_NAME}
-                """
-                }
-                script {
-                env.BUILD_RESULT = "SUCCESSFULLY BUILT DOCKER IMAGE FOR BLOG.DIDGIBOT.COM WITH VERSION - ${env.DOCKER_IMAGE_NAME} - AND PUSHED TO DOCKER REPOSITORY"
+                                --context `pwd` \
+                                --destination=${env.DOCKER_IMAGE_NAME}
+                        """
                 }
             }
         }
-        // Start another job
+
         stage('Change image in blog.didgibot.com deployment') {
-            when {
-                environment name: 'SHOULD_BUMP_VERSION', value: 'false'
-            }
+            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
             steps {
                 build job: 'change-image-name-in-blog-didgibot-com/' + env.BRANCH_NAME, parameters: [
-                string(name: 'IMAGE_TAG_NUMBER', value: env.IMAGE_TAG_NUMBER)
+                    string(name: 'IMAGE_TAG_NUMBER', value: env.IMAGE_TAG_NUMBER)
                 ]
+                // If the build job is successful, then the image tag number has been changed
+                script {
+                    env.IMAGE_TAG_NUMBER_CHANGED = 'true'
+                }
             }
         }
-        }
+    }
 
     post {
-      always {
-          postProcess()
-      }
+        always {
+            script {
+                postProcess()
+            }
+        }
     }
-    }
+}
 
 void check() {
-  env.BUILD_RESULT = 'ABORTED'
-  env.SHOULD_BUMP_VERSION = 'false'
-  result = sh(script: "git log -1 | grep '.*\\[version bump\\].*'", returnStatus: true)
-  if (result != 0) {
-    env.SHOULD_BUMP_VERSION = 'true'
-  }
+    env.BUILD_RESULT = 'ABORTED'
+    env.IMAGE_TAG_NUMBER_CHANGED = 'false'
+    env.SHOULD_BUMP_VERSION = 'false'
+    def result = sh(script: "git log -1 | grep '.*\\[version bump\\].*'", returnStatus: true)
+    if (result != 0) {
+        println "The last commit is NOT a [version bump] so this run must bump the version."
+        env.SHOULD_BUMP_VERSION = 'true'
+    } else {
+        println "The last commit is a [version bump] so this run should NOT bump the version."
+    }
 }
 
 void postProcess() {
-  if (env.SHOULD_BUMP_VERSION == 'true') {
-    env.BUILD_RESULT = "BUMPED APPLICATION VERSION TO ${env.NEW_APP_VERSION}"
-  }
-  writeFile file: env.RESULTS_FILE_NAME, text: "The job build result: ${env.BUILD_RESULT}"
-  archiveArtifacts env.RESULTS_FILE_NAME
+    // If the whole pipeline executes, i.e. it is a new commit with 
+    // a feature, fix or another type of commit that changes the codebase
+    def pkg = readJSON file: 'package.json'
+    env.NEW_APP_VERSION = pkg.version
+    if (env.SHOULD_BUMP_VERSION == 'true') {
+        // Archive Coverage Artifact
+        archiveArtifacts artifacts: 'coverage/**/*', allowEmptyArchive: false
+        env.BUILD_RESULT = "Bumped application version to ${env.NEW_APP_VERSION}. Built and pushed docker app image ${env.DOCKER_IMAGE_NAME}."
+        if (env.IMAGE_TAG_NUMBER_CHANGED == 'true') {
+            env.BUILD_RESULT += "\nThe image tag number (${env.IMAGE_TAG_NUMBER}) has been changed, which should trigger the ArgoCD application redeployment."
+        } else {
+            env.BUILD_RESULT += "\nBut the job to change the image tag number to (${env.IMAGE_TAG_NUMBER}) has NOT been successful."
+        }
+    // Else - it is only a version bump push to the Git remote repository 
+    } else {
+        env.BUILD_RESULT = "This job indicates an application version bump to (${env.NEW_APP_VERSION}) and its successful push to the Git remote repository.\nRun 'git pull' to update your local repository."
+    }
+
+    env.BUILD_RESULT += "\nPipeline completed."
+
+    writeFile file: env.RESULTS_FILE_NAME, text: "The job build result: ${env.BUILD_RESULT}"
+    archiveArtifacts env.RESULTS_FILE_NAME
 }
