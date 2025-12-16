@@ -101,7 +101,7 @@
 - [x] T024 [P] Verify that all CI/CD-related files in `cicd/` (Jenkinsfiles, Dockerfiles, pod manifests) follow repository linting/formatting conventions and do not introduce new lint errors.
 - [x] T025 [P] Capture a "first successful run" record (screenshots or notes) for the new pipeline and link it from `specs/004-angular-cicd-pipeline/quickstart.md` or `README.md` as a validation reference.
 - [x] T026 [P] Review `specs/004-angular-cicd-pipeline/spec.md`, `plan.md`, `research.md`, `data-model.md`, `contracts/README.md`, and `quickstart.md` for consistency with the final implementation and update any outdated details.
-- [ ] T027 Run a final end-to-end test by triggering the Jenkins job on the long-term target branch (e.g., `main`) to confirm that the CI runner build, coverage enforcement, Angular build, and Docker image push all behave as expected.
+- [x] T027 Run a final end-to-end test by triggering the Jenkins job on the long-term target branch (e.g., `main`) to confirm that the CI runner build, coverage enforcement, Angular build, and Docker image push all behave as expected.
 
 ---
 
