@@ -12,12 +12,12 @@
     "mounts": [
         "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
         "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/root/.ssh,type=bind,readonly",
-        "source=${localEnv:HOME}/.docker/config.json,target=/root/.docker/config.json,type=bind,readonly"
+        "source=${localEnv:HOME}/.docker/config.json,target=/tmp/host-docker-config.json,type=bind,readonly"
     ],
     "runArgs": [
         //     "--volume",
         //     "/var/run/docker.sock:/var/run/docker.sock"
-        "--memory=6g",
+        "--memory=7g",
         "--memory-swap=8g"
     ],
     // Features to add to the dev container. More info: https://containers.dev/features.
@@ -25,7 +25,8 @@
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Uncomment the next line to run commands after the container is created.
-    // "postCreateCommand": "cat /etc/os-release",
+    "postCreateCommand": "mkdir -p /root/.docker && if [ -f /tmp/host-docker-config.json ]; then cp /tmp/host-docker-config.json /root/.docker/config.json; fi && docker context use default;",
+    // "postCreateCommand": "docker context use default",
     // Configure tool-specific properties.
     "customizations": {
         "vscode": {
