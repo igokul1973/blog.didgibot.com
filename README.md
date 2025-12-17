@@ -74,7 +74,7 @@ pnpm check:types    # Type check TypeScript (no emit) using a dedicated tsconfig
 
 ### Releases
 
-- Release flow uses semantic-release (dry-run in CI bump_version stage) and the existing commit_new_version stage.
+- Release flow uses semantic-release (dry-run in CI bump_version stage) and the existing commit_new_version stage. If the dry-run fails, the pipeline is aborted.
 - See [docs/release.md](./docs/release.md) for commit formats (`chore(release): ... [version bump]`), breaking-change syntax, env vars, and local dry-run (`pnpm release --ci --dry-run`).
 
 ### Type checking
