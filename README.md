@@ -72,6 +72,12 @@ pnpm test:ui        # Vitest UI
 pnpm check:types    # Type check TypeScript (no emit) using a dedicated tsconfig
 ```
 
+### Releases
+
+- Release flow uses semantic-release in CI (via `cicd/Dockerfile.production` `bump_version` target). It is not a dry-run: semantic-release computes the next version, updates the configured assets, creates the release commit/tag, and pushes back to GitHub.
+- That push triggers a second Jenkins run, but it skips CI stages due to the `[skip ci]` marker in the semantic-release commit message.
+- See [docs/release.md](./docs/release.md) for commit formats, breaking-change syntax, required env vars, and local preview dry-run (`pnpm release --ci --dry-run`).
+
 ### Type checking
 
 `check:types` runs `tsc --noEmit` against `tsconfig.check-types.json`, which:
