@@ -72,6 +72,11 @@ pnpm test:ui        # Vitest UI
 pnpm check:types    # Type check TypeScript (no emit) using a dedicated tsconfig
 ```
 
+### Releases
+
+- Release flow uses semantic-release (dry-run in CI bump_version stage) and the existing commit_new_version stage.
+- See [docs/release.md](./docs/release.md) for commit formats (`chore(release): ... [version bump]`), breaking-change syntax, env vars, and local dry-run (`pnpm release --ci --dry-run`).
+
 ### Type checking
 
 `check:types` runs `tsc --noEmit` against `tsconfig.check-types.json`, which:

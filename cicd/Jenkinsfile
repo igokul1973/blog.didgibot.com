@@ -104,9 +104,23 @@ pipeline {
             steps {
                 container('docker') {
                         script {
-                            sh """
-                                docker build --network=host -f `pwd`/cicd/Dockerfile.production --target=bump_version -t ${env.DOCKER_CONTAINER_NAME} .
-                            """
+                            env.BUMP_FAILED = 'false'
+                            try {
+                                sh """
+                                    docker build --network=host -f `pwd`/cicd/Dockerfile.production --target=bump_version -t ${env.DOCKER_CONTAINER_NAME}-bump .
+                                """
+                                def nextVersion = sh(
+                                    returnStdout: true,
+                                    script: """
+                                        docker run --rm ${env.DOCKER_CONTAINER_NAME}-bump \
+                                        node -p "require('./package.json').version"
+                                    """
+                                ).trim()
+                                env.NEW_APP_VERSION = nextVersion
+                            } catch (err) {
+                                env.BUMP_FAILED = 'true'
+                                throw err
+                            }
                         }
                 }
             }
@@ -185,8 +199,6 @@ void check() {
 void postProcess() {
     // If the whole pipeline executes, i.e. it is a new commit with 
     // a feature, fix or another type of commit that changes the codebase
-    def pkg = readJSON file: 'package.json'
-    env.NEW_APP_VERSION = pkg.version
     if (env.SHOULD_BUMP_VERSION == 'true') {
         // Archive Coverage Artifact
         archiveArtifacts artifacts: 'coverage/**/*', allowEmptyArchive: false
@@ -198,7 +210,13 @@ void postProcess() {
         }
     // Else - it is only a version bump push to the Git remote repository 
     } else {
-        env.BUILD_RESULT = "This job indicates an application version bump to (${env.NEW_APP_VERSION}) and its successful push to the Git remote repository.\nRun 'git pull' to update your local repository."
+        if (env.BUMP_FAILED == 'true') {
+            env.BUILD_RESULT = "This job was aborted: semantic-release dry-run could not compute the next application version (see bump_version stage logs). No commit or publish actions were performed."
+        } else {
+            def pkg = readJSON file: 'package.json'
+            env.NEW_APP_VERSION = pkg.version
+            env.BUILD_RESULT = "This job indicates an application version bump to (${env.NEW_APP_VERSION}) and its successful push to the Git remote repository.\nRun 'git pull' to update your local repository."
+        }
     }
 
     env.BUILD_RESULT += "\nPipeline completed."

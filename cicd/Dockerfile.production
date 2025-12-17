@@ -28,9 +28,28 @@ RUN pnpm test:coverage && pnpm coverage:enforce
 FROM app AS build
 RUN pnpm build
 
-# Bump the version only if the tests pass and have the coverage needed
+# Bump the version only if the lint and test stages pass.
+# Uses semantic-release in dry-run mode to compute the next version from commits/tags,
+# then writes that version into package.json for the subsequent commit stage.
 FROM app AS bump_version
-RUN pnpm version --no-git-tag-version patch
+ENV HUSKY=0
+ENV GH_TOKEN=dummy
+ENV GITHUB_TOKEN=dummy
+# Ensure tags are available even if origin is ssh-only in the workspace
+# 1) Rewrite git@github.com URLs to https so fetch works in CI.
+# 2) Fetch tags so semantic-release can compute the next version.
+# 3) Run semantic-release in dry-run on the main branch (even if CI branch differs); fail if it cannot compute a version.
+# 4) Parse computed version from semrel log; write package.json for the commit stage.
+RUN git config --global url."https://github.com/".insteadOf "git@github.com:" && \
+    git fetch --tags origin && \
+    # semantic-release dry-run. Force main branch to compute version in non-main build contexts.
+    pnpm release --ci --dry-run --no-verify --branches main 2>&1 | tee /tmp/semrel.log && \
+    NEW_APP_VERSION=$(grep -m1 -oE "The next release version is [0-9]+\\.[0-9]+\\.[0-9]+" /tmp/semrel.log | awk '{print $6}') && \
+    if [ -z "$NEW_APP_VERSION" ]; then \
+        echo "❌ semantic-release did not compute a version; aborting."; \
+        exit 1; \
+    fi && \
+    node -e "const fs=require('fs'); const pkg=require('./package.json'); pkg.version='$NEW_APP_VERSION'; fs.writeFileSync('package.json', JSON.stringify(pkg, null, 4)); console.log('package.json version set to', pkg.version);"
 
 # Commit the codebase with the new version only if all the previous stages passed
 FROM app AS commit_new_version
@@ -46,7 +65,8 @@ RUN NEW_APP_VERSION=$(node -p "require('./package.json').version") && \
     git config --global user.name "Igor K." && \
     git config --global user.email "igk19@me.com" && \
     git add ./package.json ./src/sitemap.xml && \
-    git commit -m "Upgraded to a new application version - ${NEW_APP_VERSION} - [version bump]" && \
+    # Note, the `[version bump]` is needed at the end for the Jenkinsfile ignore the commit and not run any stages
+    git commit -m "chore(release): Upgraded to a new application version - ${NEW_APP_VERSION} - [version bump]" && \
     git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/blog.didgibot.com.git HEAD:${BRANCH_NAME}
 
 # image-production: base agent image (tools + workspace), default sleep
