@@ -115,28 +115,30 @@ pipeline {
                     ]) {
                         script {
                             try {
-                            sh """
-                                docker build --network=host -f `pwd`/cicd/Dockerfile.production \
-                                    --build-arg GH_TOKEN=${GH_TOKEN} \
-                                    --build-arg BRANCH_NAME=${env.BRANCH_NAME} \
-                                    --target=bump_version -t ${env.DOCKER_CONTAINER_NAME}-bump .
-                            """
-                            def nextVersion = sh(
-                                returnStdout: true,
-                                script: """
-                                    docker run --rm ${env.DOCKER_CONTAINER_NAME}-bump \
-                                    node -p "require('./package.json').version"
+                                sh """
+                                    docker build --network=host -f `pwd`/cicd/Dockerfile.production \
+                                        --build-arg GH_TOKEN=${GH_TOKEN} \
+                                        --build-arg BRANCH_NAME=${env.BRANCH_NAME} \
+                                        --target=bump_version -t ${env.DOCKER_CONTAINER_NAME}-bump .
                                 """
-                            ).trim()
-                            state.newAppVersion = nextVersion
-                            env.NEW_APP_VERSION = nextVersion
-                            if (env.NEW_APP_VERSION != env.CURRENT_APP_VERSION) {
-                                state.appVersionWasBumped = true
-                                env.APP_VERSION_WAS_BUMPED = 'true'
-                            }
+                                def nextVersion = sh(
+                                    returnStdout: true,
+                                    script: """
+                                        docker run --rm ${env.DOCKER_CONTAINER_NAME}-bump \
+                                        node -p "require('./package.json').version"
+                                    """
+                                ).trim()
+                                state.newAppVersion = nextVersion
+                                env.NEW_APP_VERSION = nextVersion
+                                if (env.NEW_APP_VERSION != env.CURRENT_APP_VERSION) {
+                                    state.appVersionWasBumped = true
+                                    env.APP_VERSION_WAS_BUMPED = 'true'
+                                }
                             } catch (Exception e) {
                                 state.bumpFailed = true
                                 env.BUMP_FAILED = 'true'
+                                currentBuild.result = 'FAILURE'
+                                error("Bump_version failed: ${e.message}")
                             }
                         }
                     }
