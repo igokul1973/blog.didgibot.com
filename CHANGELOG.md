@@ -1,3 +1,18 @@
+## [1.0.2](https://github.com/igokul1973/blog.didgibot.com/compare/v1.0.1...v1.0.2) (2025-12-19)
+
+
+### Bug Fixes
+
+* fix [#5](https://github.com/igokul1973/blog.didgibot.com/issues/5) ([12c48e9](https://github.com/igokul1973/blog.didgibot.com/commit/12c48e97b1dcb5d390387e2b4ba66cbd57f8f395))
+
+## [1.0.1](https://github.com/igokul1973/blog.didgibot.com/compare/v1.0.0...v1.0.1) (2025-12-18)
+
+
+### Bug Fixes
+
+* fix [#3](https://github.com/igokul1973/blog.didgibot.com/issues/3) ([95725e5](https://github.com/igokul1973/blog.didgibot.com/commit/95725e5b31c1e6c5cda3b7e0ac14424cbf8e291a))
+* fix [#4](https://github.com/igokul1973/blog.didgibot.com/issues/4) ([f29e950](https://github.com/igokul1973/blog.didgibot.com/commit/f29e9508e3220a07a5ecf62ce09acf60bc5b10a6))
+
 # 1.0.0 (2025-12-18)
 
 

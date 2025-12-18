@@ -14,6 +14,9 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 # app: bring in source (used by lint/test/build targets)
 FROM deps AS app
 COPY . .
+# `dist` cannot be docker-ignored as it is used by the build stage
+# remove it if it exists
+RUN rm -rf ./dist
 
 # lint stage: run lint
 FROM app AS lint
