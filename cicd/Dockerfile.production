@@ -37,6 +37,7 @@ ARG BRANCH_NAME
 ARG GH_TOKEN
 ENV HUSKY=0
 ENV GH_TOKEN=${GH_TOKEN}
+ENV CI=true
 
 # semantic-release will commit configured assets (including src/sitemap.xml via .releaserc.json git plugin)
 RUN git config --global url."https://github.com/".insteadOf "git@github.com:" && \

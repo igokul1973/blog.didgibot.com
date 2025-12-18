@@ -1,3 +1,5 @@
+import groovy.transform.Field
+
 // Jenkins CI/CD for Angular frontend (Node 22 agent pod + kaniko)
 // Stages align with cicd/Dockerfile.production (lint, test, build) and final image build via kaniko.
 // Two-run behavior: 
@@ -6,7 +8,7 @@
 // remote repository of the version bump commit.
 //
 // Local pipeline state (booleans/strings) — only mirrored to env when Jenkins needs strings.
-def state = [:]
+@Field Map state = [:]
 
 pipeline {
     agent {
@@ -201,12 +203,13 @@ pipeline {
 }
 
 void check() {
-    state.buildResult = 'Pipeline was aborted due to some error. See the logs for more details.'
+    state.buildResult = ''
     state.imageTagNumberChanged = false
     state.shouldSkipCi = false
     state.bumpFailed = false
     state.appVersionWasBumped = false
-    state.currentAppVersion = sh(script: "node -p 'require(\"./package.json\").version'", returnStdout: true).trim()
+    def pkg = readJSON file: 'package.json'
+    state.currentAppVersion = pkg.version?.toString()
 
     def result = sh(script: "git log -1 | grep '.*\\[skip ci\\].*'", returnStatus: true)
     if (result == 0) {
@@ -225,6 +228,10 @@ void check() {
 }
 
 void postProcess() {
+    // Ensure we start from a clean message each run
+    if (!state.buildResult) {
+        state.buildResult = ''
+    }
     // If the whole pipeline executes, i.e. it is a new commit with 
     // a feature, fix or another type of commit that changes the codebase
     if (state.shouldSkipCi) {
