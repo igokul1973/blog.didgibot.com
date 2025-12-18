@@ -28,28 +28,17 @@ RUN pnpm test:coverage && pnpm coverage:enforce
 FROM app AS build
 RUN pnpm build
 
-# Bump the version only if the tests pass and have the coverage needed
+# Bump the version only if the lint and test stages pass.
+# Uses semantic-release to compute the next version from commits/tags,
+# then publishes the release commit/tag to the remote git repository.
 FROM app AS bump_version
-RUN pnpm version --no-git-tag-version patch
 
-# Commit the codebase with the new version only if all the previous stages passed
-FROM app AS commit_new_version
-
-ARG GIT_USERNAME
-ARG GIT_PASSWORD
 ARG BRANCH_NAME
+ARG GH_TOKEN
+ENV HUSKY=0
+ENV GH_TOKEN=${GH_TOKEN}
+ENV CI=true
 
-COPY --from=bump_version /workspace/package.json ./package.json
-COPY --from=build /workspace/src/sitemap.xml ./src/sitemap.xml
-RUN NEW_APP_VERSION=$(node -p "require('./package.json').version") && \
-    git config --global --add safe.directory ./ && \
-    git config --global user.name "Igor K." && \
-    git config --global user.email "igk19@me.com" && \
-    git add ./package.json ./src/sitemap.xml && \
-    git commit -m "Upgraded to a new application version - ${NEW_APP_VERSION} - [version bump]" && \
-    git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/blog.didgibot.com.git HEAD:${BRANCH_NAME}
-
-# image-production: base agent image (tools + workspace), default sleep
-# FROM base AS image-production
-# WORKDIR /workspace
-# CMD ["sleep", "infinity"]
+# semantic-release will commit configured assets (including src/sitemap.xml via .releaserc.json git plugin)
+RUN git config --global url."https://github.com/".insteadOf "git@github.com:" && \
+    pnpm release --ci
