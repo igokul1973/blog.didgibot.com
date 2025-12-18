@@ -3,7 +3,7 @@
         "main",
         {
             "name": "005-semantic-release",
-            "range": ">=0.0.0 <1.0.0"
+            "range": "0.0.x"
         }
     ],
     "repositoryUrl": "https://github.com/igokul1973/blog.didgibot.com",
