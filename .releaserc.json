@@ -1,9 +1,6 @@
 {
     "branches": [
-        {
-            "name": "005-semantic-release",
-            "range": "0.0.x"
-        },
+        "005-semantic-release",
         "main"
     ],
     "repositoryUrl": "https://github.com/igokul1973/blog.didgibot.com",
