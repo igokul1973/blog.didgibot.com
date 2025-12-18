@@ -22,6 +22,7 @@
 
 - In the bump_version Dockerfile.production stage, semantic-release runs in dry-run; if it cannot compute a version (wrong branch/no tags/non-conventional history), the stage fails and the pipeline is aborted. No commit or publish occurs.
 - The Jenkins pipeline reports this as an aborted job with a message pointing to bump_version logs.
+- Current allowed release branches (semantic-release): `main` and `005-semantic-release` (temporary to validate the flow).
 
 ## Tokens/Environment
 

@@ -4,6 +4,9 @@
 // 1. First run executes lint/test/build/image stages and bumps version and exits; 
 // 2. Second run (post-push) executes without running any stages as it is triggered by a push to the Git
 // remote repository of the version bump commit.
+//
+// Local pipeline state (booleans/strings) — only mirrored to env when Jenkins needs strings.
+def state = [:]
 
 pipeline {
     agent {
@@ -16,6 +19,7 @@ pipeline {
         IMAGE_TAG_NUMBER = "${BUILD_NUMBER}"
         DOCKER_IMAGE_NAME = "igk19/blog:${BUILD_NUMBER}"
         DOCKER_CONTAINER_NAME = "docker-${BUILD_NUMBER}"
+        IMAGE_TAG_CHANGE_JOB_NAME = "change-image-name-in-blog-didgibot-com/${BRANCH_NAME}"
     }
     options { disableConcurrentBuilds() }
 
@@ -30,7 +34,7 @@ pipeline {
         }
 
         stage('Install dependencies') {
-            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
+            when { expression { env.SHOULD_SKIP_CI?.trim() == 'false' } }
             steps {
                 container('docker') {
                     sh """
@@ -41,7 +45,7 @@ pipeline {
         }
 
         stage('Copy the app codebase') {
-            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
+            when { expression { env.SHOULD_SKIP_CI?.trim() == 'false' } }
             steps {
                 container('docker') {
                     sh """
@@ -52,7 +56,7 @@ pipeline {
         }
 
         stage('Continuous Integration') {
-            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
+            when { expression { env.SHOULD_SKIP_CI?.trim() == 'false' } }
             parallel {
                 stage('Lint') {
                     steps {
@@ -100,55 +104,67 @@ pipeline {
         }
 
         stage('Bump app version') {
-            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
+            when { expression { env.SHOULD_SKIP_CI?.trim() == 'false' } }
             steps {
                 container('docker') {
-                        script {
-                            env.BUMP_FAILED = 'false'
-                            try {
-                                sh """
-                                    docker build --network=host -f `pwd`/cicd/Dockerfile.production --target=bump_version -t ${env.DOCKER_CONTAINER_NAME}-bump .
-                                """
-                                def nextVersion = sh(
-                                    returnStdout: true,
-                                    script: """
-                                        docker run --rm ${env.DOCKER_CONTAINER_NAME}-bump \
-                                        node -p "require('./package.json').version"
-                                    """
-                                ).trim()
-                                env.NEW_APP_VERSION = nextVersion
-                            } catch (err) {
-                                env.BUMP_FAILED = 'true'
-                                throw err
-                            }
-                        }
-                }
-            }
-        }
-
-        stage('Commit new app version') {
-            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
-            steps {
-                container ('docker') {
                     withCredentials([
                         sshUserPrivateKey(credentialsId: 'github_ssh_credentials', keyFileVariable: 'SSH_KEY'),
                         usernamePassword(credentialsId: 'bc934908-4192-4b50-bb32-5fad86943329', usernameVariable: 'USERNAME', passwordVariable: 'GH_TOKEN')
                     ]) {
-                        sh '''
-                            # it will commit the new version to the git remote repository
-                            docker build --network=host -f cicd/Dockerfile.production \
-                              --build-arg GIT_USERNAME=$USERNAME \
-                              --build-arg GIT_PASSWORD=$GH_TOKEN \
-                              --build-arg BRANCH_NAME=$BRANCH_NAME \
-                              --target=commit_new_version -t $DOCKER_CONTAINER_NAME .
-                        '''
+                        script {
+                            try {
+                            sh """
+                                docker build --network=host -f `pwd`/cicd/Dockerfile.production \
+                                    --build-arg GH_TOKEN=${GH_TOKEN} \
+                                    --build-arg BRANCH_NAME=${env.BRANCH_NAME} \
+                                    --target=bump_version -t ${env.DOCKER_CONTAINER_NAME}-bump .
+                            """
+                            def nextVersion = sh(
+                                returnStdout: true,
+                                script: """
+                                    docker run --rm ${env.DOCKER_CONTAINER_NAME}-bump \
+                                    node -p "require('./package.json').version"
+                                """
+                            ).trim()
+                            state.newAppVersion = nextVersion
+                            env.NEW_APP_VERSION = nextVersion
+                            if (env.NEW_APP_VERSION != env.CURRENT_APP_VERSION) {
+                                state.appVersionWasBumped = true
+                                env.APP_VERSION_WAS_BUMPED = 'true'
+                            }
+                            } catch (Exception e) {
+                                state.bumpFailed = true
+                                env.BUMP_FAILED = 'true'
+                            }
+                        }
                     }
                 }
             }
         }
 
+        // stage('Commit new app version') {
+        //     when { expression { env.SHOULD_SKIP_CI?.trim() == 'false' } }
+        //     steps {
+        //         container ('docker') {
+        //             withCredentials([
+        //                 sshUserPrivateKey(credentialsId: 'github_ssh_credentials', keyFileVariable: 'SSH_KEY'),
+        //                 usernamePassword(credentialsId: 'bc934908-4192-4b50-bb32-5fad86943329', usernameVariable: 'USERNAME', passwordVariable: 'GH_TOKEN')
+        //             ]) {
+        //                 sh '''
+        //                     # it will commit the new version to the git remote repository
+        //                     docker build --network=host -f cicd/Dockerfile.production \
+        //                       --build-arg GIT_USERNAME=$USERNAME \
+        //                       --build-arg GIT_PASSWORD=$GH_TOKEN \
+        //                       --build-arg BRANCH_NAME=$BRANCH_NAME \
+        //                       --target=commit_new_version -t $DOCKER_CONTAINER_NAME .
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
+
         stage('Image Build & Push') {
-            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
+            when { expression { env.SHOULD_SKIP_CI?.trim() == 'false' && env.APP_VERSION_WAS_BUMPED == 'true' } }
             steps {
                 container('kaniko') {
                         sh """
@@ -161,13 +177,14 @@ pipeline {
         }
 
         stage('Change image in blog.didgibot.com deployment') {
-            when { expression { env.SHOULD_BUMP_VERSION?.trim() == 'true' } }
+            when { expression { env.SHOULD_SKIP_CI?.trim() == 'false' && env.APP_VERSION_WAS_BUMPED == 'true' } }
             steps {
-                build job: 'change-image-name-in-blog-didgibot-com/' + env.BRANCH_NAME, parameters: [
+                build job: env.IMAGE_TAG_CHANGE_JOB_NAME, parameters: [
                     string(name: 'IMAGE_TAG_NUMBER', value: env.IMAGE_TAG_NUMBER)
                 ]
                 // If the build job is successful, then the image tag number has been changed
                 script {
+                    state.imageTagNumberChanged = true
                     env.IMAGE_TAG_NUMBER_CHANGED = 'true'
                 }
             }
@@ -184,42 +201,70 @@ pipeline {
 }
 
 void check() {
-    env.BUILD_RESULT = 'ABORTED'
-    env.IMAGE_TAG_NUMBER_CHANGED = 'false'
-    env.SHOULD_BUMP_VERSION = 'false'
-    def result = sh(script: "git log -1 | grep '.*\\[version bump\\].*'", returnStatus: true)
-    if (result != 0) {
-        println "The last commit is NOT a [version bump] so this run must bump the version."
-        env.SHOULD_BUMP_VERSION = 'true'
+    state.buildResult = 'Pipeline was aborted due to some error. See the logs for more details.'
+    state.imageTagNumberChanged = false
+    state.shouldSkipCi = false
+    state.bumpFailed = false
+    state.appVersionWasBumped = false
+    state.currentAppVersion = sh(script: "node -p 'require(\"./package.json\").version'", returnStdout: true).trim()
+
+    def result = sh(script: "git log -1 | grep '.*\\[skip ci\\].*'", returnStatus: true)
+    if (result == 0) {
+        println "The last commit is a [skip ci] so this run should skip CI stages."
+        state.shouldSkipCi = true
     } else {
-        println "The last commit is a [version bump] so this run should NOT bump the version."
+        println "The last commit is NOT a [skip ci] so this run should execute CI stages."
     }
+
+    // Mirror state to env strings for when clauses / downstream use
+    env.SHOULD_SKIP_CI = state.shouldSkipCi.toString()
+    env.CURRENT_APP_VERSION = state.currentAppVersion
+    env.BUMP_FAILED = state.bumpFailed.toString()
+    env.APP_VERSION_WAS_BUMPED = state.appVersionWasBumped.toString()
+    env.IMAGE_TAG_NUMBER_CHANGED = state.imageTagNumberChanged.toString()
 }
 
 void postProcess() {
     // If the whole pipeline executes, i.e. it is a new commit with 
     // a feature, fix or another type of commit that changes the codebase
-    if (env.SHOULD_BUMP_VERSION == 'true') {
-        // Archive Coverage Artifact
-        archiveArtifacts artifacts: 'coverage/**/*', allowEmptyArchive: false
-        env.BUILD_RESULT = "Bumped application version to ${env.NEW_APP_VERSION}. Built and pushed docker app image ${env.DOCKER_IMAGE_NAME}."
-        if (env.IMAGE_TAG_NUMBER_CHANGED == 'true') {
-            env.BUILD_RESULT += "\nThe image tag number (${env.IMAGE_TAG_NUMBER}) has been changed, which should trigger the ArgoCD application redeployment."
-        } else {
-            env.BUILD_RESULT += "\nBut the job to change the image tag number to (${env.IMAGE_TAG_NUMBER}) has NOT been successful."
-        }
-    // Else - it is only a version bump push to the Git remote repository 
+    if (state.shouldSkipCi) {
+        def pkg = readJSON file: 'package.json'
+        state.newAppVersion = pkg.version
+        state.buildResult = "This job only indicates an application version bump commit to (${state.newAppVersion}) and its successful push to the Git remote repository.\nRun 'git pull' to update your local repository."
     } else {
-        if (env.BUMP_FAILED == 'true') {
-            env.BUILD_RESULT = "This job was aborted: semantic-release dry-run could not compute the next application version (see bump_version stage logs). No commit or publish actions were performed."
+        archiveArtifacts artifacts: 'coverage/**/*', allowEmptyArchive: false
+
+        if (state.bumpFailed) {
+            state.buildResult = 'This job was aborted: semantic-release could not compute the next application version (see bump_version stage logs). No commit or publish actions were performed.'
         } else {
-            def pkg = readJSON file: 'package.json'
-            env.NEW_APP_VERSION = pkg.version
-            env.BUILD_RESULT = "This job indicates an application version bump to (${env.NEW_APP_VERSION}) and its successful push to the Git remote repository.\nRun 'git pull' to update your local repository."
+            state.buildResult += state.appVersionWasBumped
+                ? "Success! Bumped application version to ${state.newAppVersion}. Built and pushed docker app image ${env.DOCKER_IMAGE_NAME}."
+                : "Success! The application version has NOT been bumped due to the lack of necessity."
+
+            if (state.imageTagNumberChanged) {
+                state.buildResult += "\nThe app image tag number (${env.IMAGE_TAG_NUMBER}) has been changed, which should trigger the ArgoCD application redeployment."
+            } else if (state.appVersionWasBumped) {
+                // This message indicates that the Jenkins job that pushes new tag number to the Git remote repository that redeploys current ArgoCD application failed
+                state.buildResult += "\nBut the job to change the image tag number to (${env.IMAGE_TAG_NUMBER}) has NOT been successful."
+                state.buildResult += "\nThe ArgoCD application redeployment will NOT be triggered."
+                state.buildResult += "\nCheck that job's (${env.IMAGE_TAG_CHANGE_JOB_NAME}) logs for more details."
+            } else {
+                state.buildResult += "\nThe app image tag number (${env.IMAGE_TAG_NUMBER}) has NOT been changed."
+            }
         }
     }
 
-    env.BUILD_RESULT += "\nPipeline completed."
+    if (state.buildResult != 'Pipeline was aborted due to some error. See the logs for more details.' && state.buildResult != 'This job was aborted: semantic-release could not compute the next application version (see bump_version stage logs). No commit or publish actions were performed.') {
+        state.buildResult += "\nPipeline completed."
+    }
+
+    // Mirror final state to env for downstream visibility and artifacts
+    env.BUILD_RESULT = state.buildResult
+    env.NEW_APP_VERSION = state.newAppVersion?.toString() ?: env.NEW_APP_VERSION
+    env.APP_VERSION_WAS_BUMPED = state.appVersionWasBumped.toString()
+    env.IMAGE_TAG_NUMBER_CHANGED = state.imageTagNumberChanged.toString()
+    env.BUMP_FAILED = state.bumpFailed.toString()
+    env.SHOULD_SKIP_CI = state.shouldSkipCi.toString()
 
     writeFile file: env.RESULTS_FILE_NAME, text: "The job build result: ${env.BUILD_RESULT}"
     archiveArtifacts env.RESULTS_FILE_NAME
