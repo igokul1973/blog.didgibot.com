@@ -60,8 +60,3 @@ RUN git config --global url."https://github.com/".insteadOf "git@github.com:" &&
 #     # Note, the `[version bump]` is needed at the end for the Jenkinsfile ignore the commit and not run any stages
 #     git commit -m "chore(release): Upgraded to a new application version - ${NEW_APP_VERSION} - [version bump]" && \
 #     git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/blog.didgibot.com.git HEAD:${BRANCH_NAME}
-
-# image-production: base agent image (tools + workspace), default sleep
-# FROM base AS image-production
-# WORKDIR /workspace
-# CMD ["sleep", "infinity"]
