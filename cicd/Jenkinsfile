@@ -1,6 +1,6 @@
 import groovy.transform.Field
 
-// Jenkins CI/CD for Angular frontend (Node 22 agent pod + kaniko)
+// Jenkins CI/CD for Angular frontend (Node 24.11.1 agent pod + kaniko)
 // Stages align with cicd/Dockerfile.production (lint, test, build) and final image build via kaniko.
 // Two-run behavior: 
 // 1. First run executes lint/test/build and then runs semantic-release (via the Dockerfile.production `bump_version` target).

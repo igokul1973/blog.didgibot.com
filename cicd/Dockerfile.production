@@ -1,8 +1,8 @@
 #
 # Jenkins Kubernetes agent & CI stages for Angular frontend
 
-# base: Node 22 + system tooling for lint/test/build/git commit/git push
-FROM igk19/node-base:22 AS base
+# base: Node 24.11.1 + system tooling for lint/test/build/git commit/git push
+FROM igk19/node-base:24 AS base
 
 WORKDIR /workspace
 

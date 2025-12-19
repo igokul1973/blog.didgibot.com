@@ -25,7 +25,7 @@ This repository contains the source code for https://blog.didgibot.com – a sta
 - **Code quality**: ESLint, Prettier, Stylelint
 - **GraphQL**: Apollo Client / apollo-angular
 - **Package manager**: pnpm
-- **Node version**: >= 22 (see `package.json` `engines` field)
+- **Node version**: 24.11.1 (see `package.json` `engines` field)
 
 ---
 
@@ -33,7 +33,7 @@ This repository contains the source code for https://blog.didgibot.com – a sta
 
 ### Prerequisites
 
-- Node.js **22+**
+- Node.js **24.11.1**
 - pnpm (`corepack enable` or `npm install -g pnpm`)
 - Git
 
