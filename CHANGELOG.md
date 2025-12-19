@@ -4,6 +4,14 @@
 ### Bug Fixes
 
 * fix for dist folder not being copied into the production image in the CI pipeline ([#11](https://github.com/igokul1973/blog.didgibot.com/issues/11)) ([a5456a9](https://github.com/igokul1973/blog.didgibot.com/commit/a5456a9490d32a7dbd12ad8d59593fd45f9eb679))
+* removed "cicd" branch from semantic release branches ([1bb80a5](https://github.com/igokul1973/blog.didgibot.com/commit/1bb80a5d854c361a5ec7bf7d529fb3dc02297ba1))
+
+## [1.0.1](https://github.com/igokul1973/blog.didgibot.com/compare/v1.0.0...v1.0.1) (2025-12-19)
+
+
+### Bug Fixes
+
+* fix for dist folder not being copied into the production image in the CI pipeline ([#11](https://github.com/igokul1973/blog.didgibot.com/issues/11)) ([a5456a9](https://github.com/igokul1973/blog.didgibot.com/commit/a5456a9490d32a7dbd12ad8d59593fd45f9eb679))
 
 ## [1.0.2](https://github.com/igokul1973/blog.didgibot.com/compare/v1.0.1...v1.0.2) (2025-12-19)
 
