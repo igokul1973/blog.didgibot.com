@@ -1,5 +1,6 @@
 {
     "branches": [
+        "cicd",
         "main"
     ],
     "repositoryUrl": "https://github.com/igokul1973/blog.didgibot.com",

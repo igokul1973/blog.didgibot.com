@@ -20,6 +20,10 @@ build
 out-tsc
 coverage
 
+!dist/dgb-blog
+!dist/dgb-blog/browser
+!dist/dgb-blog/browser/**
+
 # Vitest
 .vitest
 
