@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/igokul1973/blog.didgibot.com/compare/v1.0.1...v1.0.2) (2025-12-19)
+
+
+### Bug Fixes
+
+* bumped Node.js version to 24.11.1 for usage in whole application ([c4b22a3](https://github.com/igokul1973/blog.didgibot.com/commit/c4b22a3c8854fe356856f266802b271c0a4362d6))
+
 ## [1.0.1](https://github.com/igokul1973/blog.didgibot.com/compare/v1.0.0...v1.0.1) (2025-12-19)
 
 
