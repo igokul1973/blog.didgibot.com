@@ -1,0 +1,29 @@
+{
+    "mcpServers": {
+        "playwright": {
+            "command": "npx",
+            "args": [
+                "@playwright/mcp@latest",
+                "--cdp-endpoint",
+                "ws://host.docker.internal:9250/devtools/browser/2d15afb6-467c-4e2e-b9d5-00ae7440ed5b"
+            ]
+        },
+        "angular-cli": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@angular/cli",
+                "mcp"
+            ]
+        },
+        "ngm-dev-blocks": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@ngm-dev/cli",
+                "mcp",
+                "/workspaces/blog.didgibot.com"
+            ]
+        }
+    }
+}

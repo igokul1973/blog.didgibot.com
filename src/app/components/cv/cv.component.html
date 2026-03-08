@@ -1,8 +1,99 @@
 <mat-card class="cv" role="region" aria-label="Curriculum Vitae">
-    <mat-card-header>
-        <mat-card-title><h1 id="cv-title">CV</h1></mat-card-title>
-    </mat-card-header>
     <mat-card-content aria-labelledby="cv-title" aria-live="polite">
-        <p>Here will be Igor's CV (resume)</p>
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <h2 id="cv-title">{{ contact.name }}</h2>
+            <p>{{ contact.title }}</p>
+            <p>{{ displayLocation }}</p>
+            <p>
+                <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+            </p>
+            <p>
+                <a href="{{ contact.linkedIn }}" target="_blank" rel="noopener noreferrer">{{
+                    contact.linkedInText
+                }}</a>
+            </p>
+            <p>
+                <a href="{{ contact.headHunter }}" target="_blank" rel="noopener noreferrer">{{
+                    contact.headHunterText
+                }}</a>
+            </p>
+        </section>
+
+        <!-- Card Header -->
+        <mat-card-header>
+            <mat-card-title><h1>Curriculum Vitae / Resume</h1></mat-card-title>
+        </mat-card-header>
+
+        <!-- Summary Section -->
+        <section class="summary-section">
+            <h3>Summary</h3>
+            <p>{{ summary }}</p>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="experience-section">
+            <h3>Experience</h3>
+            <mat-list>
+                @for (exp of experience; track $index) {
+                    <mat-list-item class="experience-item">
+                        <div class="experience-header">
+                            <h4>{{ exp.position }}</h4>
+                            <p class="company">{{ exp.company }}</p>
+                            <p class="duration">{{ exp.duration }}</p>
+                            <p class="location">{{ exp.location }}</p>
+                        </div>
+                        <div class="experience-description">
+                            <ul>
+                                @for (desc of exp.description; track $index) {
+                                    <li>{{ desc }}</li>
+                                }
+                            </ul>
+                        </div>
+                    </mat-list-item>
+                }
+            </mat-list>
+        </section>
+
+        <!-- Education Section -->
+        <section class="education-section">
+            <h3>Education</h3>
+            <mat-list>
+                @for (edu of education; track $index) {
+                    <mat-list-item class="education-item">
+                        <div class="education-header">
+                            <h4>{{ edu.degree }}</h4>
+                            <p class="institution">{{ edu.institution }}</p>
+                            <p class="duration">{{ edu.duration }}</p>
+                            @if (edu.location) {
+                                <p class="location">{{ edu.location }}</p>
+                            }
+                        </div>
+                    </mat-list-item>
+                }
+            </mat-list>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="skills-section">
+            <h3>Skills</h3>
+            <mat-list>
+                @for (skillCategory of skills; track $index) {
+                    <mat-list-item class="skill-category">
+                        <h4>{{ skillCategory.category }}</h4>
+                        <div class="skills-list">
+                            @for (skill of skillCategory.skills; track $index; let last = $last) {
+                                <span class="skill-item">
+                                    {{ skill }}
+                                    @if (!last) {
+                                        <span>, </span>
+                                    }
+                                </span>
+                            }
+                        </div>
+                    </mat-list-item>
+                }
+            </mat-list>
+        </section>
     </mat-card-content>
 </mat-card>

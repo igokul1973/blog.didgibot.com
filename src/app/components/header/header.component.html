@@ -23,6 +23,15 @@
             >
                 <mat-icon class="error">article</mat-icon>
             </button>
+            <button
+                mat-icon-button
+                [routerLink]="['/', selectedLanguage(), 'cv']"
+                class="header-icon pop-later"
+                aria-label="Curriculum Vitae page"
+                matTooltip="Curriculum Vitae"
+            >
+                <mat-icon class="primary">description</mat-icon>
+            </button>
             <!-- <button mat-icon-button class="header-icon pop-later" aria-label="Add to favorites">
                 <mat-icon class="warning">favorite</mat-icon>
             </button> -->

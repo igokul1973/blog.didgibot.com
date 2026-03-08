@@ -81,7 +81,9 @@ export class AppComponent implements OnInit, AfterViewInit {
                 return of(urlPath);
             })
         );
+
         this.initializeApp();
+
         this.articleService
             .watchArticles({
                 entityName: 'article',

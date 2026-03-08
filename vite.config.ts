@@ -5,6 +5,9 @@ import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(() => ({
     plugins: [angular(), viteTsConfigPaths()],
+    server: {
+        allowedHosts: ['host.docker.internal']
+    },
     test: {
         globals: true,
         setupFiles: ['src/test-setup.ts'],

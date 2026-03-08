@@ -1,0 +1,24 @@
+FROM node:latest
+
+# Install Chromium and dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    wget \
+    gnupg \
+    ca-certificates \
+    curl \
+    chromium \
+    chromium-driver && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Expose port
+EXPOSE 9222
+
+# Environment variables
+ENV PUPPETEER_LAUNCH_OPTIONS={"headless":true,"executablePath":"/usr/bin/chromium","args":["--no-sandbox"]}
+
+# Command to run the MCP server
+CMD ["npx", "-y", "@modelcontextprotocol/server-puppeteer"]
