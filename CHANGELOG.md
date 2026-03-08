@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/igokul1973/blog.didgibot.com/compare/v1.0.2...v1.1.0) (2026-03-08)
+
+
+### Features
+
+* First implementation of CV page (will be improved in the future). Added scripts and files for using PlayWright ([1ec21ea](https://github.com/igokul1973/blog.didgibot.com/commit/1ec21ea79b9b9a3863492b6424e2a24bfe617fcc))
+
 ## [1.0.2](https://github.com/igokul1973/blog.didgibot.com/compare/v1.0.1...v1.0.2) (2025-12-19)
 
 
