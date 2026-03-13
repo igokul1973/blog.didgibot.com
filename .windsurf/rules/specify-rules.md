@@ -9,6 +9,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-02
 - Static content files + GraphQL API (004-angular-cicd-pipeline)
 - Angular 20, existing project dependencies (006-update-nodejs-version)
 - Not applicable (infrastructure update) (006-update-nodejs-version)
+- TypeScript 5.9.3 with Angular 20.3.15 + Angular Material, Vitest (008-cv-source-refactor)
+- Static JSON file (igor_kulebyakin_resume.json) (008-cv-source-refactor)
 
 - TypeScript 5.9.3 with Angular 20.3.15 + Husky (latest), Angular CLI, Vitest, ESLint, Prettier (001-husky-setup)
 
@@ -28,9 +30,9 @@ npm test && npm run lint
 TypeScript 5.9.3 with Angular 20.3.15: Follow standard conventions
 
 ## Recent Changes
+- 008-cv-source-refactor: Added TypeScript 5.9.3 with Angular 20.3.15 + Angular Material, Vitest
 - 006-update-nodejs-version: Added Angular 20, existing project dependencies
 - 004-angular-cicd-pipeline: Added TypeScript 5.9.3 with Angular 20.3.15 + Angular Material, Apollo Client (GraphQL), Vitest
-- 003-angular-tests-coverage: Added TypeScript (strict mode) with Angular 20 + Angular core & router, Angular Material (where used), Apollo Client (GraphQL, where used), **Vitest** as primary test runner, Angular Testing Utilities
 
 
 <!-- MANUAL ADDITIONS START -->

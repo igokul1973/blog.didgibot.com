@@ -1,0 +1,775 @@
+{
+  "meta": {
+    "source": "LinkedIn Profile",
+    "dateExported": "2026-03-02",
+    "formatVersion": "2.0",
+    "descriptionSchema": "Each 'description' field is an array of content blocks. Each block has a 'type' of either 'paragraph' (a single prose block) or 'list' (a bullet/item list). Lists have an optional 'heading' and always have an 'items' array of strings."
+  },
+  "personal": {
+    "name": "Igor Kulebyakin",
+    "title": "Javascript Fullstack Developer",
+    "location": {
+      "city": "Happy Valley",
+      "state": "Oregon",
+      "country": "USA",
+      "display": "Happy Valley, Oregon, USA"
+    },
+    "locationHeadline": "Seattle, Washington, United States",
+    "email": "igokul777@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/igorkulebyakin",
+    "github": "https://github.com/igokul1973"
+  },
+  "summary": [
+    {
+      "type": "paragraph",
+      "text": "My first 4 years of commercial experience I used mostly PHP + MySQL/Postgres stack of technologies. In February of 2018 I started actively learning and practicing JavaScript, learning on the way NoSQL databases, ElasticSearch, RabbitMQ, Node.JS, Angular, React, Vue."
+    },
+    {
+      "type": "paragraph",
+      "text": "Starting from the October 2018 I completely switched to JS and worked as a Node.js/React developer as well as started developing a pet project using React, Node.JS/Express, GraphQL and Neo4j (GRAND stack)."
+    },
+    {
+      "type": "paragraph",
+      "text": "At the moment I am looking for a job as a Senior Frontend or Fullstack JavaScript developer. I have an extensive experience in frontend development with the above-mentioned FE libraries/frameworks, Next.js and Prisma, with latest experience at Dell Technologies being Angular."
+    },
+    {
+      "type": "paragraph",
+      "text": "I can also work as a full-stack developer using JS/TS and Python, given some time to brush up on your particular choice of frameworks and DBs."
+    }
+  ],
+  "topSkills": [
+    "MySQL",
+    "JavaScript",
+    "Linux"
+  ],
+  "certifications": [
+    "Multinational Communication in the Workplace",
+    "Managing Globally",
+    "Giving and Receiving Feedback",
+    "Delivering Employee Feedback",
+    "Leading Productive One-on-One Meetings"
+  ],
+  "projects": [
+    {
+      "name": "pizza-frontend",
+      "description": "GRAND stack frontend (React, Apollo Client)",
+      "url": "https://github.com/igokul1973/pizza-frontend",
+      "technologies": [
+        "React",
+        "Apollo Client",
+        "GraphQL",
+        "Neo4j"
+      ]
+    },
+    {
+      "name": "pizza-backend",
+      "description": "GRAND stack backend (Apollo Server)",
+      "url": "https://github.com/igokul1973/pizza-backend",
+      "technologies": [
+        "Apollo Server",
+        "GraphQL",
+        "Neo4j",
+        "Node.js"
+      ]
+    },
+    {
+      "name": "angular-grid",
+      "description": "Angular 9 example project",
+      "url": "https://github.com/igokul1973/angular-grid",
+      "technologies": [
+        "Angular 9"
+      ]
+    },
+    {
+      "name": "nextjs",
+      "description": "Next.js example/personal project (partial public part)",
+      "url": "https://github.com/igokul1973/nextjs",
+      "technologies": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Prisma",
+        "MUI",
+        "MinIO",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "name": "invoice-fileservice",
+      "description": "Separate PDF/File service for didgibot.com",
+      "url": "https://github.com/igokul1973/invoice-fileservice",
+      "technologies": [
+        "Node.js"
+      ]
+    },
+    {
+      "name": "didgibot.com",
+      "description": "Electronic document flow web app (personal project)",
+      "url": "https://didgibot.com",
+      "technologies": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Prisma",
+        "MUI",
+        "MinIO",
+        "PostgreSQL"
+      ],
+      "features": [
+        "Internationalization",
+        "SSR",
+        "Separate PDF/File service",
+        "Multistage Dockerfile",
+        "Kubernetes",
+        "ArgoCD",
+        "Jenkins",
+        "DIND on VPS"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "id": 1,
+      "company": "Amber by Graciana LLC",
+      "title": "Full-stack Developer",
+      "employmentType": null,
+      "startDate": "2024-03",
+      "endDate": null,
+      "isCurrent": true,
+      "duration": "2 years 1 month",
+      "location": "Portland, Oregon, United States",
+      "description": [
+        {
+          "type": "paragraph",
+          "text": "Development of personal project - electronic document flow web app - https://didgibot.com."
+        },
+        {
+          "type": "paragraph",
+          "text": "Next.JS repo - https://github.com/igokul1973/nextjs (partial public part)."
+        },
+        {
+          "type": "paragraph",
+          "text": "Project uses React, Next.js, Typescript, Prism, MUI, MinIO and PostgreSQL."
+        },
+        {
+          "type": "paragraph",
+          "text": "Purpose: keeping up-to-date with current FE/BE state of development."
+        },
+        {
+          "type": "paragraph",
+          "text": "Aspects of the project include, among others - Internationalization, SSR, separate PDF/File service (see https://github.com/igokul1973/invoice-fileservice)."
+        },
+        {
+          "type": "paragraph",
+          "text": "Deployment uses - multistage Dockerfile, Kubernetes, ArgoCD, Jenkins, DIND on VPS - necessary code can be shown on demand."
+        }
+      ],
+      "technologies": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Prisma",
+        "MUI",
+        "MinIO",
+        "PostgreSQL",
+        "Docker",
+        "Kubernetes",
+        "ArgoCD",
+        "Jenkins"
+      ]
+    },
+    {
+      "id": 2,
+      "company": "Dell Technologies",
+      "title": "Senior Principal Software Engineer",
+      "employmentType": null,
+      "startDate": "2022-06",
+      "endDate": "2024-02",
+      "isCurrent": false,
+      "duration": "1 year 9 months",
+      "location": "United States",
+      "description": [
+        {
+          "type": "list",
+          "items": [
+            "Continued as a remote lead front-end developer (Vue.js/REST API) on one of the internal Dell projects based on microservice architecture.",
+            "Lead successful migration effort of the project's codebase from Vue.js v2 to Angular v.16 (with Module Federation/Micro-frontend capabilities) as interteam collaboration effort.",
+            "Delivered 80% of core features and supervised delivery of additional features outsourced to other teams.",
+            "Trained and onboarded new FE developers and collaborators.",
+            "Worked as a liaison/support between project's users and BE developers.",
+            "Partially (10% of time) participated in backend development (Python/Django/Fast API).",
+            "Participated in sessions involving UX and architectural design decisions for new and existing features.",
+            "Worked as part of one of the engineering scrum teams."
+          ]
+        }
+      ],
+      "technologies": [
+        "Angular",
+        "Vue.js",
+        "Python",
+        "Go",
+        "PostgreSQL",
+        "Kafka",
+        "Django",
+        "FastAPI",
+        "Module Federation"
+      ]
+    },
+    {
+      "id": 3,
+      "company": "Dell Technologies",
+      "title": "Senior Principal Software Engineer",
+      "employmentType": null,
+      "startDate": "2021-08",
+      "endDate": "2022-06",
+      "isCurrent": false,
+      "duration": "11 months",
+      "location": "St Petersburg, Russia",
+      "description": [
+        {
+          "type": "list",
+          "items": [
+            "Remote front-end development (Vue.js) on one of the internal Dell projects.",
+            "R&D in micro-frontend paradigm (Angular) as inter-team collaboration effort.",
+            "Sometimes participate in backend development (Python).",
+            "Working as a part of one of the engineering scrum teams."
+          ]
+        }
+      ],
+      "technologies": [
+        "Angular",
+        "Vue.js",
+        "Python",
+        "Go",
+        "PostgreSQL",
+        "Kafka"
+      ]
+    },
+    {
+      "id": 4,
+      "company": "Luxoft",
+      "title": "Senior Frontend Developer",
+      "employmentType": null,
+      "startDate": "2020-06",
+      "endDate": "2021-08",
+      "isCurrent": false,
+      "duration": "1 year 3 months",
+      "location": "Saint Petersburg, Russia",
+      "description": [
+        {
+          "type": "paragraph",
+          "text": "Outsourced to one of the largest Russian financial organizations."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Leading a team of 6 developers (4 front-end, 2 back-end), 1 system analyst and 2 testers (60% of time).",
+            "Remote front-end development of existing pilot program in remote education field (40% of time).",
+            "Project consists of 20 agile teams and is part of a larger educational project (common backend, multiple front-ends). As a team lead, facilitated communication between teams.",
+            "Fully agile methodology."
+          ]
+        }
+      ],
+      "technologies": [
+        "React.js",
+        "GraphQL",
+        "Apollo Client",
+        "Atlassian",
+        "Hasura",
+        "Java"
+      ],
+      "teamSize": "6 developers, 1 system analyst, 2 testers"
+    },
+    {
+      "id": 5,
+      "company": "Spark Equation",
+      "title": "Software Engineer",
+      "employmentType": null,
+      "startDate": "2020-01",
+      "endDate": "2020-03",
+      "isCurrent": false,
+      "duration": "3 months",
+      "location": "Saint Petersburg, Russia",
+      "description": [
+        {
+          "type": "list",
+          "heading": "Participation in:",
+          "items": [
+            "Front-end development for internal and external products.",
+            "Code reviews.",
+            "Analysis of tasks and business requirements.",
+            "Architectural solutions and selection of right technologies/tools for specific tasks.",
+            "Estimation of potential projects.",
+            "Interviews and evaluation of front-end developers."
+          ]
+        }
+      ],
+      "technologies": [
+        "React",
+        "Angular",
+        "Redux",
+        "Atlassian suite"
+      ]
+    },
+    {
+      "id": 6,
+      "company": "Luxoft",
+      "title": "Frontend JavaScript Developer",
+      "employmentType": null,
+      "startDate": "2019-10",
+      "endDate": "2020-01",
+      "isCurrent": false,
+      "duration": "4 months",
+      "location": "Saint Petersburg, Russia",
+      "description": [
+        {
+          "type": "paragraph",
+          "text": "Automotive project, Simulator department, as a Senior Frontend JavaScript Developer."
+        },
+        {
+          "type": "paragraph",
+          "text": "Project description: As one of the sub-projects/tools in Automotive Project, the Simulator is responsible for running simulated tests for autonomous driving functions leveraging the Web-based GUI."
+        },
+        {
+          "type": "list",
+          "heading": "Responsibilities:",
+          "items": [
+            "Total rewrite of existing Simulator GUI in React.JS, given the existing functionality is developed using some obscure React.JS wrapper, underdeveloped and does not correspond to current business/technical requirements.",
+            "Development of new features and components.",
+            "Identifying and addressing performance bottlenecks.",
+            "Collaboration with frontend developers from another department for sharing UI components.",
+            "Collaboration with backend developers."
+          ]
+        }
+      ],
+      "technologies": [
+        "React.js",
+        "Material UI",
+        "StoryBook",
+        "ASP.NET",
+        "Socket.io",
+        "EventSource",
+        "MongoDB"
+      ]
+    },
+    {
+      "id": 7,
+      "company": "Andersen",
+      "title": "JavaScript Developer",
+      "employmentType": null,
+      "startDate": "2019-06",
+      "endDate": "2019-09",
+      "isCurrent": false,
+      "duration": "4 months",
+      "location": "Saint Petersburg, Russia",
+      "description": [
+        {
+          "type": "paragraph",
+          "text": "Worked as a Mid-level JavaScript Developer on a project."
+        },
+        {
+          "type": "paragraph",
+          "text": "Project description: Healthcare most widely adopted communication platform – uniquely modernizing care collaboration among doctors, nurses, patients, and care teams. It is the only solution that combines a consumer-like user experience for text, video, and voice communication with the serious security, privacy, and clinical workflow requirements that today's healthcare organizations demand. The project accelerates productivity, reduces costs, and improves patient outcomes."
+        },
+        {
+          "type": "list",
+          "heading": "Responsibilities:",
+          "items": [
+            "Developing new features and components.",
+            "Creating the site pages (React.js).",
+            "Identifying and addressing performance bottlenecks.",
+            "Support and stabilization.",
+            "Collaboration with frontend developers."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Additionally participated remotely in a Los Angeles-based project: development of backend for a CRM system for gyms (coach-client interaction and progress tracking). Developed on React/NodeJS/Hapi.js/PostgreSQL, initially alone, then in a team with one backend developer and two frontend developers."
+        },
+        {
+          "type": "list",
+          "heading": "Achievements on that project:",
+          "items": [
+            "Refactoring of existing code.",
+            "API expansion.",
+            "Initialization of frontend part in React.",
+            "Creation of main sections of public part of the site.",
+            "Implementation of new features.",
+            "Integration with ElasticSearch and AWS S3.",
+            "Dockerization of the project.",
+            "Test coverage.",
+            "Team of 4 developers, QA and PM.",
+            "2-week sprints.",
+            "GitHub (GitFlow), Confluence, Jira."
+          ]
+        }
+      ],
+      "technologies": [
+        "JavaScript",
+        "Node.js",
+        "Hapi.js",
+        "PostgreSQL",
+        "Redis",
+        "ElasticSearch",
+        "AWS",
+        "React.js",
+        "Docker",
+        "AWS S3"
+      ]
+    },
+    {
+      "id": 8,
+      "company": "Itransition Group",
+      "title": "Software Engineer",
+      "employmentType": null,
+      "startDate": "2017-12",
+      "endDate": "2019-06",
+      "isCurrent": false,
+      "duration": "1 year 7 months",
+      "location": "Saint Petersburg, Russia",
+      "subRoles": [
+        {
+          "period": "February 2019 - June 2019",
+          "description": [
+            {
+              "type": "paragraph",
+              "text": "Outsourced as full-stack JS developer to US-based company with development office in Lithuania (payment processing company). Traveled on business trip to Lithuania. Remote development of CRM for company's sales office in a team of 6 developers."
+            },
+            {
+              "type": "list",
+              "heading": "Technologies used:",
+              "items": [
+                "React",
+                "Node.js/Express/Objection.js",
+                "PostgreSQL",
+                "REST",
+                "GitLab (GitFlow)",
+                "Confluence",
+                "Jira"
+              ]
+            }
+          ],
+          "technologies": [
+            "React",
+            "Node.js",
+            "Express",
+            "Objection.js",
+            "PostgreSQL",
+            "REST",
+            "GitLab",
+            "GitFlow",
+            "Confluence",
+            "Jira"
+          ]
+        },
+        {
+          "period": "January 2019 - February 2019",
+          "description": [
+            {
+              "type": "paragraph",
+              "text": "While waiting for another project, studied and reviewed GraphQL database - Neo4j, Apollo Client and Server, NodeJS. Practiced above-mentioned technologies on personal pet project."
+            }
+          ],
+          "technologies": [
+            "GraphQL",
+            "Neo4j",
+            "Apollo Client",
+            "Apollo Server",
+            "Node.js"
+          ]
+        },
+        {
+          "period": "April 2018 - December 2018",
+          "description": [
+            {
+              "type": "paragraph",
+              "text": "Outsourced with a team of 10 developers to New York (USA)-based 'Real-estate for professionals network' startup (partially remote development - remote demos, code reviews, Skype/Slack communication with PM, BAs and tech lead)."
+            },
+            {
+              "type": "list",
+              "items": [
+                "Transfer of existing monolith architecture (backend – CakePHP, frontend – AngularJS) to a new microservice paradigm.",
+                "Participation in design of new architecture.",
+                "Development of new microservices: Frontend, FAPI, backend services.",
+                "Singlehandedly developed Email, Search, File services, integrated with GraphQL Server and frontend.",
+                "Dockerization of the project.",
+                "Participated in front-end development for system's dashboard (React.JS, Redux, Sagas)."
+              ]
+            }
+          ],
+          "technologies": [
+            "PHP",
+            "Symfony 4.3",
+            "Node.js 8.11",
+            "Express",
+            "ElasticSearch",
+            "Redis",
+            "RabbitMQ",
+            "PostgreSQL",
+            "GraphQL",
+            "React.js",
+            "Redux",
+            "Sagas",
+            "OpenAPI",
+            "Docker",
+            "Jira",
+            "Confluence",
+            "CakePHP",
+            "AngularJS"
+          ]
+        },
+        {
+          "period": "December 2017 - April 2018",
+          "description": [
+            {
+              "type": "paragraph",
+              "text": "While waiting for a project, studied and investigated new technologies: Redis, ElasticSearch, Symfony (PHP Framework), Docker, MongoDB (NoSQL databases in general), ReactJS, NodeJS. Reviewed PostgreSQL, MySQL, JavaScript."
+            }
+          ],
+          "technologies": [
+            "Redis",
+            "ElasticSearch",
+            "Symfony",
+            "Docker",
+            "MongoDB",
+            "React.js",
+            "Node.js",
+            "PostgreSQL",
+            "MySQL",
+            "JavaScript"
+          ]
+        }
+      ],
+      "technologies": [
+        "React",
+        "Node.js",
+        "Express",
+        "PostgreSQL",
+        "GraphQL",
+        "Neo4j",
+        "Apollo Client",
+        "Apollo Server",
+        "Redux",
+        "Sagas",
+        "ElasticSearch",
+        "Redis",
+        "RabbitMQ",
+        "Docker",
+        "PHP",
+        "Symfony"
+      ]
+    },
+    {
+      "id": 9,
+      "company": "ООО \"ЕСТП-СРО\" (estp.ru)",
+      "title": "PHP Developer",
+      "employmentType": null,
+      "startDate": "2016-06",
+      "endDate": "2017-12",
+      "isCurrent": false,
+      "duration": "1 year 7 months",
+      "location": "Saint Petersburg, Russian Federation",
+      "description": [
+        {
+          "type": "paragraph",
+          "text": "Development of new and support of existing components for web-based tender platform for purchases by government agencies and state institutions. Developing on custom PHP-framework SBin and Yii 2. Gradual transfer of diverse system modules to \"dockerized\" SOA-based architecture."
+        }
+      ],
+      "technologies": [
+        "PHP",
+        "Yii 2",
+        "SBin (custom PHP framework)",
+        "Docker",
+        "SOA"
+      ]
+    },
+    {
+      "id": 10,
+      "company": "ООО \"Real Estate Development\"",
+      "title": "Full-stack Web Developer (PHP)",
+      "employmentType": null,
+      "startDate": "2016-02",
+      "endDate": "2016-06",
+      "isCurrent": false,
+      "duration": "5 months",
+      "location": "Saint Petersburg, Russian Federation",
+      "description": [
+        {
+          "type": "paragraph",
+          "text": "Development of web-based CRM for real-estate industry on Yii2. Support and debugging of existing code base as well as development of new features and functionality. Working in a team of developers. Support of old and development of new modules, access rights management, automation tasks for transferring real estate objects from CRM database to client websites and vice versa."
+        }
+      ],
+      "technologies": [
+        "PHP",
+        "Yii 2",
+        "Yii 1"
+      ]
+    },
+    {
+      "id": 11,
+      "company": "ООО \"ТехСервис\"",
+      "title": "Full-stack Web Programmer / Systems Programmer",
+      "employmentType": null,
+      "startDate": "2014-04",
+      "endDate": "2016-02",
+      "isCurrent": false,
+      "duration": "1 year 11 months",
+      "location": "Saint Petersburg, Russian Federation",
+      "description": [
+        {
+          "type": "list",
+          "items": [
+            "Full-stack development of new corporate websites and intranet.",
+            "Participation in developing a strategy for local corporate network infrastructure.",
+            "Backend - PHP.",
+            "Webserver administration.",
+            "Development of corporate identity (branding for the entire group of companies).",
+            "Administration of web servers, virtual machines on Linux, VMWare ESXi."
+          ]
+        }
+      ],
+      "technologies": [
+        "PHP",
+        "JavaScript",
+        "Linux",
+        "VMWare ESXi"
+      ]
+    },
+    {
+      "id": 12,
+      "company": "SBR Nord Grupp HB",
+      "title": "Arbetsledare (Work Supervisor) / VVS-arbete (Plumbing Work)",
+      "employmentType": null,
+      "startDate": "2010-08",
+      "endDate": "2014-04",
+      "isCurrent": false,
+      "duration": "3 years 9 months",
+      "location": "Solna, Sweden",
+      "description": [
+        {
+          "type": "paragraph",
+          "text": "VVS-arbete och badrumsrenoveringar (Plumbing work and bathroom renovations). Work supervisor role."
+        }
+      ],
+      "subRoles": [
+        {
+          "title": "VVS-arbete",
+          "startDate": "2010-10",
+          "endDate": "2014-04",
+          "duration": "3 years 7 months"
+        },
+        {
+          "title": "Arbetsledare",
+          "startDate": "2010-08",
+          "endDate": "2014-04",
+          "duration": "3 years 9 months"
+        }
+      ],
+      "technologies": []
+    }
+  ],
+  "education": [
+    {
+      "institution": "Hunter College",
+      "degree": "Associate's degree",
+      "fieldOfStudy": "Media and English",
+      "startYear": 2006,
+      "endYear": 2008
+    },
+    {
+      "institution": "Санкт-Петербургский Морской Колледж (Saint Petersburg Maritime College)",
+      "degree": "Associate's degree",
+      "fieldOfStudy": "Radio Technician",
+      "startYear": null,
+      "endYear": null
+    }
+  ],
+  "skills": {
+    "languagesAndRuntimes": [
+      "JavaScript",
+      "TypeScript",
+      "PHP",
+      "Python",
+      "Go"
+    ],
+    "frontend": [
+      "React.js",
+      "Next.js",
+      "Angular",
+      "Vue.js",
+      "AngularJS",
+      "Redux",
+      "Redux Sagas",
+      "Apollo Client",
+      "MUI (Material UI)",
+      "StoryBook"
+    ],
+    "backend": [
+      "Node.js",
+      "Express",
+      "Hapi.js",
+      "GraphQL",
+      "Apollo Server",
+      "REST API",
+      "FastAPI",
+      "Django",
+      "Symfony",
+      "CakePHP",
+      "Yii 2",
+      "Yii 1",
+      "Objection.js",
+      "ASP.NET"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "MySQL",
+      "MongoDB",
+      "Neo4j",
+      "Redis",
+      "ElasticSearch",
+      "Hasura"
+    ],
+    "messaging": [
+      "RabbitMQ",
+      "Kafka"
+    ],
+    "devopsAndInfra": [
+      "Docker",
+      "Kubernetes",
+      "ArgoCD",
+      "Jenkins",
+      "DIND",
+      "VMWare ESXi",
+      "Linux",
+      "MinIO",
+      "AWS S3",
+      "AWS"
+    ],
+    "architecture": [
+      "Microservices",
+      "SOA",
+      "Micro-frontend",
+      "Module Federation",
+      "GRAND stack"
+    ],
+    "tools": [
+      "Git",
+      "GitFlow",
+      "GitHub",
+      "GitLab",
+      "Jira",
+      "Confluence",
+      "Atlassian Suite",
+      "Slack"
+    ],
+    "protocolsAndSpecs": [
+      "Socket.io",
+      "EventSource",
+      "OpenAPI"
+    ],
+    "other": [
+      "Prisma",
+      "Prisma ORM"
+    ]
+  }
+}

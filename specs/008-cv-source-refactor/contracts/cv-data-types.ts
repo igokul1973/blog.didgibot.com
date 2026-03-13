@@ -16,6 +16,22 @@ export interface IMeta {
     dateExported: string;
     /** Format version of the data structure */
     formatVersion: string;
+    /** Description schema for structured content */
+    descriptionSchema: string;
+}
+
+/**
+ * Content block for structured descriptions
+ */
+export interface IContentBlock {
+    /** Type of content block */
+    type: 'paragraph' | 'list';
+    /** Text content for paragraph blocks */
+    text?: string;
+    /** Heading for list blocks */
+    heading?: string;
+    /** List items for list blocks */
+    items?: string[];
 }
 
 /**
@@ -69,7 +85,7 @@ export interface ISubRole {
     /** Time period for the sub-role */
     period?: string;
     /** Description of responsibilities during this period */
-    description?: ITextBlock[];
+    description?: IContentBlock[];
     /** Technologies used during this period */
     technologies?: string[];
 }
@@ -97,7 +113,7 @@ export interface IExperience {
     /** Work location */
     location: string;
     /** Detailed description of responsibilities and achievements */
-    description?: ITextBlock[];
+    description: IContentBlock[];
     /** List of technologies used */
     technologies: string[];
     /** Specific achievements (optional) */
@@ -109,9 +125,9 @@ export interface IExperience {
 }
 
 /**
- * Portfolio entry
+ * Project portfolio entry
  */
-export interface IPortfolio {
+export interface IProject {
     /** Project name */
     name: string;
     /** Project description */
@@ -162,15 +178,8 @@ export interface ISkills {
     tools: string[];
     /** Protocols and specifications */
     protocolsAndSpecs: string[];
-    /** Other miscellaneous technologies */
+    /** ORM technologies */
     ORM: string[];
-}
-
-export interface ITextBlock {
-    type: 'paragraph' | 'list';
-    text?: string;
-    heading?: string;
-    items?: string[];
 }
 
 /**
@@ -182,14 +191,14 @@ export interface IResumeData {
     meta: IMeta;
     /** Personal information and contact details */
     personal: IPersonal;
-    /** Professional summary statement */
-    summary: ITextBlock[];
+    /** Professional summary statement (array of content blocks) */
+    summary: IContentBlock[];
     /** Top skills highlights */
     topSkills: string[];
     /** Professional certifications */
     certifications: string[];
     /** Project portfolio */
-    portfolio: IPortfolio[];
+    portfolio: IProject[];
     /** Work experience history */
     experience: IExperience[];
     /** Educational background */
@@ -206,15 +215,15 @@ export interface ICVComponentData {
     /** Get personal information */
     getPersonal(): IPersonal;
     /** Get professional summary */
-    getSummary(): string;
+    getSummary(): IContentBlock[];
     /** Get work experience array */
     getExperience(): IExperience[];
     /** Get education array */
     getEducation(): IEducation[];
     /** Get skills object */
     getSkills(): ISkills;
-    /** Get portfolio array */
-    getPortfolio(): IPortfolio[];
+    /** Get projects array */
+    getPortfolio(): IProject[];
     /** Get top skills array */
     getTopSkills(): string[];
     /** Get certifications array */
@@ -234,8 +243,8 @@ export interface ICVDataValidator {
     validateExperience(data: unknown): data is IExperience;
     /** Validate education entry */
     validateEducation(data: unknown): data is IEducation;
-    /** Validate portfolio entry */
-    validatePortfolio(data: unknown): data is IPortfolio;
+    /** Validate project entry */
+    validateProject(data: unknown): data is IProject;
     /** Validate skills object */
     validateSkills(data: unknown): data is ISkills;
 }

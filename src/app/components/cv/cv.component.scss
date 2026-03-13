@@ -159,7 +159,8 @@
 
     .experience-section,
     .education-section,
-    .skills-section {
+    .skills-section,
+    .portfolio-section {
         margin-bottom: 3rem;
 
         h3 {
@@ -170,6 +171,18 @@
             display: flex;
             align-items: center;
             border-bottom: 2px solid #e2e8f0;
+        }
+
+        // Apply summary-section styling to mat-list-items
+        .mat-mdc-list-item {
+            background: #ffffff !important;
+            padding: 16px 24px 16px;
+            margin: 0px 0px 32px;
+            border-radius: 12px !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+            border-left: 4px solid #667eea !important;
+            border-right: none !important;
+            border-top: none !important;
         }
 
         .experience-section h3::before {
@@ -184,14 +197,8 @@
             font-size: 1.25rem;
         }
 
-        .skills-section h3::before {
-            content: '⚡';
-            margin-right: 0.75rem;
-            font-size: 1.25rem;
-        }
-
-        // Fix mat-list height constraint and text clipping
-        mat-list {
+        // Fix mat-list height constraint and text clipping for portfolio only
+        .portfolio-section mat-list {
             height: auto !important;
             max-height: none !important;
             overflow: visible !important;
@@ -220,17 +227,6 @@
                     overflow: visible !important;
                     text-overflow: unset !important;
                 }
-
-                &::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 4px;
-                    height: 100%;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    border-radius: 2px 0 0 2px;
-                }
             }
         }
     }
@@ -239,20 +235,12 @@
         .experience-header {
             margin-bottom: 1rem;
 
-            h4 {
-                margin: 0 0 0.5rem 0;
-                color: #2d3748;
-                font-weight: 700;
-                font-size: 1.25rem;
-                line-height: 1.3;
-            }
-
             p {
                 margin: 0.25rem 0;
                 font-size: 0.95rem;
                 color: #4a5568;
 
-                &.company {
+                &.title {
                     font-weight: 600;
                     color: #667eea;
                     font-size: 1rem;
@@ -296,10 +284,10 @@
             margin-bottom: 1rem;
 
             h4 {
-                margin: 0 0 0.5rem 0;
-                color: #2d3748;
+                margin: 0.5rem 0 0.5rem 0;
+                color: var(--mat-card-subtitle-text-color, var(--mat-sys-on-surface));
                 font-weight: 700;
-                font-size: 1.25rem;
+                font-size: 1.5em;
                 line-height: 1.3;
             }
 
@@ -348,7 +336,7 @@
     .skill-category {
         .skills-list {
             .skill-item {
-                font-size: 0.95rem;
+                font-size: 0.8rem;
                 margin-right: 0.75rem;
                 margin-bottom: 0.5rem;
                 display: inline-block;
@@ -409,5 +397,135 @@
                 font-size: 1.8rem;
             }
         }
+    }
+}
+
+// Sub-role styling
+.sub-role {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.sub-role-divider {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    margin: 1rem 0;
+    opacity: 0.6;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .cv {
+        padding: 1rem;
+
+        .contact-section {
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .experience-item,
+        .education-item {
+            .experience-header,
+            .education-header {
+                h4 {
+                    font-size: 1.1rem;
+                }
+
+                p {
+                    font-size: 0.85rem;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 769px) {
+    .cv {
+        padding: 2rem;
+
+        .contact-section {
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
+    }
+}
+
+// Sub-role styling
+.sub-role {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.sub-role-divider {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    margin: 1rem 0;
+    opacity: 0.6;
+}
+
+// Portfolio styling - matching summary-section
+.portfolio-section {
+    .mat-mdc-list-item {
+        background: #3b3939 !important;
+        padding: 32px !important;
+        margin: 0px 0px 48px !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+        border-left: 4px solid #667eea !important;
+        border-right: none !important;
+        border-top: none !important;
+
+        &:not(:last-child) {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+        }
+
+        .portfolio-item {
+            h4 {
+                margin: 0 0 0.625rem 0 !important;
+                font-size: 1.3em !important;
+                font-weight: 600;
+                line-height: 1.4 !important;
+            }
+
+            p {
+                margin: 0.0625rem 0 !important;
+                font-size: 1rem !important;
+                line-height: 1.4 !important;
+            }
+
+            .technologies-section {
+                margin-top: 0.125rem !important;
+
+                h6 {
+                    margin: 0.5rem 0 0.25rem 0 !important;
+                    font-size: 1.3rem !important;
+                    // font-weight: 600;
+                    line-height: 1.4 !important;
+                }
+
+                mat-chip-listbox {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.0625rem !important;
+                    margin: 0 !important;
+                }
+            }
+        }
+    }
+}
+
+.skills-section {
+    h6 {
+        margin-top: 0.625rem;
     }
 }

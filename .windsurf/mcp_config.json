@@ -5,7 +5,7 @@
             "args": [
                 "@playwright/mcp@latest",
                 "--cdp-endpoint",
-                "ws://host.docker.internal:9250/devtools/browser/2d15afb6-467c-4e2e-b9d5-00ae7440ed5b"
+                "ws://host.docker.internal:9250/devtools/browser/503684bc-ddd5-4373-9880-45e87c0c69b8"
             ]
         },
         "angular-cli": {
