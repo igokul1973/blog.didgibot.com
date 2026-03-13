@@ -69,6 +69,38 @@ Types:
 - `test`: Adding or modifying tests
 - `chore`: Changes to the build process or auxiliary tools
 
+## FYI
+
+What commit message types the semantic-release bump the version?
+
+By default, semantic-release follows the Angular Commit Message Convention to determine how to bump your project's version.
+
+The three primary commit types that trigger a version bump are:
+fix: Triggers a Patch version bump (e.g., 1.0.0 → 1.0.1). This is used for bug fixes that do not change the API.
+feat: Triggers a Minor version bump (e.g., 1.0.0 → 1.1.0). This is used when a new feature is added in a backwards-compatible manner.
+BREAKING CHANGE: Triggers a Major version bump (e.g., 1.0.0 → 2.0.0). This occurs if a commit (of any type) includes BREAKING CHANGE: in its footer or a ! after the type/scope (e.g., feat!:).
+
+### Summary Table of Default Bumps
+
+| Commit Type       | Version Part | Example Bump                                 |
+| ----------------- | ------------ | -------------------------------------------- |
+| `fix`             | Patch        | 1.2.3 → 1.2.4                                |
+| `feat`            | Minor        | 1.2.3 → 1.3.0                                |
+| `perf`            | Minor        | 1.2.3 → 1.3.0 (Note: in some configurations) |
+| `BREAKING CHANGE` | Major        | 1.2.3 → 2.0.0                                |
+
+### Non-Bumping Types
+
+By default, other common commit types do not trigger a version release:
+
+- `docs`: Documentation only changes.
+- `style`: Changes that do not affect the meaning of the code (white-space, formatting, etc.).
+- `refactor`: A code change that neither fixes a bug nor adds a feature.
+- `test`: Adding missing tests or correcting existing tests.
+- `chore`: Updating build tasks, package manager configs, etc.
+
+You can customize these rules by modifying the @semantic-release/commit-analyzer plugin configuration in your project's semantic-release settings.
+
 ## Development Practices
 
 ### Testing
