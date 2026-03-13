@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/igokul1973/blog.didgibot.com/compare/v1.1.0...v1.1.1) (2026-03-13)
+
+
+### Bug Fixes
+
+* fixed development guidelines ([3c1cec0](https://github.com/igokul1973/blog.didgibot.com/commit/3c1cec06100c2ce9a831404370831c4d1f644831))
+
 # [1.1.0](https://github.com/igokul1973/blog.didgibot.com/compare/v1.0.2...v1.1.0) (2026-03-08)
 
 
