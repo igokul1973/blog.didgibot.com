@@ -207,7 +207,7 @@
                         "FE React repo - https://github.com/igokul1973/admin.blog.didgibot.com - open source",
                         "BE FastAPI/Python repo - https://github.com/igokul1973/admin.blog.didgibot.com - open source",
                         "Admin panel uses Editor.js WYSIWYG - https://editorjs.io/ and corresponding libraries for parsing and rendering content. The Angular version of Editor.js parser has been ported to Angular as there was no library alternative.",
-                        "Technologies used: Angular, React, MUI, Angular Mateiral, Python, Strawberry, Apollo Client/GraphQL, Typescript, MinIO and PostgreSQL.",
+                        "Technologies used: Angular, React, MUI, Angular Mateiral, Python, Strawberry, Apollo Client/GraphQL, Typescript, MinIO and MongoDB.",
                         "Some components and features were created using Spec-Driven Development approach - https://github.github.io/spec-kit/index.html"
                     ]
                 }
@@ -221,6 +221,7 @@
                 "MUI",
                 "MinIO",
                 "PostgreSQL",
+                "MongoDB",
                 "Docker",
                 "Kubernetes",
                 "ArgoCD",

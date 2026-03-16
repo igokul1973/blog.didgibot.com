@@ -1,12 +1,3 @@
-import {
-    IEducation,
-    IExperience,
-    IPersonal,
-    IPortfolio,
-    IResumeData,
-    ISkills,
-    ITextBlock
-} from '@/app/models/cv-data-types';
 import resumeData from '@/assets/igor_kulebyakin_resume.json';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
@@ -14,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatListModule } from '@angular/material/list';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { IEducation, IExperience, IPersonal, IPortfolio, IResumeData, ISkills, ITextBlock } from './types';
 
 @Component({
     selector: 'app-cv',
@@ -123,14 +115,6 @@ export class CvComponent {
         // Check for Russian language indicators
         const isRussianLanguage = language.toLowerCase().includes('ru');
 
-        console.log(
-            'Timezone:',
-            timezone,
-            'Language:',
-            language,
-            'Result:',
-            russianTimezones.includes(timezone) || isRussianLanguage
-        );
         return russianTimezones.includes(timezone) || isRussianLanguage;
     }
 }

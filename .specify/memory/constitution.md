@@ -18,7 +18,7 @@ Every component MUST follow Angular 20 framework patterns; Components must be se
 
 ### II. TypeScript Discipline
 
-TypeScript strict mode mandatory; All code MUST use proper typing with interfaces over types unless union types needed; Use unknown instead of any; Interfaces must use I prefix; Enums must use Enum suffix; No implicit any types allowed; Use separate files named `types.ts` for types and enums co-located with the components, classes and services that use them; If necessary, use a shared types file in the root of the feature directory;
+TypeScript strict mode mandatory; All code MUST use proper typing with interfaces over types unless union types needed; Use unknown instead of any; Interfaces must use I prefix; Enums must use Enum suffix; No implicit any types allowed; Use separate files named `types.ts` for interfaces, types and enums co-located with the components, classes and services that use them, i.e. inside the same folder the component's \*.component.ts file is located; If necessary, use a shared types file in the root of the feature directory;
 
 ### III. Test-First Development (NON-NEGOTIABLE)
 
@@ -52,11 +52,22 @@ src/
     components/      # Dumb components (presentational)
     containers/      # Smart components (container components)
     services/        # Services and API clients
-    models/          # TypeScript interfaces/types
+    types/           # System-wide shared TypeScript interfaces/types
     shared/          # Shared modules, pipes, directives
     app.module.ts    # Root module
     app-routing.module.ts # Routing configuration
 ```
+
+### TS Types, Enums and Interfaces
+
+- For module-scoped TS types use separate files named `types.ts` co-located with components, classes and services that will them. As an example, if a user component uses types, create a `types.ts` file inside the same folder the component's `user.component.ts` file is located; The types should then be imported into the `user.component.ts`.
+- In cases of nested components that might use the same types, use a shared `types.ts` file in the root of the component (feature) directory.
+- If the TS types belong to some system-wide entity, such as `article` or `user`, then use the `/types` folder to create an appropriate `entity.ts` file where its type will reside.
+- For one-off random types that will be shared by the whole system, use the `/types/common.ts` file.
+
+### Tests
+
+All tests must be colocated with their corresponding components/services/pipes/classes (be in the same directory), according to Angular conventions; integration and unit tests must reside in the same `*.spec.ts` file.
 
 ### File Naming Conventions
 

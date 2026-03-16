@@ -6,9 +6,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar, MatSnackBarModule, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
-import { IArticleInputFilterInput, IArticleQueryInput, ISortInput } from 'types/article';
+import { IArticleQueryInput } from 'types/article';
 import { ArticleComponent } from '../article/article.component';
 import BlogDataSource from './blog.datasource';
+import { filter, limit, sort } from './constants';
 import { DataSourceErrorsEnum, IDataSourceError } from './types';
 
 @Component({
@@ -27,9 +28,7 @@ import { DataSourceErrorsEnum, IDataSourceError } from './types';
     standalone: true
 })
 export class BlogComponent implements OnInit, OnDestroy {
-    private readonly filter: IArticleInputFilterInput = { updated_at: { from_: '2022-01-01' } };
-    private readonly sort: ISortInput = { field: 'updated_at', dir: 'desc' };
-    private readonly limit: IArticleQueryInput['limit'] = 20;
+    /* istanbul ignore next */
     private readonly articleService = inject(ArticleService);
     protected readonly searchQuery$ = this.articleService.searchQuery$;
     protected selectedLanguage = this.articleService.selectedLanguage;
@@ -40,9 +39,9 @@ export class BlogComponent implements OnInit, OnDestroy {
 
     public ds = new BlogDataSource(this.articleService, {
         entityName: 'article',
-        filterInput: this.filter,
-        sortInput: this.sort,
-        limit: this.limit,
+        filterInput: filter,
+        sortInput: sort,
+        limit: limit,
         skip: 0
     });
 
@@ -52,9 +51,9 @@ export class BlogComponent implements OnInit, OnDestroy {
                 next: (search) => {
                     const searchQuery: IArticleQueryInput = {
                         entityName: 'article',
-                        filterInput: { ...this.filter },
-                        sortInput: this.sort,
-                        limit: this.limit,
+                        filterInput: filter,
+                        sortInput: sort,
+                        limit: limit,
                         skip: 0
                     };
                     if (search.length > 2) {

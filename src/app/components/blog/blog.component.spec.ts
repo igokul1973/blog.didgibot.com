@@ -65,11 +65,39 @@ describe('BlogComponent', () => {
             loadingSubject.asObservable();
         (component.ds as unknown as { errors$: typeof component.ds.errors$ }).errors$ = errorSubject.asObservable();
 
-        fixture.detectChanges();
+        fixture.detectChanges(); // This calls ngOnInit
+
+        // Trigger search query to exercise the filter property
+        searchQuerySubject.next('');
     });
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should apply date filter when initializing component', () => {
+        // Verify that the component applies the date filter through its public behavior
+        const setQuerySpy = vi.spyOn(component.ds, 'setQuery');
+
+        // Trigger the searchQuery$ subscription to exercise the filter property
+        searchQuerySubject.next(''); // Empty search to trigger the filter usage
+
+        // Should set query with date filter applied
+        expect(setQuerySpy).toHaveBeenCalled();
+        const queryCall = setQuerySpy.mock.calls.find((call) => call[0]?.filterInput);
+        expect(queryCall).toBeDefined();
+
+        const query = queryCall?.[0] as IArticleQueryInput;
+        expect(query.filterInput).toBeDefined();
+        // The filter should include the updated_at and other hard-coded constraints from
+        // the private filter, sort and limit properties
+        expect(query).toStrictEqual({
+            entityName: 'article',
+            filterInput: { updated_at: { from_: '2022-01-01' } },
+            sortInput: { field: 'updated_at', dir: 'desc' },
+            limit: 20,
+            skip: 0
+        });
     });
 
     it('builds query without search when search length is 2 or less and shows hint message', () => {

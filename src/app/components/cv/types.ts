@@ -16,6 +16,8 @@ export interface IMeta {
     dateExported: string;
     /** Format version of the data structure */
     formatVersion: string;
+    /** Description schema for structured content */
+    descriptionSchema: string;
 }
 
 /**
@@ -209,7 +211,7 @@ export interface ICVComponentData {
     getSummary(): string;
     /** Get work experience array */
     getExperience(): IExperience[];
-    /** Get education array */
+    /** Get education array *
     getEducation(): IEducation[];
     /** Get skills object */
     getSkills(): ISkills;

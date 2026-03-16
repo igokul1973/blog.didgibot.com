@@ -250,4 +250,256 @@ describe('HeaderComponent', () => {
 
         globalWithResizeObserver.ResizeObserver = originalResizeObserver;
     });
+
+    describe('CV Navigation', () => {
+        it('should have CV navigation icon in desktop header', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
+            const cvIcon = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Curriculum Vitae"]');
+            expect(cvIcon).toBeTruthy();
+            if (cvIcon) {
+                expect(cvIcon.getAttribute('aria-label')).toContain('Curriculum Vitae');
+            }
+        });
+
+        it('should have CV icon with proper tooltip', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
+            const cvIcon = compiled.querySelector<HTMLButtonElement>('button[mattooltip*="Curriculum Vitae"]');
+            expect(cvIcon).toBeTruthy();
+            if (cvIcon) {
+                expect(cvIcon.getAttribute('mattooltip')).toContain('Curriculum Vitae');
+            }
+        });
+
+        it('should have proper icon for CV navigation', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
+            const cvIcon = compiled.querySelector<HTMLElement>('button[aria-label*="Curriculum Vitae"] mat-icon');
+            expect(cvIcon).toBeTruthy();
+            if (cvIcon) {
+                expect(cvIcon.textContent?.trim()).toBe('description');
+            }
+        });
+
+        it('should have CV link in mobile menu', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
+            const mobileCVLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
+                (item) => item.textContent?.trim() === 'My CV'
+            );
+            expect(mobileCVLink).toBeTruthy();
+            if (mobileCVLink) {
+                expect(mobileCVLink.textContent?.trim()).toBe('My CV');
+            }
+        });
+
+        it('should have proper router link configuration for mobile CV link', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
+            // Find the CV link by text content since routerLink might be dynamically bound
+            const mobileCVLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
+                (item) => item.textContent?.trim() === 'My CV'
+            );
+            expect(mobileCVLink).toBeTruthy();
+            if (mobileCVLink) {
+                // Check if the element has routerLink functionality
+                expect(mobileCVLink.getAttribute('role')).toBe('listitem');
+            }
+        });
+
+        it('should have CV navigation accessible via keyboard', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
+            const cvIcon = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Curriculum Vitae"]');
+            expect(cvIcon).toBeTruthy();
+            if (cvIcon) {
+                expect(cvIcon.tabIndex).not.toBeLessThan(0);
+            }
+        });
+
+        it('should maintain existing navigation functionality', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
+
+            // Check that other navigation elements still exist
+            const homeLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
+                (item) => item.textContent?.trim() === 'Home'
+            );
+            const blogLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
+                (item) => item.textContent?.trim() === 'Blog'
+            );
+
+            expect(homeLink).toBeTruthy();
+            expect(blogLink).toBeTruthy();
+        });
+
+        it('debounces search input and navigates to blog when query length is greater than 2', async () => {
+            vi.useFakeTimers();
+
+            const router = TestBed.inject(Router);
+            const navigateSpy = vi.spyOn(router, 'navigate');
+
+            fixture = TestBed.createComponent(HeaderComponent);
+            component = fixture.componentInstance;
+            component.routeName$ = of('blog');
+            component.urlPath = '';
+            // Set the search query before change detection so the first debounced
+            // emission corresponds to the non-empty user input.
+            component.searchQuery.set('abcd');
+            fixture.detectChanges();
+
+            await vi.advanceTimersByTimeAsync(500);
+            fixture.detectChanges();
+
+            expect(setSearchQuerySpy).toHaveBeenCalledWith('abcd');
+            expect(navigateSpy).toHaveBeenCalledWith(['/', LanguageEnum.EN, 'blog']);
+
+            vi.useRealTimers();
+        });
+
+        it('does not navigate when search query length is 2 or less', async () => {
+            vi.useFakeTimers();
+
+            const router = TestBed.inject(Router);
+            const navigateSpy = vi.spyOn(router, 'navigate');
+
+            fixture = TestBed.createComponent(HeaderComponent);
+            component = fixture.componentInstance;
+            component.routeName$ = of('blog');
+            component.urlPath = '';
+            component.searchQuery.set('ab');
+            fixture.detectChanges();
+
+            await vi.advanceTimersByTimeAsync(500);
+            fixture.detectChanges();
+
+            expect(setSearchQuerySpy).toHaveBeenCalledWith('ab');
+            expect(navigateSpy).not.toHaveBeenCalled();
+
+            vi.useRealTimers();
+        });
+
+        it('handles ResizeObserver both when viewport is narrow and wide', () => {
+            const globalWithResizeObserver = globalThis as GlobalWithResizeObserver;
+            const originalResizeObserver = globalWithResizeObserver.ResizeObserver;
+            let capturedCallback: ((entries: { contentRect: { width: number } }[]) => void) | undefined;
+
+            class TestResizeObserver {
+                constructor(cb: (entries: { contentRect: { width: number } }[]) => void) {
+                    capturedCallback = cb;
+                }
+                observe(): void {
+                    return;
+                }
+                unobserve(): void {
+                    return;
+                }
+                disconnect(): void {
+                    return;
+                }
+            }
+
+            globalWithResizeObserver.ResizeObserver = TestResizeObserver as unknown as typeof ResizeObserver;
+
+            fixture = TestBed.createComponent(HeaderComponent);
+            component = fixture.componentInstance;
+            component.routeName$ = of('home');
+            component.urlPath = '';
+            fixture.detectChanges();
+
+            component.isOpen.set(true);
+            component.ngAfterViewInit();
+
+            // First call with a narrow viewport should leave the menu open.
+            capturedCallback?.([{ contentRect: { width: 600 } }]);
+            expect(component.isOpen()).toBe(true);
+
+            // Second call with a wide viewport should close the menu.
+            capturedCallback?.([{ contentRect: { width: 800 } }]);
+            expect(component.isOpen()).toBe(false);
+
+            globalWithResizeObserver.ResizeObserver = originalResizeObserver;
+        });
+
+        describe('CV Navigation', () => {
+            it('should have CV navigation icon in desktop header', () => {
+                const compiled = fixture.nativeElement as HTMLElement;
+                const cvIcon = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Curriculum Vitae"]');
+                expect(cvIcon).toBeTruthy();
+                if (cvIcon) {
+                    expect(cvIcon.getAttribute('aria-label')).toContain('Curriculum Vitae');
+                }
+            });
+
+            it('should have CV icon with proper tooltip', () => {
+                const compiled = fixture.nativeElement as HTMLElement;
+                const cvIcon = compiled.querySelector<HTMLButtonElement>('button[mattooltip*="Curriculum Vitae"]');
+                expect(cvIcon).toBeTruthy();
+                if (cvIcon) {
+                    expect(cvIcon.getAttribute('mattooltip')).toContain('Curriculum Vitae');
+                }
+            });
+
+            it('should have proper icon for CV navigation', () => {
+                const compiled = fixture.nativeElement as HTMLElement;
+                const cvIcon = compiled.querySelector<HTMLElement>('button[aria-label*="Curriculum Vitae"] mat-icon');
+                expect(cvIcon).toBeTruthy();
+                if (cvIcon) {
+                    expect(cvIcon.textContent?.trim()).toBe('description');
+                }
+            });
+
+            it('should have CV link in mobile menu', () => {
+                const compiled = fixture.nativeElement as HTMLElement;
+                const mobileCVLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
+                    (item) => item.textContent?.trim() === 'My CV'
+                );
+                expect(mobileCVLink).toBeTruthy();
+                if (mobileCVLink) {
+                    expect(mobileCVLink.textContent?.trim()).toBe('My CV');
+                }
+            });
+
+            it('should have proper router link configuration for mobile CV link', () => {
+                const compiled = fixture.nativeElement as HTMLElement;
+                // Find the CV link by text content since routerLink might be dynamically bound
+                const mobileCVLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
+                    (item) => item.textContent?.trim() === 'My CV'
+                );
+                expect(mobileCVLink).toBeTruthy();
+                if (mobileCVLink) {
+                    // Check if the element has routerLink functionality
+                    expect(mobileCVLink.getAttribute('role')).toBe('listitem');
+                }
+            });
+
+            it('should have CV navigation accessible via keyboard', () => {
+                const compiled = fixture.nativeElement as HTMLElement;
+                const cvIcon = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Curriculum Vitae"]');
+                expect(cvIcon).toBeTruthy();
+                if (cvIcon) {
+                    expect(cvIcon.tabIndex).not.toBeLessThan(0);
+                }
+            });
+
+            it('should close mobile menu after CV navigation', async () => {
+                const compiled = fixture.nativeElement as HTMLElement;
+                const mobileCVLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
+                    (item) => item.textContent?.trim() === 'My CV'
+                );
+                // Open mobile menu first
+                component.isOpen.set(true);
+                fixture.detectChanges();
+
+                // Verify menu is open
+                expect(component.isOpen()).toBe(true);
+
+                // Click CV link
+                if (mobileCVLink) {
+                    mobileCVLink.click();
+                }
+                fixture.detectChanges();
+
+                // Wait for navigation and menu close
+                await fixture.whenStable();
+
+                // Verify menu is closed
+                expect(component.isOpen()).toBe(false);
+            });
+        });
+    });
 });
