@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/igokul1973/blog.didgibot.com/compare/v1.1.1...v1.1.2) (2026-03-16)
+
+
+### Bug Fixes
+
+* fixed broken links to LinkedIn and HH profiles on CV page ([b6c6ce9](https://github.com/igokul1973/blog.didgibot.com/commit/b6c6ce9e56f96d100445f56c3adf290e8bb47a64))
+
 ## [1.1.1](https://github.com/igokul1973/blog.didgibot.com/compare/v1.1.0...v1.1.1) (2026-03-13)
 
 
