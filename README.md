@@ -164,6 +164,11 @@ This project maintains high test coverage for Angular code under `src/app`:
     - Husky runs `pnpm test:headless` and blocks the push if tests fail.
 - Before merging or for larger changes:
     - Run `pnpm test:headless` to execute the full Angular test suite once.
+- To see the coverage use `pnpm test:coverage` or `pnpm test:coverage run ./src/app/components/cv/cv.component.spec.ts` (as an example) for specific spec file.
+
+### Test debugger
+
+- To debug tests, use the "Debug Vitest" configuration in `.vscode/launch.json`.
 
 ---
 

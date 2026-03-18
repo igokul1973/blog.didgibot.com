@@ -19,7 +19,7 @@ export default defineConfig(() => ({
         reporters: ['default'],
         coverage: {
             reportsDirectory: 'coverage',
-            provider: 'v8',
+            provider: 'istanbul',
             exclude: [
                 'src/main.ts',
                 'src/test-setup.ts',

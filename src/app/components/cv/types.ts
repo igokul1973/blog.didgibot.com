@@ -6,6 +6,8 @@
  * All interfaces follow camelCase naming convention to match JSON structure.
  */
 
+import { LanguageEnum } from 'types/translation';
+
 /**
  * Resume metadata information
  */
@@ -31,7 +33,7 @@ export interface ILocation {
     /** Country name */
     country: string;
     /** Human-readable display format */
-    display: string;
+    display: IMultilingualText;
 }
 
 /**
@@ -39,13 +41,11 @@ export interface ILocation {
  */
 export interface IPersonal {
     /** Full name of the person */
-    name: string;
+    name: IMultilingualText;
     /** Professional title or position */
-    title: string;
+    title: IMultilingualText;
     /** Location information */
     location: ILocation;
-    /** Location headline for display */
-    locationHeadline: string;
     /** Email address for contact */
     email: string;
     /** LinkedIn profile URL */
@@ -61,17 +61,15 @@ export interface IPersonal {
  */
 export interface ISubRole {
     /** Role title */
-    title?: string;
+    title?: IMultilingualText;
     /** Start date in YYYY-MM format */
-    startDate?: string;
+    startDate: string;
     /** End date in YYYY-MM format */
-    endDate?: string;
+    endDate: string;
     /** Human-readable duration string */
-    duration?: string;
-    /** Time period for the sub-role */
-    period?: string;
+    duration?: IMultilingualText;
     /** Description of responsibilities during this period */
-    description?: ITextBlock[];
+    description?: IMultilingualTextBlock[];
     /** Technologies used during this period */
     technologies?: string[];
 }
@@ -83,9 +81,9 @@ export interface IExperience {
     /** Unique identifier for the experience entry */
     id: number;
     /** Company name */
-    company: string;
+    company: IMultilingualText;
     /** Job position or title */
-    title: string;
+    title: IMultilingualText;
     /** Type of employment (optional, can be null) */
     employmentType?: string | null;
     /** Start date in YYYY-MM format */
@@ -95,15 +93,15 @@ export interface IExperience {
     /** Whether this is the current position */
     isCurrent: boolean;
     /** Human-readable duration string */
-    duration: string;
+    duration: IMultilingualText;
     /** Work location */
-    location: string;
+    location: IMultilingualText;
     /** Detailed description of responsibilities and achievements */
-    description?: ITextBlock[];
+    description?: IMultilingualTextBlock[];
     /** List of technologies used */
     technologies: string[];
     /** Specific achievements (optional) */
-    achievements?: string[];
+    achievements?: IMultilingualTextBlock[];
     /** Additional roles within this position (optional) */
     subRoles?: ISubRole[];
     /** Team size information (optional) */
@@ -117,13 +115,13 @@ export interface IPortfolio {
     /** Project name */
     name: string;
     /** Project description */
-    description: string;
+    description: IMultilingualText;
     /** Project URL or repository link */
     url: string;
     /** Technologies used in the project */
     technologies: string[];
     /** Key features of the project (optional) */
-    features?: string[];
+    features?: IMultilingualTextBlock[];
 }
 
 /**
@@ -133,9 +131,9 @@ export interface IEducation {
     /** Educational institution name */
     institution: string;
     /** Degree or certification obtained */
-    degree: string;
+    degree: IMultilingualText;
     /** Field of study */
-    fieldOfStudy: string;
+    fieldOfStudy: IMultilingualText;
     /** Start year (optional, can be null) */
     startYear?: number | null;
     /** End year (optional, can be null) */
@@ -185,11 +183,11 @@ export interface IResumeData {
     /** Personal information and contact details */
     personal: IPersonal;
     /** Professional summary statement */
-    summary: ITextBlock[];
+    summary: IMultilingualTextBlock[];
     /** Top skills highlights */
     topSkills: string[];
     /** Professional certifications */
-    certifications: string[];
+    certifications: IMultilingualText[];
     /** Project portfolio */
     portfolio: IPortfolio[];
     /** Work experience history */
@@ -241,3 +239,127 @@ export interface ICVDataValidator {
     /** Validate skills object */
     validateSkills(data: unknown): data is ISkills;
 }
+
+export interface IMultilingual<T> {
+    /** English translation (primary/fallback language) */
+    [LanguageEnum.EN]: T;
+    /** Russian translation (mandatory) */
+    [LanguageEnum.RU]: T;
+}
+
+// **Usage**: Generic multilingual content for any data type.
+
+// Core interface for translatable string content with fallback support.
+
+export interface IMultilingualText {
+    /** English translation (primary/fallback language) */
+    [LanguageEnum.EN]: string;
+    /** Russian translation (mandatory) */
+    [LanguageEnum.RU]: string;
+}
+
+// **Usage**: Simple text fields like titles, descriptions, headings.
+// Interface for complex content blocks maintaining existing structure.
+
+export interface IMultilingualTextBlock {
+    /** English content block */
+    [LanguageEnum.EN]: ITextBlock;
+    /** Russian content block (mandatory) */
+    [LanguageEnum.RU]: ITextBlock;
+}
+
+/**
+ * Section headings translations interface
+ */
+export interface ISectionHeadings {
+    summary: IMultilingualText;
+    experience: IMultilingualText;
+    portfolio: IMultilingualText;
+    education: IMultilingualText;
+    skills: IMultilingualText;
+}
+
+export interface ISkillCategories {
+    languagesAndRuntimes: IMultilingualText;
+    frontend: IMultilingualText;
+    backend: IMultilingualText;
+    databases: IMultilingualText;
+    messaging: IMultilingualText;
+    devopsAndInfra: IMultilingualText;
+    architecture: IMultilingualText;
+    tools: IMultilingualText;
+    protocolsAndSpecs: IMultilingualText;
+    orm: IMultilingualText;
+}
+
+/**
+ * CV section heading translations constants
+ */
+export const CV_SECTION_HEADINGS: ISectionHeadings = {
+    summary: {
+        [LanguageEnum.EN]: 'Summary',
+        [LanguageEnum.RU]: 'Резюме'
+    },
+    experience: {
+        [LanguageEnum.EN]: 'Experience',
+        [LanguageEnum.RU]: 'Опыт работы'
+    },
+    portfolio: {
+        [LanguageEnum.EN]: 'Portfolio',
+        [LanguageEnum.RU]: 'Портфолио'
+    },
+    education: {
+        [LanguageEnum.EN]: 'Education',
+        [LanguageEnum.RU]: 'Образование'
+    },
+    skills: {
+        [LanguageEnum.EN]: 'Skills',
+        [LanguageEnum.RU]: 'Навыки'
+    }
+};
+
+/**
+ * Skill category heading translations constants
+ */
+export const SKILL_CATEGORY_HEADINGS: ISkillCategories = {
+    languagesAndRuntimes: {
+        [LanguageEnum.EN]: 'Languages And Runtimes',
+        [LanguageEnum.RU]: 'Языки программирования и Среды Выполнения'
+    },
+    frontend: {
+        [LanguageEnum.EN]: 'Frontend',
+        [LanguageEnum.RU]: 'Фронтенд'
+    },
+    backend: {
+        [LanguageEnum.EN]: 'Backend',
+        [LanguageEnum.RU]: 'Бэкенд'
+    },
+    databases: {
+        [LanguageEnum.EN]: 'Databases',
+        [LanguageEnum.RU]: 'Базы данных'
+    },
+    messaging: {
+        [LanguageEnum.EN]: 'Messaging',
+        [LanguageEnum.RU]: 'Мессенджеры и Брокеры Очередей'
+    },
+    devopsAndInfra: {
+        [LanguageEnum.EN]: 'Devops And Infra',
+        [LanguageEnum.RU]: 'DevOps и Инфраструктура'
+    },
+    architecture: {
+        [LanguageEnum.EN]: 'Architecture',
+        [LanguageEnum.RU]: 'Архитектура'
+    },
+    tools: {
+        [LanguageEnum.EN]: 'Tools',
+        [LanguageEnum.RU]: 'Инструменты'
+    },
+    protocolsAndSpecs: {
+        [LanguageEnum.EN]: 'Protocols And Specs',
+        [LanguageEnum.RU]: 'Протоколы и Спецификации'
+    },
+    orm: {
+        [LanguageEnum.EN]: 'O R M',
+        [LanguageEnum.RU]: 'O R M'
+    }
+};
