@@ -2,29 +2,54 @@
     <mat-card-content aria-labelledby="cv-title" aria-live="polite">
         <!-- Contact Section -->
         <section class="contact-section">
-            <h2 id="cv-title">{{ contact.name }}</h2>
-            <p>{{ contact.title }}</p>
-            <p>{{ displayLocation }}</p>
+            <h2 id="cv-title">{{ contact().name }}</h2>
+            <p>{{ contact().title }}</p>
+            <p>{{ display }}</p>
             <p>
-                <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+                <a href="mailto:{{ contact().email }}">{{ contact().email }}</a>
             </p>
             <p>
-                <a href="{{ contact.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn Profile</a>
+                <a href="{{ contact().linkedin }}" target="_blank" rel="noopener noreferrer">
+                    @if (articleService.selectedLanguage() === languageEnum.RU) {
+                        LinkedIn профиль
+                    } @else {
+                        LinkedIn Profile
+                    }
+                </a>
             </p>
             <p>
-                <a href="{{ contact.headhunter }}" target="_blank" rel="noopener noreferrer"> HeadHunter Profile </a>
+                <a href="{{ contact().headhunter }}" target="_blank" rel="noopener noreferrer">
+                    @if (articleService.selectedLanguage() === languageEnum.RU) {
+                        HeadHunter профиль
+                    } @else {
+                        HeadHunter Profile
+                    }
+                </a>
+            </p>
+            <p>
+                <a href="{{ contact().github }}" target="_blank" rel="noopener noreferrer">
+                    @if (articleService.selectedLanguage() === languageEnum.RU) {
+                        GitHub профиль
+                    } @else {
+                        GitHub Profile
+                    }
+                </a>
             </p>
         </section>
 
         <!-- Card Header -->
         <mat-card-header>
-            <mat-card-title><h1>Curriculum Vitae / Resume</h1></mat-card-title>
+            @if (articleService.selectedLanguage() === languageEnum.RU) {
+                <mat-card-title><h1>Резюме</h1></mat-card-title>
+            } @else {
+                <mat-card-title><h1>Curriculum Vitae / Resume</h1></mat-card-title>
+            }
         </mat-card-header>
 
         <!-- Summary Section -->
         <section class="summary-section">
-            <h3>Summary</h3>
-            @for (block of summary; track $index) {
+            <h3>{{ getSectionHeading('summary') }}</h3>
+            @for (block of summary(); track $index) {
                 @if (isParagraphBlock(block)) {
                     <p [innerHTML]="linkify(block.text)"></p>
                 }
@@ -33,27 +58,36 @@
 
         <!-- Experience Section -->
         <section class="experience-section">
-            <h3>Experience</h3>
+            <h3>{{ getSectionHeading('experience') }}</h3>
             <mat-list>
-                @for (exp of experience; track $index) {
+                @for (exp of experience(); track $index) {
                     <mat-list-item class="experience-item">
                         <div class="experience-header">
                             <h4 class="company">{{ exp.company }}</h4>
                             <p class="title">{{ exp.title }}</p>
-                            <p class="duration">{{ exp.duration }}</p>
+                            <p class="duration">
+                                {{
+                                    formatDateRange(
+                                        exp.startDate,
+                                        exp.endDate,
+                                        $any(exp.duration),
+                                        articleService.selectedLanguage()
+                                    )
+                                }}
+                            </p>
                             <p class="location">{{ exp.location }}</p>
                         </div>
                         <div class="experience-description">
                             @if (exp.description) {
                                 @for (block of exp.description; track $index) {
-                                    @if (isParagraphBlock(block)) {
-                                        <p [innerHTML]="linkify(block.text)"></p>
-                                    } @else if (isListBlock(block)) {
-                                        @if (block.heading) {
-                                            <h6>{{ block.heading }}</h6>
+                                    @if (isParagraphBlock($any(block))) {
+                                        <p [innerHTML]="linkify($any(block).text)"></p>
+                                    } @else if (isListBlock($any(block))) {
+                                        @if ($any(block).heading) {
+                                            <h6>{{ $any(block).heading }}</h6>
                                         }
                                         <ul>
-                                            @for (item of getListItems(block); track $index) {
+                                            @for (item of getListItems($any(block)); track $index) {
                                                 <li [innerHTML]="linkify(item)"></li>
                                             }
                                         </ul>
@@ -63,17 +97,26 @@
                             @if (exp.subRoles) {
                                 @for (subRole of exp.subRoles; track $index) {
                                     <div class="sub-role">
-                                        <h6>{{ subRole.title || subRole.period }}</h6>
+                                        <h6>
+                                            {{
+                                                formatDateRange(
+                                                    subRole.startDate,
+                                                    subRole.endDate,
+                                                    '',
+                                                    articleService.selectedLanguage()
+                                                ).replace(' ()', '')
+                                            }}
+                                        </h6>
                                         @if (subRole.description) {
                                             @for (block of subRole.description; track $index) {
-                                                @if (isParagraphBlock(block)) {
-                                                    <p [innerHTML]="linkify(block.text)"></p>
-                                                } @else if (isListBlock(block)) {
-                                                    @if (block.heading) {
-                                                        <h6>{{ block.heading }}</h6>
+                                                @if (isParagraphBlock($any(block))) {
+                                                    <p [innerHTML]="linkify($any(block).text)"></p>
+                                                } @else if (isListBlock($any(block))) {
+                                                    @if ($any(block).heading) {
+                                                        <h6>{{ $any(block).heading }}</h6>
                                                     }
                                                     <ul>
-                                                        @for (item of getListItems(block); track $index) {
+                                                        @for (item of getListItems($any(block)); track $index) {
                                                             <li [innerHTML]="linkify(item)"></li>
                                                         }
                                                     </ul>
@@ -82,7 +125,13 @@
                                         }
                                         @if (subRole.technologies && subRole.technologies.length > 0) {
                                             <div class="technologies-section">
-                                                <h6>Technologies</h6>
+                                                <h6>
+                                                    {{
+                                                        articleService.selectedLanguage() === 'ru'
+                                                            ? 'Технологии'
+                                                            : 'Technologies'
+                                                    }}
+                                                </h6>
                                                 <mat-chip-listbox>
                                                     @for (tech of subRole.technologies; track $index) {
                                                         <mat-chip>{{ tech }}</mat-chip>
@@ -98,7 +147,9 @@
                             }
                             @if (exp.technologies && exp.technologies.length > 0) {
                                 <div class="technologies-section">
-                                    <h6>Technologies</h6>
+                                    <h6>
+                                        {{ articleService.selectedLanguage() === 'ru' ? 'Технологии' : 'Technologies' }}
+                                    </h6>
                                     <mat-chip-listbox>
                                         @for (tech of exp.technologies; track $index) {
                                             <mat-chip>{{ tech }}</mat-chip>
@@ -114,9 +165,9 @@
 
         <!-- Portfolio Section -->
         <section class="portfolio-section">
-            <h3>Portfolio</h3>
+            <h3>{{ getSectionHeading('portfolio') }}</h3>
             <mat-list>
-                @for (project of portfolio; track $index) {
+                @for (project of portfolio(); track $index) {
                     <mat-list-item>
                         <div class="portfolio-item">
                             <h4>{{ project.name }}</h4>
@@ -128,7 +179,9 @@
                             }
                             @if (project.technologies && project.technologies.length > 0) {
                                 <div class="technologies-section">
-                                    <h6>Technologies</h6>
+                                    <h6>
+                                        {{ articleService.selectedLanguage() === 'ru' ? 'Технологии' : 'Technologies' }}
+                                    </h6>
                                     <mat-chip-listbox>
                                         @for (tech of project.technologies; track $index) {
                                             <mat-chip>{{ tech }}</mat-chip>
@@ -144,9 +197,9 @@
 
         <!-- Education Section -->
         <section class="education-section">
-            <h3>Education</h3>
+            <h3>{{ getSectionHeading('education') }}</h3>
             <mat-list>
-                @for (edu of education; track $index) {
+                @for (edu of education(); track $index) {
                     <mat-list-item class="education-item">
                         <div class="education-header">
                             <h4>{{ edu.degree }}</h4>
@@ -162,11 +215,11 @@
 
         <!-- Skills Section -->
         <section class="skills-section">
-            <h3>Skills</h3>
+            <h3>{{ getSectionHeading('skills') }}</h3>
             <mat-list>
-                @for (skillCategory of skillCategories; track $index) {
+                @for (skillCategory of skillCategories(); track $index) {
                     <mat-list-item class="skill-category">
-                        <h6 class="skill-category-title">{{ formatSkillCategory(skillCategory) }}</h6>
+                        <h6 class="skill-category-title">{{ getSkillCategoryHeading(skillCategory) }}</h6>
                         <div class="skills-list">
                             @for (skill of getSkillsForCategory(skillCategory); track $index; let last = $last) {
                                 <span class="skill-item">

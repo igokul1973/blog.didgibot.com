@@ -37,6 +37,16 @@
                     }
                 }
             }
+        },
+        {
+            "label": "Vitest Coverage (Current File)",
+            "type": "shell",
+            "command": "pnpm vitest run ${relativeFile} --coverage.enabled --coverage.reporter=text",
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
         }
     ]
 }

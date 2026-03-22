@@ -29,8 +29,8 @@ export class ListBlockComponent implements OnInit {
     }
 
     public identify(index: number, item: IListItem | string) {
-        if (typeof item === 'string') {
-            return index + item;
+        if (typeof item === 'string' || item instanceof String) {
+            return index + String(item);
         }
         return index + item.content;
     }

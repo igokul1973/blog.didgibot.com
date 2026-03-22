@@ -6,15 +6,23 @@
         "descriptionSchema": "Each 'description' field is an array of content blocks. Each block has a 'type' of either 'paragraph' (a single prose block) or 'list' (a bullet/item list). Lists have an optional 'heading' and always have an 'items' array of strings."
     },
     "personal": {
-        "name": "Igor Kulebyakin",
-        "title": "Javascript Fullstack Developer",
+        "name": {
+            "en": "Igor Kulebyakin",
+            "ru": "Игорь Кулебякин"
+        },
+        "title": {
+            "en": "Javascript Fullstack Developer",
+            "ru": "Fullstack-разработчик JavaScript"
+        },
         "location": {
             "city": "Happy Valley",
             "state": "Oregon",
             "country": "USA",
-            "display": "Happy Valley, Oregon, USA"
+            "display": {
+                "en": "Happy Valley, Oregon, USA",
+                "ru": "Санкт-Петербург, Россия"
+            }
         },
-        "locationHeadline": "Seattle, Washington, United States",
         "email": "igokul777@gmail.com",
         "linkedin": "https://www.linkedin.com/in/igor-kulebyakin",
         "github": "https://github.com/igokul1973",
@@ -22,24 +30,54 @@
     },
     "summary": [
         {
-            "type": "paragraph",
-            "text": "My first 4 years of commercial experience I used mostly PHP + MySQL/Postgres stack of technologies. In February of 2018 I started actively learning and practicing JavaScript, learning on the way NoSQL databases, ElasticSearch, RabbitMQ, Node.JS, Angular, React, Vue."
+            "en": {
+                "type": "paragraph",
+                "text": "My first 4 years of commercial experience I used mostly PHP + MySQL/Postgres stack of technologies. In February of 2018 I started actively learning and practicing JavaScript, learning on the way NoSQL databases, ElasticSearch, RabbitMQ, Node.JS, Angular, React, Vue."
+            },
+            "ru": {
+                "type": "paragraph",
+                "text": "Первые 4 года коммерческого опыта я преимущественно использовал стек PHP + MySQL/Postgres. В феврале 2018 года начал активно изучать и практиковать JavaScript, параллельно осваивая NoSQL-базы данных, ElasticSearch, RabbitMQ, Node.JS, Angular, React, Vue."
+            }
         },
         {
-            "type": "paragraph",
-            "text": "Starting from the October 2018 I completely switched to JS and worked as a Node.js/React developer as well as started developing a pet project using React, Node.JS/Express, GraphQL and Neo4j (GRAND stack)."
+            "en": {
+                "type": "paragraph",
+                "text": "Starting from the October 2018 I completely switched to JS and worked as a Node.js/React developer as well as started developing a pet project using React, Node.JS/Express, GraphQL and Neo4j (GRAND stack)."
+            },
+            "ru": {
+                "type": "paragraph",
+                "text": "С октября 2018 года полностью перешёл на JS и работал Node.js/React-разработчиком, а также начал разрабатывать пет-проект с использованием React, Node.JS/Express, GraphQL и Neo4j (стек GRAND)."
+            }
         },
         {
-            "type": "paragraph",
-            "text": "In 2025 I started introducing myself to AI-powered development tools like Windsurf and Claude, which has significantly improved my productivity and coding efficiency. I now code using only spec-driven development approach - "
+            "en": {
+                "type": "paragraph",
+                "text": "In 2025 I started introducing myself to AI-powered development tools like Windsurf and Claude, which has significantly improved my productivity and coding efficiency. I now code using only spec-driven development approach - "
+            },
+            "ru": {
+                "type": "paragraph",
+                "text": "В 2025 году начал использовать инструменты разработки на базе ИИ — Windsurf и Claude, что значительно повысило мою продуктивность и эффективность. Теперь работаю исключительно в рамках подхода spec-driven development — "
+            }
         },
         {
-            "type": "paragraph",
-            "text": "At the moment I am looking for a job as a Senior Frontend or Fullstack JavaScript developer. I have an extensive experience in frontend development with the above-mentioned FE libraries/frameworks, Next.js and Prisma, with latest experience at Dell Technologies being Angular."
+            "en": {
+                "type": "paragraph",
+                "text": "At the moment I am looking for a job as a Senior Frontend or Fullstack JavaScript developer. I have an extensive experience in frontend development with the above-mentioned FE libraries/frameworks, Next.js and Prisma, with latest experience at Dell Technologies being Angular."
+            },
+            "ru": {
+                "type": "paragraph",
+                "text": "В настоящее время ищу работу в качестве старшего Frontend- или Fullstack-разработчика JavaScript. Имею обширный опыт во фронтенд-разработке с вышеперечисленными библиотеками/фреймворками, Next.js и Prisma; последний опыт в Dell Technologies — Angular."
+            }
         },
         {
-            "type": "paragraph",
-            "text": "I can also work as a full-stack developer using JS/TS and Python, given some time to brush up on your particular choice of frameworks and DBs."
+            "en": {
+                "type": "paragraph",
+                "text": "I can also work as a full-stack developer using JS/TS and Python, given some time to brush up on your particular choice of frameworks and DBs."
+            },
+            "ru": {
+                "type": "paragraph",
+                "text": "Также могу работать fullstack-разработчиком на JS/TS и Python при наличии времени на ознакомление с конкретным стеком фреймворков и СУБД."
+            }
         }
     ],
     "topSkills": [
@@ -48,16 +86,34 @@
         "Linux"
     ],
     "certifications": [
-        "Multinational Communication in the Workplace",
-        "Managing Globally",
-        "Giving and Receiving Feedback",
-        "Delivering Employee Feedback",
-        "Leading Productive One-on-One Meetings"
+        {
+            "en": "Multinational Communication in the Workplace",
+            "ru": "Многонациональная коммуникация на рабочем месте"
+        },
+        {
+            "en": "Managing Globally",
+            "ru": "Управление в международной среде"
+        },
+        {
+            "en": "Giving and Receiving Feedback",
+            "ru": "Предоставление и получение обратной связи"
+        },
+        {
+            "en": "Delivering Employee Feedback",
+            "ru": "Обратная связь с сотрудниками"
+        },
+        {
+            "en": "Leading Productive One-on-One Meetings",
+            "ru": "Проведение продуктивных встреч один на один"
+        }
     ],
     "portfolio": [
         {
             "name": "pizza-frontend",
-            "description": "GRAND stack frontend (React, Apollo Client)",
+            "description": {
+                "en": "GRAND stack frontend (React, Apollo Client)",
+                "ru": "Фронтенд на стеке GRAND (React, Apollo Client)"
+            },
             "url": "https://github.com/igokul1973/pizza-frontend",
             "technologies": [
                 "React",
@@ -68,7 +124,10 @@
         },
         {
             "name": "pizza-backend",
-            "description": "GRAND stack backend (Apollo Server)",
+            "description": {
+                "en": "GRAND stack backend (Apollo Server)",
+                "ru": "Бэкенд на стеке GRAND (Apollo Server)"
+            },
             "url": "https://github.com/igokul1973/pizza-backend",
             "technologies": [
                 "Apollo Server",
@@ -78,8 +137,39 @@
             ]
         },
         {
+            "name": "invoice-fileservice",
+            "description": {
+                "en": "Separate PDF/File service for didgibot.com",
+                "ru": "Отдельный PDF/файловый сервис для didgibot.com"
+            },
+            "url": "https://github.com/igokul1973/invoice-fileservice",
+            "technologies": [
+                "Node.js"
+            ]
+        },
+        {
+            "name": "didgibot.com",
+            "description": {
+                "en": "Electronic document flow web app (personal project). See `nextjs` repository for more details (below)",
+                "ru": "Веб-приложение для электронного документооборота (личный проект). См. репозиторий `nextjs` для подробностей"
+            },
+            "url": "https://didgibot.com",
+            "technologies": [
+                "React",
+                "Next.js",
+                "TypeScript",
+                "Prisma",
+                "MUI",
+                "MinIO",
+                "PostgreSQL"
+            ]
+        },
+        {
             "name": "nextjs",
-            "description": "Next.js example/personal project (partial public part)",
+            "description": {
+                "en": "Next.js example/personal project (partial public part) - didgibot.com (see above)",
+                "ru": "Личный проект на Next.js (частичная публичная часть) - didgibot.com (см. выше)"
+            },
             "url": "https://github.com/igokul1973/nextjs",
             "technologies": [
                 "Next.js",
@@ -92,40 +182,26 @@
             ]
         },
         {
-            "name": "invoice-fileservice",
-            "description": "Separate PDF/File service for didgibot.com",
-            "url": "https://github.com/igokul1973/invoice-fileservice",
+            "name": "Личный блог",
+            "description": {
+                "en": "Personal blog. For code see below repo links.",
+                "ru": "Личный блог. Для примеров кода смотрите ссылки на репозитории ниже."
+            },
+            "url": "https://blog.didgibot.com",
             "technologies": [
-                "Node.js"
-            ]
-        },
-        {
-            "name": "didgibot.com",
-            "description": "Electronic document flow web app (personal project)",
-            "url": "https://didgibot.com",
-            "technologies": [
-                "React",
-                "Next.js",
+                "Angular",
                 "TypeScript",
-                "Prisma",
-                "MUI",
-                "MinIO",
-                "PostgreSQL"
-            ],
-            "features": [
-                "Internationalization",
-                "SSR",
-                "Separate PDF/File service",
-                "Multistage Dockerfile",
-                "Kubernetes",
-                "ArgoCD",
-                "Jenkins",
-                "DIND on VPS"
+                "Angular Material",
+                "GraphQL",
+                "Apollo Client for Angular"
             ]
         },
         {
             "name": "blog.didgibot.com",
-            "description": "Personal blog (frontend)",
+            "description": {
+                "en": "Personal blog (frontend)",
+                "ru": "Личный блог (фронтенд)"
+            },
             "url": "https://github.com/igokul1973/blog.didgibot.com",
             "technologies": [
                 "Angular",
@@ -137,18 +213,24 @@
         },
         {
             "name": "api.blog.didgibot.com",
-            "description": "Personal blog (backend)",
+            "description": {
+                "en": "Personal blog (backend)",
+                "ru": "Личный блог (бэкенд)"
+            },
             "url": "https://github.com/igokul1973/api.blog.didgibot.com",
             "technologies": [
                 "Python",
                 "FastAPI",
                 "Strawberry GraphQL",
-                "PostgreSQL"
+                "MongoDB"
             ]
         },
         {
             "name": "admin.blog.didgibot.com",
-            "description": "Blog admin panel (frontend)",
+            "description": {
+                "en": "Blog admin panel (frontend)",
+                "ru": "Панель администратора блога (фронтенд)"
+            },
             "url": "https://github.com/igokul1973/admin.blog.didgibot.com",
             "technologies": [
                 "React",
@@ -162,54 +244,116 @@
     "experience": [
         {
             "id": 1,
-            "company": "Amber by Graciana LLC",
-            "title": "Full-stack Developer",
+            "company": {
+                "en": "Amber by Graciana LLC",
+                "ru": "Amber by Graciana LLC"
+            },
+            "title": {
+                "en": "Full-stack Developer",
+                "ru": "Full-stack разработчик"
+            },
             "employmentType": null,
             "startDate": "2024-03",
             "endDate": null,
             "isCurrent": true,
-            "duration": "2 years 1 month",
-            "location": "Portland, Oregon, United States",
+            "duration": {
+                "en": "2 years 1 month",
+                "ru": "2 года 1 месяц"
+            },
+            "location": {
+                "en": "Portland, Oregon, United States",
+                "ru": "Портленд, Орегон, Соединенные Штаты"
+            },
             "description": [
                 {
-                    "type": "paragraph",
-                    "text": "Development of several personal projects."
+                    "en": {
+                        "type": "paragraph",
+                        "text": "Development of several personal projects."
+                    },
+                    "ru": {
+                        "type": "paragraph",
+                        "text": "Разработка нескольких личных проектов."
+                    }
                 },
                 {
-                    "type": "paragraph",
-                    "text": "Purpose: keeping up-to-date with current FE/BE state of development."
+                    "en": {
+                        "type": "paragraph",
+                        "text": "Purpose: keeping up-to-date with current FE/BE state of development as well as learning AI-assisted (vibe) coding."
+                    },
+                    "ru": {
+                        "type": "paragraph",
+                        "text": "Цель: поддержание актуальных навыков в FE/BE-разработке, а также изучение кодирования с помощью искусственного интеллекта (vibe coding)."
+                    }
                 },
                 {
-                    "type": "list",
-                    "heading": "Projects:",
-                    "items": [
-                        "Electronic document flow web app - https://didgibot.com.",
-                        "Personal blog - https://blog.didgibot.com.",
-                        "Personal blog admin panel - https://admin.blog.didgibot.com."
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Projects:",
+                        "items": [
+                            "Electronic document flow web app - https://didgibot.com.",
+                            "Personal blog - https://blog.didgibot.com.",
+                            "Personal blog admin panel - https://admin.blog.didgibot.com."
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Проекты:",
+                        "items": [
+                            "Веб-приложение для электронного документооборота - https://didgibot.com.",
+                            "Личный блог - https://blog.didgibot.com.",
+                            "Панель администратора блога - https://admin.blog.didgibot.com."
+                        ]
+                    }
                 },
                 {
-                    "type": "list",
-                    "heading": "Document Workflow project details:",
-                    "items": [
-                        "Next.js repo - https://github.com/igokul1973/nextjs (partial public part).",
-                        "Technologies used: React, Next.js, Typescript, Prism, MUI, MinIO and PostgreSQL.",
-                        "Aspects of the projects include, among others - Internationalization, SSR, separate PDF/File service (see https://github.com/igokul1973/invoice-fileservice).",
-                        "Deployment uses - multistage Dockerfile, Kubernetes, ArgoCD, Jenkins, DIND on VPS - necessary code can be shown on demand.",
-                        "The project features, among others - Internationalization, SSR, separate PDF/File service (see https://github.com/igokul1973/invoice-fileservice)."
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Document Workflow project details:",
+                        "items": [
+                            "Next.js repo - https://github.com/igokul1973/nextjs (partial public part).",
+                            "Technologies used: React, Next.js, Typescript, Prism, MUI, MinIO and PostgreSQL.",
+                            "Aspects of the projects include, among others - Internationalization, SSR, separate PDF/File service (see https://github.com/igokul1973/invoice-fileservice).",
+                            "Deployment uses - multistage Dockerfile, Kubernetes, ArgoCD, Jenkins, DIND on VPS - necessary code can be shown on demand.",
+                            "The project features, among others - Internationalization, SSR, separate PDF/File service (see https://github.com/igokul1973/invoice-fileservice)."
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Детали проекта Document Workflow:",
+                        "items": [
+                            "Next.js репозиторий - https://github.com/igokul1973/nextjs (частично открытая часть).",
+                            "Используемые технологии: React, Next.js, TypeScript, Prisma, MUI, MinIO и PostgreSQL.",
+                            "Среди особенностей проекта: интернационализация, SSR, отдельный PDF/файловый сервис (https://github.com/igokul1973/invoice-fileservice).",
+                            "Деплой: многоэтапный Dockerfile, Kubernetes, ArgoCD, Jenkins, DIND на VPS.",
+                            "Функционал: интернационализация, SSR, отдельный PDF/файловый сервис."
+                        ]
+                    }
                 },
                 {
-                    "type": "list",
-                    "heading": "Personal Blog details:",
-                    "items": [
-                        "FE Angular repo - https://github.com/igokul1973/blog.didgibot.com - open source",
-                        "FE React repo - https://github.com/igokul1973/admin.blog.didgibot.com - open source",
-                        "BE FastAPI/Python repo - https://github.com/igokul1973/admin.blog.didgibot.com - open source",
-                        "Admin panel uses Editor.js WYSIWYG - https://editorjs.io/ and corresponding libraries for parsing and rendering content. The Angular version of Editor.js parser has been ported to Angular as there was no library alternative.",
-                        "Technologies used: Angular, React, MUI, Angular Mateiral, Python, Strawberry, Apollo Client/GraphQL, Typescript, MinIO and MongoDB.",
-                        "Some components and features were created using Spec-Driven Development approach - https://github.github.io/spec-kit/index.html"
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Personal Blog details:",
+                        "items": [
+                            "FE Angular repo - https://github.com/igokul1973/blog.didgibot.com - open source",
+                            "FE React repo - https://github.com/igokul1973/admin.blog.didgibot.com - open source",
+                            "BE FastAPI/Python repo - https://github.com/igokul1973/admin.blog.didgibot.com - open source",
+                            "Admin panel uses Editor.js WYSIWYG - https://editorjs.io/ and corresponding libraries for parsing and rendering content. The Angular version of Editor.js parser has been ported to Angular as there was no library alternative.",
+                            "Technologies used: Angular, React, MUI, Angular Mateiral, Python, Strawberry, Apollo Client/GraphQL, Typescript, MinIO and MongoDB.",
+                            "Some components and features were created using Spec-Driven Development approach - https://github.github.io/spec-kit/index.html"
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Детали личного блога:",
+                        "items": [
+                            "FE Angular репозиторий - https://github.com/igokul1973/blog.didgibot.com - открытый исходный код",
+                            "FE React репозиторий - https://github.com/igokul1973/admin.blog.didgibot.com - открытый исходный код",
+                            "BE FastAPI/Python репозиторий - https://github.com/igokul1973/admin.blog.didgibot.com - открытый исходный код",
+                            "Панель администратора использует Editor.js WYSIWYG и соответствующие библиотеки. Версия парсера Editor.js для Angular была перенесена с нуля.",
+                            "Технологии: Angular, React, MUI, Angular Material, Python, Strawberry, Apollo Client/GraphQL, TypeScript, MinIO и MongoDB.",
+                            "Ряд компонентов создан с использованием подхода Spec-Driven Development."
+                        ]
+                    }
                 }
             ],
             "technologies": [
@@ -225,32 +369,74 @@
                 "Docker",
                 "Kubernetes",
                 "ArgoCD",
-                "Jenkins"
+                "Jenkins",
+                "Windsurf IDE",
+                "Claude Sonnet 4.5",
+                "SWE-1.5"
+            ],
+            "achievements": [
+                {
+                    "en": {
+                        "type": "paragraph",
+                        "text": "Built and shipped multiple full-stack personal projects from scratch using modern technologies."
+                    },
+                    "ru": {
+                        "type": "paragraph",
+                        "text": "Разработал и запустил несколько полнофункциональных личных проектов с нуля с использованием современных технологий."
+                    }
+                }
             ]
         },
         {
             "id": 2,
-            "company": "Dell Technologies",
-            "title": "Senior Principal Software Engineer",
+            "company": {
+                "en": "Dell Technologies",
+                "ru": "Dell Technologies"
+            },
+            "title": {
+                "en": "Senior Principal Software Engineer",
+                "ru": "Старший ведущий инженер-программист"
+            },
             "employmentType": null,
             "startDate": "2022-06",
             "endDate": "2024-02",
             "isCurrent": false,
-            "duration": "1 year 9 months",
-            "location": "United States",
+            "duration": {
+                "en": "1 year 9 months",
+                "ru": "1 год 9 месяцев"
+            },
+            "location": {
+                "en": "United States",
+                "ru": "Соединенные Штаты"
+            },
             "description": [
                 {
-                    "type": "list",
-                    "heading": "Responsibilities:",
-                    "items": [
-                        "Continued as a remote lead front-end developer (Vue.js/REST API) on one of the internal Dell projects based on microservice architecture.",
-                        "Lead successful migration effort of the project's codebase from Vue.js v2 to Angular v.16 (with Module Federation/Micro-frontend capabilities) as interteam collaboration effort.",
-                        "Delivered 80% of core features and supervised delivery of additional features outsourced to other teams.",
-                        "Trained and onboarded new FE developers and collaborators.",
-                        "Worked as a liaison/support between project's users and BE developers.",
-                        "Occasional participation (10% of time) in backend development (Python/Django/Fast API).",
-                        "Participated in sessions involving UX and architectural design decisions for new and existing features."
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Responsibilities:",
+                        "items": [
+                            "Continued as a remote lead front-end developer (Vue.js/REST API) on one of the internal Dell projects based on microservice architecture.",
+                            "Lead successful migration effort of the project's codebase from Vue.js v2 to Angular v.16 (with Module Federation/Micro-frontend capabilities) as interteam collaboration effort.",
+                            "Delivered 80% of core features and supervised delivery of additional features outsourced to other teams.",
+                            "Trained and onboarded new FE developers and collaborators.",
+                            "Worked as a liaison/support between project's users and BE developers.",
+                            "Occasional participation (10% of time) in backend development (Python/Django/Fast API).",
+                            "Participated in sessions involving UX and architectural design decisions for new and existing features."
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Обязанности:",
+                        "items": [
+                            "Продолжал работу ведущим FE-разработчиком (Vue.js/REST API) на внутреннем проекте Dell.",
+                            "Руководил миграцией кодовой базы с Vue.js v2 на Angular 16 (Module Federation/Micro-frontend) в рамках межкомандного взаимодействия.",
+                            "Реализовал 80% основных функций, контролировал доставку дополнительных функций, выполняемых другими командами.",
+                            "Обучал новых FE-разработчиков.",
+                            "Выступал связующим звеном между пользователями и BE-разработчиками.",
+                            "Периодическое участие (10%) в бэкенд-разработке (Python/Django/FastAPI).",
+                            "Участие в UX- и архитектурных решениях для новых и существующих функций."
+                        ]
+                    }
                 }
             ],
             "technologies": [
@@ -267,24 +453,48 @@
         },
         {
             "id": 3,
-            "company": "Dell Technologies",
-            "title": "Senior Principal Software Engineer",
+            "company": {
+                "en": "Dell Technologies",
+                "ru": "Dell Technologies"
+            },
+            "title": {
+                "en": "Senior Principal Software Engineer",
+                "ru": "Старший ведущий инженер-программист"
+            },
             "employmentType": null,
             "startDate": "2021-08",
             "endDate": "2022-06",
             "isCurrent": false,
-            "duration": "11 months",
-            "location": "St.Petersburg, Russia",
+            "duration": {
+                "en": "11 months",
+                "ru": "11 месяцев"
+            },
+            "location": {
+                "en": "St.Petersburg, Russia",
+                "ru": "Санкт-Петербург, Россия"
+            },
             "description": [
                 {
-                    "type": "list",
-                    "heading": "Responsibilities:",
-                    "items": [
-                        "Remote front-end development (Vue.js) on one of the internal Dell projects.",
-                        "R&D in micro-frontend paradigm (Angular) as inter-team collaboration effort.",
-                        "Occasional participation in backend development (Python).",
-                        "Working in one of the engineering scrum teams."
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Responsibilities:",
+                        "items": [
+                            "Remote front-end development (Vue.js) on one of the internal Dell projects.",
+                            "R&D in micro-frontend paradigm (Angular) as inter-team collaboration effort.",
+                            "Occasional participation in backend development (Python).",
+                            "Working in one of the engineering scrum teams."
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Обязанности:",
+                        "items": [
+                            "Удалённая FE-разработка (Vue.js) на внутреннем проекте Dell.",
+                            "R&D в области micro-frontend (Angular) в рамках межкомандного сотрудничества.",
+                            "Периодическое участие в бэкенд-разработке (Python).",
+                            "Работа в одной из инженерных scrum-команд."
+                        ]
+                    }
                 }
             ],
             "technologies": [
@@ -298,28 +508,58 @@
         },
         {
             "id": 4,
-            "company": "Luxoft",
-            "title": "Senior Frontend Developer",
+            "company": {
+                "en": "Luxoft",
+                "ru": "Luxoft"
+            },
+            "title": {
+                "en": "Senior Frontend Developer",
+                "ru": "Старший Frontend-разработчик"
+            },
             "employmentType": null,
             "startDate": "2020-06",
             "endDate": "2021-08",
             "isCurrent": false,
-            "duration": "1 year 3 months",
-            "location": "St.Petersburg, Russia",
+            "duration": {
+                "en": "1 year 3 months",
+                "ru": "1 год 3 месяца"
+            },
+            "location": {
+                "en": "St.Petersburg, Russia",
+                "ru": "Санкт-Петербург, Россия"
+            },
             "description": [
                 {
-                    "type": "paragraph",
-                    "text": "Outsourced to one of the largest Russian financial organizations."
+                    "en": {
+                        "type": "paragraph",
+                        "text": "Outsourced to one of the largest Russian financial organizations."
+                    },
+                    "ru": {
+                        "type": "paragraph",
+                        "text": "Аутсорсинг в одну из крупнейших российских финансовых организаций."
+                    }
                 },
                 {
-                    "type": "list",
-                    "heading": "Responsibilities:",
-                    "items": [
-                        "Leading a team of 6 developers (4 front-end, 2 back-end), 1 system analyst and 2 testers (60% of time).",
-                        "Remote front-end development of existing pilot program in remote education field (40% of time).",
-                        "Project consists of 20 agile teams and is part of a larger educational project (common backend, multiple front-ends). As a team lead, facilitated communication between teams.",
-                        "Fully agile methodology."
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Responsibilities:",
+                        "items": [
+                            "Leading a team of 6 developers (4 front-end, 2 back-end), 1 system analyst and 2 testers (60% of time).",
+                            "Remote front-end development of existing pilot program in remote education field (40% of time).",
+                            "Project consists of 20 agile teams and is part of a larger educational project (common backend, multiple front-ends). As a team lead, facilitated communication between teams.",
+                            "Fully agile methodology."
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Обязанности:",
+                        "items": [
+                            "Руководство командой из 6 разработчиков (4 FE, 2 BE), 1 системного аналитика и 2 тестировщиков (60% времени).",
+                            "Удалённая FE-разработка пилотной программы в сфере дистанционного образования (40% времени).",
+                            "Проект состоит из 20 agile-команд, является частью большого образовательного проекта. Обеспечивал коммуникацию между командами.",
+                            "Полностью агильная методология."
+                        ]
+                    }
                 }
             ],
             "technologies": [
@@ -333,27 +573,53 @@
             "teamSize": "6 developers, 1 system analyst, 2 testers"
         },
         {
-            "id": 5,
-            "company": "Spark Equation",
-            "title": "Software Engineer",
+            "id": 4,
+            "company": {
+                "en": "Spark Equation",
+                "ru": "Spark Equation"
+            },
+            "title": {
+                "en": "Software Engineer",
+                "ru": "Инженер-программист"
+            },
             "employmentType": null,
             "startDate": "2020-01",
             "endDate": "2020-03",
             "isCurrent": false,
-            "duration": "3 months",
-            "location": "St.Petersburg, Russia",
+            "duration": {
+                "en": "3 months",
+                "ru": "3 месяца"
+            },
+            "location": {
+                "en": "St.Petersburg, Russia",
+                "ru": "Санкт-Петербург, Россия"
+            },
             "description": [
                 {
-                    "type": "list",
-                    "heading": "Responsibilities:",
-                    "items": [
-                        "Front-end development for internal and external products.",
-                        "Code reviews.",
-                        "Analysis of tasks and business requirements.",
-                        "Architectural solutions and selection of right technologies/tools for specific tasks.",
-                        "Estimation of potential projects.",
-                        "Interviews and evaluation of front-end developers."
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Responsibilities:",
+                        "items": [
+                            "Front-end development for internal and external products.",
+                            "Code reviews.",
+                            "Analysis of tasks and business requirements.",
+                            "Architectural solutions and selection of right technologies/tools for specific tasks.",
+                            "Estimation of potential projects.",
+                            "Interviews and evaluation of front-end developers."
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Обязанности:",
+                        "items": [
+                            "FE-разработка внутренних и внешних продуктов.",
+                            "Код-ревью.",
+                            "Анализ задач и бизнес-требований.",
+                            "Архитектурные решения и выбор технологий для конкретных задач.",
+                            "Оценка потенциальных проектов.",
+                            "Собеседования и оценка FE-разработчиков."
+                        ]
+                    }
                 }
             ],
             "technologies": [
@@ -364,34 +630,71 @@
             ]
         },
         {
-            "id": 6,
-            "company": "Luxoft",
-            "title": "Frontend JavaScript Developer",
+            "id": 5,
+            "company": {
+                "en": "Luxoft",
+                "ru": "Luxoft"
+            },
+            "title": {
+                "en": "Frontend JavaScript Developer",
+                "ru": "Frontend JavaScript-разработчик"
+            },
             "employmentType": null,
             "startDate": "2019-10",
             "endDate": "2020-01",
             "isCurrent": false,
-            "duration": "4 months",
-            "location": "St.Petersburg, Russia",
+            "duration": {
+                "en": "4 months",
+                "ru": "4 месяца"
+            },
+            "location": {
+                "en": "St.Petersburg, Russia",
+                "ru": "Санкт-Петербург, Россия"
+            },
             "description": [
                 {
-                    "type": "paragraph",
-                    "text": "Automotive project, Simulator department, as a Senior Frontend JavaScript Developer."
+                    "en": {
+                        "type": "paragraph",
+                        "text": "Automotive project, Simulator department, as a Senior Frontend JavaScript Developer."
+                    },
+                    "ru": {
+                        "type": "paragraph",
+                        "text": "Автомобильный проект, отдел Симулятора, в роли старшего Frontend JavaScript-разработчика."
+                    }
                 },
                 {
-                    "type": "paragraph",
-                    "text": "Project description: As one of the sub-projects/tools in Automotive Project, the Simulator is responsible for running simulated tests for autonomous driving functions leveraging the Web-based GUI."
+                    "en": {
+                        "type": "paragraph",
+                        "text": "Project description: As one of the sub-projects/tools in Automotive Project, the Simulator is responsible for running simulated tests for autonomous driving functions leveraging the Web-based GUI."
+                    },
+                    "ru": {
+                        "type": "paragraph",
+                        "text": "Описание: Симулятор является подпроектом автомобильного проекта, отвечающим за запуск симулированных тестов функций автономного вождения через веб-интерфейс."
+                    }
                 },
                 {
-                    "type": "list",
-                    "heading": "Responsibilities:",
-                    "items": [
-                        "Total rewrite of existing Simulator GUI in React.JS, given the existing functionality is developed using some obscure React.JS wrapper, underdeveloped and does not correspond to current business/technical requirements.",
-                        "Development of new features and components.",
-                        "Identifying and addressing performance bottlenecks.",
-                        "Collaboration with frontend developers from another department for sharing UI components.",
-                        "Collaboration with backend developers."
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Responsibilities:",
+                        "items": [
+                            "Total rewrite of existing Simulator GUI in React.JS, given the existing functionality is developed using some obscure React.JS wrapper, underdeveloped and does not correspond to current business/technical requirements.",
+                            "Development of new features and components.",
+                            "Identifying and addressing performance bottlenecks.",
+                            "Collaboration with frontend developers from another department for sharing UI components.",
+                            "Collaboration with backend developers."
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Обязанности:",
+                        "items": [
+                            "Полная переписка графического интерфейса Симулятора на React.JS взамен устаревшего решения.",
+                            "Разработка новых функций и компонентов.",
+                            "Выявление и устранение узких мест производительности.",
+                            "Совместная разработка UI-компонентов с FE-командой из другого отдела.",
+                            "Взаимодействие с BE-разработчиками."
+                        ]
+                    }
                 }
             ],
             "technologies": [
@@ -405,54 +708,115 @@
             ]
         },
         {
-            "id": 7,
-            "company": "Andersen",
-            "title": "JavaScript Developer",
+            "id": 6,
+            "company": {
+                "en": "Andersen",
+                "ru": "Andersen"
+            },
+            "title": {
+                "en": "JavaScript Developer",
+                "ru": "JavaScript-разработчик"
+            },
             "employmentType": null,
             "startDate": "2019-06",
             "endDate": "2019-09",
             "isCurrent": false,
-            "duration": "4 months",
-            "location": "St.Petersburg, Russia",
+            "duration": {
+                "en": "4 months",
+                "ru": "4 месяца"
+            },
+            "location": {
+                "en": "St.Petersburg, Russia",
+                "ru": "Санкт-Петербург, Россия"
+            },
             "description": [
                 {
-                    "type": "paragraph",
-                    "text": "Worked as a Mid-level JavaScript Developer on a Los Angeles-based project: development of backend for a CRM system for gyms (coach-client interaction and progress tracking)"
+                    "en": {
+                        "type": "paragraph",
+                        "text": "Worked as a Mid-level JavaScript Developer on a Los Angeles-based project: development of backend for a CRM system for gyms (coach-client interaction and progress tracking)"
+                    },
+                    "ru": {
+                        "type": "paragraph",
+                        "text": "Работал как Middle JavaScript-разработчик на проекте из Лос-Анджелеса: разработка бэкенда для CRM-системы фитнес-клубов (взаимодействие тренер-клиент и отслеживание прогресса)."
+                    }
                 },
                 {
-                    "type": "paragraph",
-                    "text": "Developed on React/NodeJS/Hapi.js/PostgreSQL, initially alone, then in a team with another backend developer and two frontend developers."
+                    "en": {
+                        "type": "paragraph",
+                        "text": "Developed on React/NodeJS/Hapi.js/PostgreSQL, initially alone, then in a team with another backend developer and two frontend developers."
+                    },
+                    "ru": {
+                        "type": "paragraph",
+                        "text": "Разработка на React/Node.JS/Hapi.js/PostgreSQL: сначала самостоятственно, затем в команде с другим BE-разработчиком и двумя FE-разработчиками."
+                    }
                 },
                 {
-                    "type": "paragraph",
-                    "text": "Project description: Healthcare most widely adopted communication platform – uniquely modernizing care collaboration among doctors, nurses, patients, and care teams. It is the only solution that combines a consumer-like user experience for text, video, and voice communication with the serious security, privacy, and clinical workflow requirements that today's healthcare organizations demand. The project accelerates productivity, reduces costs, and improves patient outcomes."
+                    "en": {
+                        "type": "paragraph",
+                        "text": "Project description: Healthcare most widely adopted communication platform – uniquely modernizing care collaboration among doctors, nurses, patients, and care teams. It is the only solution that combines a consumer-like user experience for text, video, and voice communication with the serious security, privacy, and clinical workflow requirements that today's healthcare organizations demand. The project accelerates productivity, reduces costs, and improves patient outcomes."
+                    },
+                    "ru": {
+                        "type": "paragraph",
+                        "text": "Описание проекта: широко распространённая платформа коммуникаций в здравоохранении, объединяющая врачей, медсестёр и пациентов. Платформа сочетает потребительский опыт коммуникаций с требованиями клинической безопасности."
+                    }
                 },
                 {
-                    "type": "list",
-                    "heading": "Responsibilities:",
-                    "items": [
-                        "Developing new features and components.",
-                        "Creating the site pages (React.js).",
-                        "Identifying and addressing performance bottlenecks.",
-                        "Support and stabilization.",
-                        "Collaboration with frontend developers.",
-                        "Refactoring of existing code.",
-                        "API expansion.",
-                        "Creation of main sections of public part of the site.",
-                        "Test coverage.",
-                        "Team of 4 developers, QA and PM.",
-                        "2-week sprints.",
-                        "GitHub (GitFlow), Confluence, Jira."
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Responsibilities:",
+                        "items": [
+                            "Developing new features and components.",
+                            "Creating the site pages (React.js).",
+                            "Identifying and addressing performance bottlenecks.",
+                            "Support and stabilization.",
+                            "Collaboration with frontend developers.",
+                            "Refactoring of existing code.",
+                            "API expansion.",
+                            "Creation of main sections of public part of the site.",
+                            "Test coverage.",
+                            "Team of 4 developers, QA and PM.",
+                            "2-week sprints.",
+                            "GitHub (GitFlow), Confluence, Jira."
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Обязанности:",
+                        "items": [
+                            "Разработка новых функций и компонентов.",
+                            "Создание страниц сайта (React.js).",
+                            "Выявление и устранение узких мест производительности.",
+                            "Поддержка и стабилизация.",
+                            "Взаимодействие с FE-разработчиками.",
+                            "Рефакторинг существующего кода.",
+                            "Расширение API.",
+                            "Создание основных разделов публичной части сайта.",
+                            "Покрытие тестами.",
+                            "Команда из 4 разработчиков, QA и PM.",
+                            "Двухнедельные спринты.",
+                            "GitHub (GitFlow), Confluence, Jira."
+                        ]
+                    }
                 },
                 {
-                    "type": "list",
-                    "heading": "Achievements:",
-                    "items": [
-                        "Initial set-up of frontend part in React.",
-                        "Integration with ElasticSearch and AWS S3.",
-                        "Dockerization of the project."
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Achievements:",
+                        "items": [
+                            "Initial set-up of frontend part in React.",
+                            "Integration with ElasticSearch and AWS S3.",
+                            "Dockerization of the project."
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Достижения:",
+                        "items": [
+                            "Начальная настройка фронтенда на React.",
+                            "Интеграция с ElasticSearch и AWS S3.",
+                            "Докеризация проекта."
+                        ]
+                    }
                 }
             ],
             "technologies": [
@@ -469,26 +833,51 @@
             ]
         },
         {
-            "id": 8,
-            "company": "Itransition Group",
-            "title": "Software Engineer",
+            "id": 7,
+            "company": {
+                "en": "iTransition Group",
+                "ru": "iTransition Group"
+            },
+            "title": {
+                "en": "Software Engineer",
+                "ru": "Инженер-программист"
+            },
             "employmentType": null,
             "startDate": "2017-12",
             "endDate": "2019-06",
             "isCurrent": false,
-            "duration": "1 year 7 months",
-            "location": "St.Petersburg, Russia",
+            "duration": {
+                "en": "1 year 7 months",
+                "ru": "1 год 7 месяцев"
+            },
+            "location": {
+                "en": "St.Petersburg, Russia",
+                "ru": "Санкт-Петербург, Россия"
+            },
             "subRoles": [
                 {
-                    "period": "February 2019 - June 2019",
+                    "startDate": "2019-02",
+                    "endDate": "2019-06",
                     "description": [
                         {
-                            "type": "paragraph",
-                            "text": "Outsourced as full-stack JS developer to US-based company with development office in Lithuania (payment processing company)."
+                            "en": {
+                                "type": "paragraph",
+                                "text": "Outsourced as full-stack JS developer to US-based company with development office in Lithuania (payment processing company)."
+                            },
+                            "ru": {
+                                "type": "paragraph",
+                                "text": "Аутсорсинг в качестве fullstack JS-разработчика в американскую компанию с офисом разработки в Литве (компания по обработке платежей)."
+                            }
                         },
                         {
-                            "type": "paragraph",
-                            "text": "Traveled on business trip to Lithuania. Remote development of CRM for company's sales office in a team of 6 developers."
+                            "en": {
+                                "type": "paragraph",
+                                "text": "Traveled on business trip to Lithuania. Remote development of CRM for company's sales office in a team of 6 developers."
+                            },
+                            "ru": {
+                                "type": "paragraph",
+                                "text": "Командировка в Литву. Удалённая разработка CRM для отдела продаж компании в команде из 6 разработчиков."
+                            }
                         }
                     ],
                     "technologies": [
@@ -505,11 +894,18 @@
                     ]
                 },
                 {
-                    "period": "January 2019 - February 2019",
+                    "startDate": "2019-01",
+                    "endDate": "2019-02",
                     "description": [
                         {
-                            "type": "paragraph",
-                            "text": "While waiting for another project, studied and reviewed GraphQL database - Neo4j, Apollo Client and Server, NodeJS. Practiced above-mentioned technologies on personal pet project."
+                            "en": {
+                                "type": "paragraph",
+                                "text": "While waiting for another project, studied and reviewed GraphQL database - Neo4j, Apollo Client and Server, NodeJS. Practiced above-mentioned technologies on personal pet project."
+                            },
+                            "ru": {
+                                "type": "paragraph",
+                                "text": "В ожидании следующего проекта изучал и практиковал GraphQL, БД Neo4j, Apollo Client и Server, NodeJS. Применял вышеперечисленные технологии в личном пет-проекте."
+                            }
                         }
                     ],
                     "technologies": [
@@ -521,22 +917,42 @@
                     ]
                 },
                 {
-                    "period": "April 2018 - December 2018",
+                    "startDate": "2018-04",
+                    "endDate": "2018-12",
                     "description": [
                         {
-                            "type": "paragraph",
-                            "text": "Outsourced with a team of 10 developers to New York (USA)-based 'Real-estate for professionals network' startup (partially remote development - remote demos, code reviews, Skype/Slack communication with PM, BAs and tech lead)."
+                            "en": {
+                                "type": "paragraph",
+                                "text": "Outsourced with a team of 10 developers to New York (USA)-based 'Real-estate for professionals network' startup (partially remote development - remote demos, code reviews, Skype/Slack communication with PM, BAs and tech lead)."
+                            },
+                            "ru": {
+                                "type": "paragraph",
+                                "text": "Аутсорсинг в команде из 10 разработчиков в нью-йоркский (США) стартап 'Сеть недвижимости для профессионалов' (частично удалённая разработка — удалённые демо, код-ревью, общение по Skype/Slack с PM, BA и тех-лидом)."
+                            }
                         },
                         {
-                            "type": "list",
-                            "items": [
-                                "Transfer of existing monolith architecture (backend – CakePHP, frontend – AngularJS) to a new microservice paradigm.",
-                                "Participation in design of new architecture.",
-                                "Development of new microservices: Frontend, FAPI, backend services.",
-                                "Singlehandedly developed Email, Search, File services, integrated with GraphQL Server and frontend.",
-                                "Dockerization of the project.",
-                                "Participated in front-end development for system's dashboard (React.JS, Redux, Sagas)."
-                            ]
+                            "en": {
+                                "type": "list",
+                                "items": [
+                                    "Transfer of existing monolith architecture (backend – CakePHP, frontend – AngularJS) to a new microservice paradigm.",
+                                    "Participation in design of new architecture.",
+                                    "Development of new microservices: Frontend, FAPI, backend services.",
+                                    "Singlehandedly developed Email, Search, File services, integrated with GraphQL Server and frontend.",
+                                    "Dockerization of the project.",
+                                    "Participated in front-end development for system's dashboard (React.JS, Redux, Sagas)."
+                                ]
+                            },
+                            "ru": {
+                                "type": "list",
+                                "items": [
+                                    "Перевод существующей монолитной архитектуры (бэкенд – CakePHP, фронтенд – AngularJS) на новую микросервисную парадигму.",
+                                    "Участие в проектировании новой архитектуры.",
+                                    "Разработка новых микросервисов: Frontend, FAPI, бэкенд-сервисы.",
+                                    "Самостоятельно разработал сервисы Email, Search, File, интегрировал их с GraphQL Server и фронтендом.",
+                                    "Докеризация проекта.",
+                                    "Участие в разработке фронтенда системной панели управления (React.JS, Redux, Sagas)."
+                                ]
+                            }
                         }
                     ],
                     "technologies": [
@@ -561,11 +977,18 @@
                     ]
                 },
                 {
-                    "period": "December 2017 - April 2018",
+                    "startDate": "2017-12",
+                    "endDate": "2018-04",
                     "description": [
                         {
-                            "type": "paragraph",
-                            "text": "While waiting for a project, studied and investigated new technologies: Redis, ElasticSearch, Symfony (PHP Framework), Docker, MongoDB (NoSQL databases in general), ReactJS, NodeJS. Reviewed PostgreSQL, MySQL, JavaScript."
+                            "en": {
+                                "type": "paragraph",
+                                "text": "While waiting for a project, studied and investigated new technologies: Redis, ElasticSearch, Symfony (PHP Framework), Docker, MongoDB (NoSQL databases in general), ReactJS, NodeJS. Reviewed PostgreSQL, MySQL, JavaScript."
+                            },
+                            "ru": {
+                                "type": "paragraph",
+                                "text": "В ожидании проекта изучал и исследовал новые технологии: Redis, ElasticSearch, Symfony (PHP Framework), Docker, MongoDB (NoSQL-базы данных в целом), ReactJS, NodeJS. Повторял PostgreSQL, MySQL, JavaScript."
+                            }
                         }
                     ],
                     "technologies": [
@@ -584,24 +1007,47 @@
             ]
         },
         {
-            "id": 9,
-            "company": "ООО \"ЕСТП-СРО\" (estp.ru)",
-            "title": "PHP Developer",
+            "id": 8,
+            "company": {
+                "en": "ООО \"ЕСТП-СРО\" (estp.ru)",
+                "ru": "ООО \"ЕСТП-СРО\" (estp.ru)"
+            },
+            "title": {
+                "en": "PHP Developer",
+                "ru": "PHP-разработчик"
+            },
             "employmentType": null,
             "startDate": "2016-06",
             "endDate": "2017-12",
             "isCurrent": false,
-            "duration": "1 year 7 months",
-            "location": "St.Petersburg, Russian Federation",
+            "duration": {
+                "en": "1 year 7 months",
+                "ru": "1 год 7 месяцев"
+            },
+            "location": {
+                "en": "St.Petersburg, Russian Federation",
+                "ru": "Санкт-Петербург, Россия"
+            },
             "description": [
                 {
-                    "type": "list",
-                    "heading": "Responsibilities:",
-                    "items": [
-                        "Development of new and support of existing components for web-based tender platform for purchases by government agencies and state institutions.",
-                        "Developing on custom PHP-framework SBin and Yii 2.",
-                        "Gradual transfer of diverse system modules to \"dockerized\" SOA-based architecture."
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Responsibilities:",
+                        "items": [
+                            "Development of new and support of existing components for web-based tender platform for purchases by government agencies and state institutions.",
+                            "Developing on custom PHP-framework SBin and Yii 2.",
+                            "Gradual transfer of diverse system modules to \"dockerized\" SOA-based architecture."
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Обязанности:",
+                        "items": [
+                            "Разработка новых и поддержка существующих компонентов веб-платформы тендеров для закупок государственных учреждений.",
+                            "Разработка на PHP-фреймворке SBin и Yii 2.",
+                            "Постепенный перенос модулей системы на докеризованную SOA-архитектуру."
+                        ]
+                    }
                 }
             ],
             "technologies": [
@@ -613,27 +1059,55 @@
             ]
         },
         {
-            "id": 10,
-            "company": "ООО \"Real Estate Development\"",
-            "title": "Full-stack Web Developer (PHP)",
+            "id": 9,
+            "company": {
+                "en": "ООО \"Real Estate Development\"",
+                "ru": "ООО \"Real Estate Development\""
+            },
+            "title": {
+                "en": "Full-stack Web Developer (PHP)",
+                "ru": "Full-stack веб-разработчик (PHP)"
+            },
             "employmentType": null,
             "startDate": "2016-02",
             "endDate": "2016-06",
             "isCurrent": false,
-            "duration": "5 months",
-            "location": "St.Petersburg, Russian Federation",
+            "duration": {
+                "en": "5 months",
+                "ru": "5 месяцев"
+            },
+            "location": {
+                "en": "St.Petersburg, Russian Federation",
+                "ru": "Санкт-Петербург, Россия"
+            },
             "description": [
                 {
-                    "type": "paragraph",
-                    "text": "Development of web-based CRM for real-estate industry on Yii2. Working in a team of developers."
+                    "en": {
+                        "type": "paragraph",
+                        "text": "Development of web-based CRM for real-estate industry on Yii2. Working in a team of developers."
+                    },
+                    "ru": {
+                        "type": "paragraph",
+                        "text": "Разработка веб-CRM для сферы недвижимости на Yii2. Работа в команде разработчиков."
+                    }
                 },
                 {
-                    "type": "list",
-                    "heading": "Responsibilities:",
-                    "items": [
-                        "Support and debugging of existing code base as well as development of new features and functionality. ",
-                        "Support of old and development of new modules, access rights management, automation tasks for transferring real estate objects from CRM database to client websites and vice versa."
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Responsibilities:",
+                        "items": [
+                            "Support and debugging of existing code base as well as development of new features and functionality. ",
+                            "Support of old and development of new modules, access rights management, automation tasks for transferring real estate objects from CRM database to client websites and vice versa."
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Обязанности:",
+                        "items": [
+                            "Поддержка и отладка существующей кодовой базы, разработка новых функций.",
+                            "Поддержка старых и разработка новых модулей, управление правами доступа, автоматизация передачи объектов недвижимости между CRM и сайтами клиентов."
+                        ]
+                    }
                 }
             ],
             "technologies": [
@@ -643,26 +1117,51 @@
             ]
         },
         {
-            "id": 11,
-            "company": "ООО \"ТехСервис\"",
-            "title": "Full-stack Web Programmer / Systems Programmer",
+            "id": 10,
+            "company": {
+                "en": "ООО \"ТехСервис\"",
+                "ru": "ООО \"ТехСервис\""
+            },
+            "title": {
+                "en": "Full-stack Web Programmer / Systems Programmer",
+                "ru": "Full-stack веб-программист / системный программист"
+            },
             "employmentType": null,
             "startDate": "2014-04",
             "endDate": "2016-02",
             "isCurrent": false,
-            "duration": "1 year 11 months",
-            "location": "St.Petersburg, Russian Federation",
+            "duration": {
+                "en": "1 year 11 months",
+                "ru": "1 год 11 месяцев"
+            },
+            "location": {
+                "en": "St.Petersburg, Russian Federation",
+                "ru": "Санкт-Петербург, Россия"
+            },
             "description": [
                 {
-                    "type": "list",
-                    "heading": "Responsibilities:",
-                    "items": [
-                        "Full-stack development of new corporate websites and intranet.",
-                        "Participation in developing a strategy for local corporate network infrastructure.",
-                        "Webserver administration.",
-                        "Development of corporate identity (branding for the entire group of companies).",
-                        "Administration of web servers, virtual machines on Linux, VMWare ESXi."
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Responsibilities:",
+                        "items": [
+                            "Full-stack development of new corporate websites and intranet.",
+                            "Participation in developing a strategy for local corporate network infrastructure.",
+                            "Webserver administration.",
+                            "Development of corporate identity (branding for the entire group of companies).",
+                            "Administration of web servers, virtual machines on Linux, VMWare ESXi."
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Обязанности:",
+                        "items": [
+                            "Full-stack разработка корпоративных сайтов и интранета.",
+                            "Участие в разработке стратегии локальной корпоративной сетевой инфраструктуры.",
+                            "Администрирование веб-серверов.",
+                            "Разработка корпоративного стиля (брендинг для всей группы компаний).",
+                            "Администрирование веб-серверов, виртуальных машин на Linux, VMWare ESXi."
+                        ]
+                    }
                 }
             ],
             "technologies": [
@@ -673,42 +1172,81 @@
             ]
         },
         {
-            "id": 12,
-            "company": "SBR Nord Grupp HB",
-            "title": "Arbetsledare (Work Supervisor) / VVS-arbete (Plumbing Work)",
+            "id": 11,
+            "company": {
+                "en": "SBR Nord Grupp HB",
+                "ru": "SBR Nord Grupp HB"
+            },
+            "title": {
+                "en": "Arbetsledare (Work Supervisor) / VVS-arbete (Plumbing Work)",
+                "ru": "Arbetsledare (Прораб) / VVS-arbete (Сантехнические работы)"
+            },
             "employmentType": null,
             "startDate": "2010-08",
             "endDate": "2014-04",
             "isCurrent": false,
-            "duration": "3 years 9 months",
-            "location": "Solna, Sweden",
+            "duration": {
+                "en": "3 years 9 months",
+                "ru": "3 года 9 месяцев"
+            },
+            "location": {
+                "en": "Solna, Sweden",
+                "ru": "Сольна, Швеция"
+            },
             "description": [
                 {
-                    "type": "paragraph",
-                    "text": "VVS-arbete och badrumsrenoveringar (Plumbing work and bathroom renovations)."
+                    "en": {
+                        "type": "paragraph",
+                        "text": "VVS-arbete och badrumsrenoveringar (Plumbing work and bathroom renovations)."
+                    },
+                    "ru": {
+                        "type": "paragraph",
+                        "text": "VVS-arbete och badrumsrenoveringar (Сантехнические работы и ремонт ванных комнат)."
+                    }
                 },
                 {
-                    "type": "list",
-                    "heading": "Responsibilities:",
-                    "items": [
-                        "Arbetsledarroll och hanterade ett team av rörmokare och badrumsrenoveringsspecialister. (Held supervisor role and managed a team of plumbers and bathroom renovation specialists.)"
-                    ]
+                    "en": {
+                        "type": "list",
+                        "heading": "Responsibilities:",
+                        "items": [
+                            "Arbetsledarroll och hanterade ett team av r\u00f6rmokare och badrumsrenoveringsspecialister. (Held supervisor role and managed a team of plumbers and bathroom renovation specialists.)"
+                        ]
+                    },
+                    "ru": {
+                        "type": "list",
+                        "heading": "Обязанности:",
+                        "items": [
+                            "Роль прораба: руководство командой сантехников и специалистов по ремонту ванных комнат."
+                        ]
+                    }
                 }
             ]
         }
     ],
     "education": [
         {
-            "institution": "Hunter College",
-            "degree": "Associate's degree",
-            "fieldOfStudy": "Media and English",
+            "institution": "Hunter College (CUNY) - New York, USA",
+            "degree": {
+                "en": "Associate's degree",
+                "ru": "Неполное высшее"
+            },
+            "fieldOfStudy": {
+                "en": "Media and English",
+                "ru": "Журналистика и английский язык"
+            },
             "startYear": 2006,
             "endYear": 2008
         },
         {
             "institution": "St.Petersburg Maritime College (Санкт-Петербургский Морской Колледж)",
-            "degree": "Associate's degree",
-            "fieldOfStudy": "Radio Technician",
+            "degree": {
+                "en": "Associate's degree",
+                "ru": "Среднее специальное"
+            },
+            "fieldOfStudy": {
+                "en": "Radio Technician",
+                "ru": "Радиотехник"
+            },
             "startYear": null,
             "endYear": null
         }
