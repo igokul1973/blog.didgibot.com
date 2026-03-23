@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/igokul1973/blog.didgibot.com/compare/v1.2.0...v1.2.1) (2026-03-23)
+
+
+### Bug Fixes
+
+* fixed sass deprecation warnings ([0de66af](https://github.com/igokul1973/blog.didgibot.com/commit/0de66af30cf82972a4f3d75c5cd4ce95ae7a18f5))
+
 # [1.2.0](https://github.com/igokul1973/blog.didgibot.com/compare/v1.1.2...v1.2.0) (2026-03-23)
 
 
