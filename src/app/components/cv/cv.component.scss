@@ -15,6 +15,14 @@
 }
 
 .cv {
+    min-height: calc(100vh - vars.$header-mobile-height - vars.$footer-min-height - vars.$content-mobile-padding * 2);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
     // Override all text truncation globally
     * {
         overflow: visible !important;
@@ -66,14 +74,6 @@
         min-height: auto !important;
         display: block !important;
     }
-
-    min-height: calc(100vh - vars.$header-mobile-height - vars.$footer-min-height - vars.$content-mobile-padding * 2);
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 
     .contact-section {
         text-align: center;
