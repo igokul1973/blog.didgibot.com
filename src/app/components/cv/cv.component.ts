@@ -5,6 +5,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatListModule } from '@angular/material/list';
 import { LanguageEnum } from 'types/translation';
+import { PdfDownloadComponent } from './pdf-download/pdf-download.component';
+import { IPDFDownloadEvent } from './pdf-download/types';
 import { RESUME_DATA_TOKEN, injectResumeData, resumeDataFactory } from './resume-data.token';
 import {
     CV_SECTION_HEADINGS,
@@ -20,7 +22,7 @@ import {
 
 @Component({
     selector: 'app-cv',
-    imports: [CommonModule, MatCardModule, MatListModule, MatChipsModule],
+    imports: [CommonModule, MatCardModule, MatListModule, MatChipsModule, PdfDownloadComponent],
     providers: [{ provide: RESUME_DATA_TOKEN, useFactory: resumeDataFactory }],
     templateUrl: './cv.component.html',
     styleUrl: './cv.component.scss',
@@ -264,5 +266,16 @@ export class CvComponent {
         const isRussianLanguage = language.toLowerCase().includes('ru');
 
         return russianTimezones.includes(timezone) || isRussianLanguage;
+    }
+
+    /**
+     * Handle PDF download events
+     */
+    onDownloadEvent(event: IPDFDownloadEvent): void {
+        // Handle download events (logging, analytics, etc.)
+        console.log('PDF download event:', event);
+
+        // You could add analytics tracking here
+        // this.analytics.track('pdf_download', { language: event.language });
     }
 }

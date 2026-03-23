@@ -413,7 +413,9 @@ describe('CvComponent', () => {
 
             // Summary - Russian
             const summarySection = compiled.querySelector('.summary-section');
-            expect(summarySection?.textContent).toContain('Первые 4 года коммерческого опыта');
+            expect(summarySection?.textContent).toContain(
+                'Мой профессиональный путь начался в 2014 году как PHP-разработчик'
+            );
 
             // Experience - Russian titles
             const titles = compiled.querySelectorAll('.experience-section .title');

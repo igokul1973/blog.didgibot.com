@@ -38,13 +38,20 @@
         </section>
 
         <!-- Card Header -->
-        <mat-card-header>
-            @if (articleService.selectedLanguage() === languageEnum.RU) {
-                <mat-card-title><h1>Резюме</h1></mat-card-title>
-            } @else {
-                <mat-card-title><h1>Curriculum Vitae / Resume</h1></mat-card-title>
-            }
-        </mat-card-header>
+        <div class="cv-card-header">
+            <h1>
+                @if (articleService.selectedLanguage() === languageEnum.RU) {
+                    Резюме
+                } @else {
+                    Curriculum Vitae / Resume
+                }
+            </h1>
+            <!-- PDF Download Component -->
+            <app-pdf-download
+                [currentLanguage]="articleService.selectedLanguage()"
+                (downloadEvent)="onDownloadEvent($event)"
+            ></app-pdf-download>
+        </div>
 
         <!-- Summary Section -->
         <section class="summary-section">
@@ -174,7 +181,16 @@
                             <p>{{ project.description }}</p>
                             @if (project.url) {
                                 <p>
-                                    <a href="{{ project.url }}" target="_blank">{{ project.url }}</a>
+                                    <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer">{{
+                                        project.url
+                                    }}</a>
+                                </p>
+                            }
+                            @if (project.github) {
+                                <p>
+                                    <a href="{{ project.github }}" target="_blank" rel="noopener noreferrer">{{
+                                        project.github
+                                    }}</a>
                                 </p>
                             }
                             @if (project.technologies && project.technologies.length > 0) {

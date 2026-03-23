@@ -116,8 +116,10 @@ export interface IPortfolio {
     name: string;
     /** Project description */
     description: IMultilingualText;
-    /** Project URL or repository link */
-    url: string;
+    /** Project live URL (optional) */
+    url?: string;
+    /** Project GitHub repository URL (optional) */
+    github?: string;
     /** Technologies used in the project */
     technologies: string[];
     /** Key features of the project (optional) */

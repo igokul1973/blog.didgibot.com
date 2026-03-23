@@ -12,6 +12,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-02
 - TypeScript 5.9.3 with Angular 20.3.15 + Angular Material, Vitest (008-cv-source-refactor)
 - Static JSON file (igor_kulebyakin_resume.json) (008-cv-source-refactor)
 - Static JSON files in `/src/assets/` directory (009-multilingual-cv)
+- TypeScript 5.9.3 with Angular 20.3.15 + Angular Material, jsPDF, Vitest (010-cv-pdf-download)
+- Static content files (pre-compiled PDFs) (010-cv-pdf-download)
 
 - TypeScript 5.9.3 with Angular 20.3.15 + Husky (latest), Angular CLI, Vitest, ESLint, Prettier (001-husky-setup)
 
@@ -31,9 +33,9 @@ npm test && npm run lint
 TypeScript 5.9.3 with Angular 20.3.15: Follow standard conventions
 
 ## Recent Changes
+- 010-cv-pdf-download: Added TypeScript 5.9.3 with Angular 20.3.15 + Angular Material, jsPDF, Vitest
 - 009-multilingual-cv: Added TypeScript 5.9.3 with Angular 20.3.15 + Angular Material, Apollo Client (GraphQL), Vitest
 - 008-cv-source-refactor: Added TypeScript 5.9.3 with Angular 20.3.15 + Angular Material, Vitest
-- 006-update-nodejs-version: Added Angular 20, existing project dependencies
 
 
 <!-- MANUAL ADDITIONS START -->
