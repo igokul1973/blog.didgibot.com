@@ -1,0 +1,62 @@
+<!-- PDF Download Component -->
+<!-- 
+  This component provides download functionality for CV/resume PDFs.
+  It supports multiple languages and provides user feedback during download.
+-->
+
+<button
+    class="pdf-download-btn"
+    (click)="onDownloadClick()"
+    [disabled]="isDownloading()"
+    [attr.aria-label]="isDownloading() ? 'Downloading CV PDF, please wait' : 'Download CV as PDF'"
+    [attr.aria-busy]="isDownloading()"
+    matTooltip="Download CV as PDF"
+    matTooltipPosition="above"
+    type="button"
+>
+    <mat-icon class="download-icon" [attr.aria-hidden]="true">
+        {{ isDownloading() ? 'downloading' : 'download' }}
+    </mat-icon>
+
+    @if (isDownloading()) {
+        <span class="download-text" aria-hidden="true">Downloading...</span>
+    }
+
+    <!-- Loading indicator for better UX -->
+    @if (isDownloading()) {
+        <div class="loading-spinner" role="status" aria-label="Loading">
+            <div class="spinner-circle"></div>
+        </div>
+    }
+</button>
+
+<!-- Error message display -->
+@if (hasError()) {
+    <div class="error-message" role="alert" aria-live="polite">
+        <mat-icon class="error-icon" [attr.aria-hidden]="true"> error </mat-icon>
+        <span class="error-text">{{ getErrorMessage() }}</span>
+        <button
+            class="error-dismiss"
+            (click)="clearError()"
+            [attr.aria-label]="'Dismiss error: ' + getErrorMessage()"
+            type="button"
+        >
+            <mat-icon [attr.aria-hidden]="true">close</mat-icon>
+        </button>
+    </div>
+}
+
+<!-- Download progress indicator (for future enhancement) -->
+@if (showProgress()) {
+    <div
+        class="progress-container"
+        role="progressbar"
+        [attr.aria-valuenow]="getProgressValue()"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        [attr.aria-label]="`Download progress: ${getProgressValue()}%`"
+    >
+        <div class="progress-bar" [style.width.%]="getProgressValue()"></div>
+        <span class="progress-text">{{ getProgressValue() }}%</span>
+    </div>
+}

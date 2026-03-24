@@ -12,7 +12,7 @@
         },
         "title": {
             "en": "Javascript Fullstack Developer",
-            "ru": "Fullstack-разработчик JavaScript"
+            "ru": "Fullstack-разработчик JavaScripPersonal b"
         },
         "location": {
             "city": "Happy Valley",
@@ -32,11 +32,11 @@
         {
             "en": {
                 "type": "paragraph",
-                "text": "My first 4 years of commercial experience I used mostly PHP + MySQL/Postgres stack of technologies. In February of 2018 I started actively learning and practicing JavaScript, learning on the way NoSQL databases, ElasticSearch, RabbitMQ, Node.JS, Angular, React, Vue."
+                "text": "My professional journey began in 2014 as a PHP developer, where I spent the first 4 years of my career working with the PHP + MySQL/Postgres stack. In February 2018, I made a significant shift and began actively learning and practicing JavaScript, during which time I also gained experience with NoSQL databases, ElasticSearch, RabbitMQ, Node.JS, Angular, React, and Vue."
             },
             "ru": {
                 "type": "paragraph",
-                "text": "Первые 4 года коммерческого опыта я преимущественно использовал стек PHP + MySQL/Postgres. В феврале 2018 года начал активно изучать и практиковать JavaScript, параллельно осваивая NoSQL-базы данных, ElasticSearch, RabbitMQ, Node.JS, Angular, React, Vue."
+                "text": "Мой профессиональный путь начался в 2014 году как PHP-разработчик, где я провел первые 4 года своей карьеры, работая с стеком PHP + MySQL/Postgres. В феврале 2018 года я сделал значительный шаг и начал активно изучать и практиковать JavaScript, параллельно осваивая NoSQL-базы данных, ElasticSearch, RabbitMQ, Node.JS, Angular, React и Vue."
             }
         },
         {
@@ -52,11 +52,11 @@
         {
             "en": {
                 "type": "paragraph",
-                "text": "In 2025 I started introducing myself to AI-powered development tools like Windsurf and Claude, which has significantly improved my productivity and coding efficiency. I now code using only spec-driven development approach - "
+                "text": "In 2025 I started introducing myself to AI-powered development tools like Windsurf and Claude, which has significantly improved my productivity and coding efficiency. I now code using only spec-driven development approach."
             },
             "ru": {
                 "type": "paragraph",
-                "text": "В 2025 году начал использовать инструменты разработки на базе ИИ — Windsurf и Claude, что значительно повысило мою продуктивность и эффективность. Теперь работаю исключительно в рамках подхода spec-driven development — "
+                "text": "В 2025 году начал использовать инструменты разработки на базе ИИ — Windsurf и Claude, что значительно повысило мою продуктивность и эффективность. Теперь работаю исключительно в рамках подхода spec-driven development."
             }
         },
         {
@@ -72,11 +72,11 @@
         {
             "en": {
                 "type": "paragraph",
-                "text": "I can also work as a full-stack developer using JS/TS and Python, given some time to brush up on your particular choice of frameworks and DBs."
+                "text": "I can also work as a full-stack developer using JS/TS and Python, given some time to brush up on your particular choice of frameworks and DBs. Have experience working as a team lead and can take on technical leadership responsibilities."
             },
             "ru": {
                 "type": "paragraph",
-                "text": "Также могу работать fullstack-разработчиком на JS/TS и Python при наличии времени на ознакомление с конкретным стеком фреймворков и СУБД."
+                "text": "Также могу работать fullstack-разработчиком на JS/TS и Python при наличии времени на ознакомление с конкретным стеком фреймворков и СУБД. Имею опыт работы тимлидом и могу взять на себя обязанности технического лидера."
             }
         }
     ],
@@ -114,7 +114,7 @@
                 "en": "GRAND stack frontend (React, Apollo Client)",
                 "ru": "Фронтенд на стеке GRAND (React, Apollo Client)"
             },
-            "url": "https://github.com/igokul1973/pizza-frontend",
+            "github": "https://github.com/igokul1973/pizza-frontend",
             "technologies": [
                 "React",
                 "Apollo Client",
@@ -128,7 +128,7 @@
                 "en": "GRAND stack backend (Apollo Server)",
                 "ru": "Бэкенд на стеке GRAND (Apollo Server)"
             },
-            "url": "https://github.com/igokul1973/pizza-backend",
+            "github": "https://github.com/igokul1973/pizza-backend",
             "technologies": [
                 "Apollo Server",
                 "GraphQL",
@@ -142,7 +142,7 @@
                 "en": "Separate PDF/File service for didgibot.com",
                 "ru": "Отдельный PDF/файловый сервис для didgibot.com"
             },
-            "url": "https://github.com/igokul1973/invoice-fileservice",
+            "github": "https://github.com/igokul1973/invoice-fileservice",
             "technologies": [
                 "Node.js"
             ]
@@ -150,10 +150,11 @@
         {
             "name": "didgibot.com",
             "description": {
-                "en": "Electronic document flow web app (personal project). See `nextjs` repository for more details (below)",
-                "ru": "Веб-приложение для электронного документооборота (личный проект). См. репозиторий `nextjs` для подробностей"
+                "en": "Electronic document flow web app (personal project).",
+                "ru": "Веб-приложение для электронного документооборота (личный проект)."
             },
             "url": "https://didgibot.com",
+            "github": "https://github.com/igokul1973/nextjs",
             "technologies": [
                 "React",
                 "Next.js",
@@ -162,38 +163,6 @@
                 "MUI",
                 "MinIO",
                 "PostgreSQL"
-            ]
-        },
-        {
-            "name": "nextjs",
-            "description": {
-                "en": "Next.js example/personal project (partial public part) - didgibot.com (see above)",
-                "ru": "Личный проект на Next.js (частичная публичная часть) - didgibot.com (см. выше)"
-            },
-            "url": "https://github.com/igokul1973/nextjs",
-            "technologies": [
-                "Next.js",
-                "React",
-                "TypeScript",
-                "Prisma",
-                "MUI",
-                "MinIO",
-                "PostgreSQL"
-            ]
-        },
-        {
-            "name": "Личный блог",
-            "description": {
-                "en": "Personal blog. For code see below repo links.",
-                "ru": "Личный блог. Для примеров кода смотрите ссылки на репозитории ниже."
-            },
-            "url": "https://blog.didgibot.com",
-            "technologies": [
-                "Angular",
-                "TypeScript",
-                "Angular Material",
-                "GraphQL",
-                "Apollo Client for Angular"
             ]
         },
         {
@@ -202,7 +171,8 @@
                 "en": "Personal blog (frontend)",
                 "ru": "Личный блог (фронтенд)"
             },
-            "url": "https://github.com/igokul1973/blog.didgibot.com",
+            "url": "https://blog.didgibot.com",
+            "github": "https://github.com/igokul1973/blog.didgibot.com",
             "technologies": [
                 "Angular",
                 "TypeScript",
@@ -217,7 +187,7 @@
                 "en": "Personal blog (backend)",
                 "ru": "Личный блог (бэкенд)"
             },
-            "url": "https://github.com/igokul1973/api.blog.didgibot.com",
+            "github": "https://github.com/igokul1973/api.blog.didgibot.com",
             "technologies": [
                 "Python",
                 "FastAPI",
@@ -228,10 +198,10 @@
         {
             "name": "admin.blog.didgibot.com",
             "description": {
-                "en": "Blog admin panel (frontend)",
-                "ru": "Панель администратора блога (фронтенд)"
+                "en": "Personal blog admin panel (frontend)",
+                "ru": "Панель администратора личного блога (фронтенд)"
             },
-            "url": "https://github.com/igokul1973/admin.blog.didgibot.com",
+            "github": "https://github.com/igokul1973/admin.blog.didgibot.com",
             "technologies": [
                 "React",
                 "TypeScript",
@@ -312,20 +282,18 @@
                         "items": [
                             "Next.js repo - https://github.com/igokul1973/nextjs (partial public part).",
                             "Technologies used: React, Next.js, Typescript, Prism, MUI, MinIO and PostgreSQL.",
-                            "Aspects of the projects include, among others - Internationalization, SSR, separate PDF/File service (see https://github.com/igokul1973/invoice-fileservice).",
                             "Deployment uses - multistage Dockerfile, Kubernetes, ArgoCD, Jenkins, DIND on VPS - necessary code can be shown on demand.",
                             "The project features, among others - Internationalization, SSR, separate PDF/File service (see https://github.com/igokul1973/invoice-fileservice)."
                         ]
                     },
                     "ru": {
                         "type": "list",
-                        "heading": "Детали проекта Document Workflow:",
+                        "heading": "Детали проекта Документооборота:",
                         "items": [
                             "Next.js репозиторий - https://github.com/igokul1973/nextjs (частично открытая часть).",
                             "Используемые технологии: React, Next.js, TypeScript, Prisma, MUI, MinIO и PostgreSQL.",
-                            "Среди особенностей проекта: интернационализация, SSR, отдельный PDF/файловый сервис (https://github.com/igokul1973/invoice-fileservice).",
                             "Деплой: многоэтапный Dockerfile, Kubernetes, ArgoCD, Jenkins, DIND на VPS.",
-                            "Функционал: интернационализация, SSR, отдельный PDF/файловый сервис."
+                            "Функционал: интернационализация, SSR, отдельный PDF/файловый сервис (https://github.com/igokul1973/invoice-fileservice).."
                         ]
                     }
                 },
@@ -349,7 +317,7 @@
                             "FE Angular репозиторий - https://github.com/igokul1973/blog.didgibot.com - открытый исходный код",
                             "FE React репозиторий - https://github.com/igokul1973/admin.blog.didgibot.com - открытый исходный код",
                             "BE FastAPI/Python репозиторий - https://github.com/igokul1973/admin.blog.didgibot.com - открытый исходный код",
-                            "Панель администратора использует Editor.js WYSIWYG и соответствующие библиотеки. Версия парсера Editor.js для Angular была перенесена с нуля.",
+                            "Панель администратора использует Editor.js WYSIWYG и соответствующие библиотеки. Версия парсера Editor.js для Angular была написана с нуля.",
                             "Технологии: Angular, React, MUI, Angular Material, Python, Strawberry, Apollo Client/GraphQL, TypeScript, MinIO и MongoDB.",
                             "Ряд компонентов создан с использованием подхода Spec-Driven Development."
                         ]

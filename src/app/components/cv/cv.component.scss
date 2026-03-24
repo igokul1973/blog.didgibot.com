@@ -124,6 +124,34 @@
                 }
             }
         }
+
+        .pdf-download-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    // Card header row — h1 grows, PDF download button pinned to the right edge
+    .cv-card-header {
+        display: flex !important;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        padding-bottom: 0.5rem;
+
+        h1 {
+            margin: 0;
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        app-pdf-download {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            margin-left: 1rem;
+        }
     }
 
     .summary-section {
