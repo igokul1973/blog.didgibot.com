@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.0...v1.3.1) (2026-03-24)
+
+
+### Bug Fixes
+
+* embedded DejaVuSans fonts into codebase ([9e9c13b](https://github.com/igokul1973/blog.didgibot.com/commit/9e9c13b098d24c7c7af61403dd87d94e3db69013))
+
 # [1.3.0](https://github.com/igokul1973/blog.didgibot.com/compare/v1.2.1...v1.3.0) (2026-03-24)
 
 
