@@ -30,17 +30,9 @@ import resumeData from '../src/assets/igor_kulebyakin_resume.json';
 const A4_HEIGHT_MM = 297;
 
 /** Candidate font paths for Cyrillic support (tried in order) */
-const CYRILLIC_FONT_PATHS = [
-    '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
-    '/usr/share/fonts/dejavu/DejaVuSans.ttf',
-    '/usr/local/share/fonts/DejaVuSans.ttf'
-];
+const CYRILLIC_FONT_PATHS = ['./src/assets/fonts/DejaVuSans.ttf'];
 
-const CYRILLIC_BOLD_FONT_PATHS = [
-    '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',
-    '/usr/share/fonts/dejavu/DejaVuSans-Bold.ttf',
-    '/usr/local/share/fonts/DejaVuSans-Bold.ttf'
-];
+const CYRILLIC_BOLD_FONT_PATHS = ['./src/assets/fonts/DejaVuSans-Bold.ttf'];
 
 /**
  * PDF generation configuration interface
@@ -181,10 +173,10 @@ class PDFAssetGenerator {
             pdf.addFont('DejaVuSans-Bold.ttf', 'DejaVuSans', 'bold');
 
             this.fontFamily = 'DejaVuSans';
-            console.log('   ✓ Embedded DejaVu Sans (Cyrillic support active)');
+            console.log('   ✓ Embedded DejaVuSans (Cyrillic support active)');
         } else {
             this.fontFamily = 'helvetica';
-            console.warn('   ⚠ DejaVu Sans not found — falling back to helvetica (Cyrillic may not render)');
+            console.warn('   ⚠ DejaVuSans not found — falling back to helvetica (Cyrillic may not render)');
         }
 
         pdf.setFont(this.fontFamily, 'normal');
