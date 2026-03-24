@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/igokul1973/blog.didgibot.com/compare/v1.2.1...v1.3.0) (2026-03-24)
+
+
+### Features
+
+* added CV download capability in PDF format ([6b63e02](https://github.com/igokul1973/blog.didgibot.com/commit/6b63e0259d3a61ea5e0b841064c372203f1bf5a1))
+
 ## [1.2.1](https://github.com/igokul1973/blog.didgibot.com/compare/v1.2.0...v1.2.1) (2026-03-23)
 
 
