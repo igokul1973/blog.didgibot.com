@@ -12,7 +12,6 @@
     "mounts": [
         "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
         "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/root/.ssh,type=bind,readonly",
-        "source=${localEnv:HOME}/.docker/config.json,target=/tmp/host-docker-config.json,type=bind,readonly",
         "source=${localWorkspaceFolder}/.windsurf/mcp_config.json,target=/root/.codeium/windsurf/mcp_config.json,type=bind,readonly"
     ],
     "runArgs": [
@@ -32,11 +31,6 @@
             "localPort": 9222
         }
     },
-    // "forwardPorts": [],
-    // Uncomment the next line to run commands after the container is created.
-    "postCreateCommand": "mkdir -p /root/.docker && if [ -f /tmp/host-docker-config.json ]; then cp /tmp/host-docker-config.json /root/.docker/config.json; fi && docker context use default",
-    // "postStartCommand": "bash /workspaces/blog.didgibot.com/.devcontainer/post-start.sh",
-    // "postCreateCommand": "docker context use default",
     // Configure tool-specific properties.
     "customizations": {
         "vscode": {

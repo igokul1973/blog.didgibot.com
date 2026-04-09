@@ -11,7 +11,7 @@ ENV NVM_DIR=/root/.nvm
 
 ENV NODE_VERSION=24.11.1
 
-# Update apt, install necessary build tools and Python 3.13, and then clean up apt cache
+# Update apt, install necessary build tools and Python 3.13, then clean up apt cache
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
@@ -25,3 +25,7 @@ RUN /bin/bash -c "source $NVM_DIR/nvm.sh && \
     npm install -g pnpm"
 
 ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+
+# Create Docker config directory at build time (guarantees existence)
+RUN mkdir -p /root/.docker && \
+    echo '{"auths": {}}' > /root/.docker/config.json
