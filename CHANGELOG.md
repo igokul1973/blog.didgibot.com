@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.2...v1.3.3) (2026-05-07)
+
+
+### Bug Fixes
+
+* deleted deprecated Jenkinsfile ([492d9b3](https://github.com/igokul1973/blog.didgibot.com/commit/492d9b3e9d5c80e069552e7dd1a9b7771919b9fc))
+
 ## [1.3.2](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.1...v1.3.2) (2026-05-07)
 
 
