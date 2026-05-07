@@ -209,6 +209,18 @@
                 "GraphQL",
                 "Apollo Client for React"
             ]
+        },
+        {
+            "name": "rus-text-gen-ts (npm library)",
+            "description": {
+                "en": "Generator of Russian random and coherent texts",
+                "ru": "Генератор русского случайного и связного текста"
+            },
+            "github": "https://github.com/igokul1973/rus-text-gen-ts",
+            "url": "https://www.npmjs.com/package/@igk19/rus-text-gen",
+            "technologies": [
+                "TypeScript"
+            ]
         }
     ],
     "experience": [
@@ -1202,7 +1214,7 @@
                 "en": "Media and English",
                 "ru": "Журналистика и английский язык"
             },
-            "startYear": 2006,
+            "startYear": 2005,
             "endYear": 2008
         },
         {
