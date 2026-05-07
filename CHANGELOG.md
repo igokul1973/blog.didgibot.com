@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.1...v1.3.2) (2026-05-07)
+
+
+### Bug Fixes
+
+* added portfolio item to resume ([fdc0d99](https://github.com/igokul1973/blog.didgibot.com/commit/fdc0d99cefde5990027b19b262c7bee6955bd369))
+
 ## [1.3.1](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.0...v1.3.1) (2026-03-24)
 
 
