@@ -14,6 +14,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-02
 - Static JSON files in `/src/assets/` directory (009-multilingual-cv)
 - TypeScript 5.9.3 with Angular 20.3.15 + Angular Material, jsPDF, Vitest (010-cv-pdf-download)
 - Static content files (pre-compiled PDFs) (010-cv-pdf-download)
+- TypeScript 5.9.3 with Angular 20.3.15 + Angular Material 20.2.14, Apollo Client 4.0.9 (GraphQL), Vitest 4.1.0 (011-education-duration)
+- Static JSON content files (resume data) (011-education-duration)
 
 - TypeScript 5.9.3 with Angular 20.3.15 + Husky (latest), Angular CLI, Vitest, ESLint, Prettier (001-husky-setup)
 
@@ -33,9 +35,9 @@ npm test && npm run lint
 TypeScript 5.9.3 with Angular 20.3.15: Follow standard conventions
 
 ## Recent Changes
+- 011-education-duration: Added TypeScript 5.9.3 with Angular 20.3.15 + Angular Material 20.2.14, Apollo Client 4.0.9 (GraphQL), Vitest 4.1.0
 - 010-cv-pdf-download: Added TypeScript 5.9.3 with Angular 20.3.15 + Angular Material, jsPDF, Vitest
 - 009-multilingual-cv: Added TypeScript 5.9.3 with Angular 20.3.15 + Angular Material, Apollo Client (GraphQL), Vitest
-- 008-cv-source-refactor: Added TypeScript 5.9.3 with Angular 20.3.15 + Angular Material, Vitest
 
 
 <!-- MANUAL ADDITIONS START -->

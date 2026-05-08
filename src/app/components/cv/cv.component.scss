@@ -335,28 +335,38 @@
 
     .education-item {
         .education-header {
-            h4 {
-                margin: 0 0 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+
+            h4.institution {
+                margin: 0 0 -0.25rem 0;
                 color: #2d3748;
                 font-weight: 600;
                 font-size: 1.1rem;
             }
+        }
 
-            p {
+        p {
+            span.heading {
+                color: #2d3748;
+                font-weight: 600;
+            }
+            &.duration {
+                color: #718096;
+                font-style: italic;
+                font-size: 0.875rem;
+                margin: 0 0 0rem 0;
+            }
+            &.degree {
+                margin: 0 0 0.25rem 0;
+                color: #2d3748;
+                font-size: 0.95rem;
+            }
+            &.field-of-study {
                 margin: 0.25rem 0;
                 font-size: 0.95rem;
                 color: #4a5568;
-
-                &.institution {
-                    font-weight: 600;
-                    color: #667eea;
-                }
-
-                &.duration,
-                &.location {
-                    color: #718096;
-                    font-style: italic;
-                }
             }
         }
     }
