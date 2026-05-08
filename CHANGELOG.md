@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.3...v1.3.4) (2026-05-08)
+
+
+### Bug Fixes
+
+* added duration on Education section of CV page ([447382f](https://github.com/igokul1973/blog.didgibot.com/commit/447382fcdad42c1b748b982751569063574e3d21))
+
 ## [1.3.3](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.2...v1.3.3) (2026-05-07)
 
 
