@@ -117,10 +117,20 @@ export class CvComponent {
     }
 
     // Get translated section heading
-    getSectionHeading(section: keyof ISectionHeadings): string {
+    protected getSectionHeading(section: keyof ISectionHeadings): string {
         const language = this.articleService.selectedLanguage();
         const heading = CV_SECTION_HEADINGS[section];
         return language === LanguageEnum.RU ? heading[LanguageEnum.RU] : heading[LanguageEnum.EN];
+    }
+
+    protected getFieldOfStudy() {
+        const language = this.articleService.selectedLanguage();
+        return language === 'ru' ? 'Специальность' : 'Field of Study';
+    }
+
+    protected getDegree(): string {
+        const language = this.articleService.selectedLanguage();
+        return language === LanguageEnum.RU ? 'Диплом/степень' : 'Degree';
     }
 
     // Get translated skill category heading
@@ -190,6 +200,53 @@ export class CvComponent {
         const start = formatDate(startDate);
         const end = endDate ? formatDate(endDate) : presentText;
         return `${start} - ${end} (${duration})`;
+    }
+
+    // Shared helper: Get duration text in the selected language
+    // This can potentially be reused by formatDateRange in the future
+    getDurationText(years: number, language: LanguageEnum): string {
+        if (language === LanguageEnum.RU) {
+            // Russian: proper grammatical form based on number
+            const lastDigit = years % 10;
+            const lastTwoDigits = years % 100;
+
+            if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+                return `${years} лет`;
+            } else if (lastDigit === 1) {
+                return `${years} год`;
+            } else if (lastDigit >= 2 && lastDigit <= 4) {
+                return `${years} года`;
+            } else {
+                return `${years} лет`;
+            }
+        } else {
+            // English: singular/plural
+            return years === 1 ? '1 year' : `${years} years`;
+        }
+    }
+
+    // Format year range with duration: "YYYY - YYYY (X years)"
+    formatYearRange(
+        startYear: number | null | undefined,
+        endYear: number | null | undefined,
+        language: LanguageEnum
+    ): string {
+        const presentText = language === LanguageEnum.RU ? 'Настоящее время' : 'Present';
+
+        const start = startYear ? startYear.toString() : '?';
+        const end = endYear ? endYear.toString() : presentText;
+
+        // Calculate duration if both years are present
+        let duration: string | undefined;
+        if (startYear && endYear) {
+            const years = endYear - startYear;
+            duration = this.getDurationText(years, language);
+        }
+
+        if (duration) {
+            return `${start} - ${end} (${duration})`;
+        }
+        return `${start} - ${end}`;
     }
 
     // Transform multilingual source data into a fully localised snapshot

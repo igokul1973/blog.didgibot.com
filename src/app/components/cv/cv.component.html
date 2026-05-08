@@ -218,12 +218,21 @@
                 @for (edu of education(); track $index) {
                     <mat-list-item class="education-item">
                         <div class="education-header">
-                            <h4>{{ edu.degree }}</h4>
-                            <p class="institution">{{ edu.institution }}</p>
-                            @if (edu.fieldOfStudy) {
-                                <p class="field">{{ edu.fieldOfStudy }}</p>
+                            <h4 class="institution">{{ edu.institution }}</h4>
+                            @if (edu.startYear || edu.endYear) {
+                                <p class="duration">
+                                    {{ formatYearRange(edu.startYear, edu.endYear, articleService.selectedLanguage()) }}
+                                </p>
                             }
                         </div>
+                        <p class="degree">
+                            <span class="heading">{{ getDegree() }}: </span>{{ edu.degree }}
+                        </p>
+                        @if (edu.fieldOfStudy) {
+                            <p class="field-of-study">
+                                <span class="heading">{{ getFieldOfStudy() }}: </span>{{ edu.fieldOfStudy }}
+                            </p>
+                        }
                     </mat-list-item>
                 }
             </mat-list>

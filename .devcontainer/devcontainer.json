@@ -16,13 +16,16 @@
     ],
     "runArgs": [
         "--memory=8g",
-        "--memory-swap=8g"
+        "--memory-swap=8g",
+        "-p",
+        "0.0.0.0:4200:4200"
     ],
     // Features to add to the dev container. More info: https://containers.dev/features.
     // "features": {},
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     "forwardPorts": [
-        9222
+        9222,
+        4200
     ],
     "portsAttributes": {
         "9222": {

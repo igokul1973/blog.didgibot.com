@@ -457,6 +457,157 @@ describe('CvComponent', () => {
         });
     });
 
+    // ─── Education Duration Tests ────────────────────────────────────────────
+
+    describe('Education Duration', () => {
+        let component: CvComponent;
+        let fixture: ComponentFixture<CvComponent>;
+
+        beforeEach(async () => {
+            await TestBed.configureTestingModule({
+                imports: [CvComponent],
+                providers: [
+                    // eslint-disable-next-line @typescript-eslint/no-deprecated
+                    provideNoopAnimations(),
+                    {
+                        provide: ArticleService,
+                        useValue: {
+                            selectedLanguage: signal<LanguageEnum>(LanguageEnum.EN),
+                            homePageArticles: signal([]),
+                            setSearchQuery: vi.fn()
+                        }
+                    },
+                    {
+                        provide: Apollo,
+                        useValue: {
+                            watchQuery: vi.fn(() => ({
+                                valueChanges: of({ data: { articles: [] } })
+                            })) as unknown as Apollo['watchQuery']
+                        }
+                    }
+                ]
+            }).compileComponents();
+
+            fixture = TestBed.createComponent(CvComponent);
+            component = fixture.componentInstance;
+        });
+
+        describe('getDurationText', () => {
+            it('should return "3 years" for 3 years in English', () => {
+                const result = component.getDurationText(3, LanguageEnum.EN);
+                expect(result).toBe('3 years');
+            });
+
+            it('should return "1 year" for 1 year in English (singular)', () => {
+                const result = component.getDurationText(1, LanguageEnum.EN);
+                expect(result).toBe('1 year');
+            });
+
+            it('should return "3 года" for 3 years in Russian', () => {
+                const result = component.getDurationText(3, LanguageEnum.RU);
+                expect(result).toBe('3 года');
+            });
+
+            it('should return "1 год" for 1 year in Russian (singular)', () => {
+                const result = component.getDurationText(1, LanguageEnum.RU);
+                expect(result).toBe('1 год');
+            });
+
+            it('should return "2 года" for 2 years in Russian (genitive singular)', () => {
+                const result = component.getDurationText(2, LanguageEnum.RU);
+                expect(result).toBe('2 года');
+            });
+
+            it('should return "5 лет" for 5 years in Russian (genitive plural)', () => {
+                const result = component.getDurationText(5, LanguageEnum.RU);
+                expect(result).toBe('5 лет');
+            });
+
+            it('should return "11 лет" for 11 years in Russian (11-19 exception)', () => {
+                const result = component.getDurationText(11, LanguageEnum.RU);
+                expect(result).toBe('11 лет');
+            });
+
+            it('should return "21 год" for 21 years in Russian (ends with 1)', () => {
+                const result = component.getDurationText(21, LanguageEnum.RU);
+                expect(result).toBe('21 год');
+            });
+        });
+
+        describe('formatYearRange', () => {
+            it('should format year range with duration for both years present in English', () => {
+                const result = component.formatYearRange(2005, 2008, LanguageEnum.EN);
+                expect(result).toBe('2005 - 2008 (3 years)');
+            });
+
+            it('should format year range with duration for both years present in Russian', () => {
+                const result = component.formatYearRange(2005, 2008, LanguageEnum.RU);
+                expect(result).toBe('2005 - 2008 (3 года)');
+            });
+
+            it('should handle missing end year with "Present" in English', () => {
+                const result = component.formatYearRange(2005, null, LanguageEnum.EN);
+                expect(result).toBe('2005 - Present');
+            });
+
+            it('should handle missing end year with "Настоящее время" in Russian', () => {
+                const result = component.formatYearRange(2005, null, LanguageEnum.RU);
+                expect(result).toBe('2005 - Настоящее время');
+            });
+
+            it('should handle missing start year with "?" placeholder', () => {
+                const result = component.formatYearRange(null, 2008, LanguageEnum.EN);
+                expect(result).toBe('? - 2008');
+            });
+
+            it('should handle both years null with "? - Present"', () => {
+                const result = component.formatYearRange(null, null, LanguageEnum.EN);
+                expect(result).toBe('? - Present');
+            });
+
+            it('should not include duration when only one year is present', () => {
+                const result1 = component.formatYearRange(2005, null, LanguageEnum.EN);
+                const result2 = component.formatYearRange(null, 2008, LanguageEnum.EN);
+                expect(result1).toBe('2005 - Present');
+                expect(result2).toBe('? - 2008');
+                expect(result1).not.toContain('(');
+                expect(result2).not.toContain('(');
+            });
+
+            it('should return "1 year" for single year duration in English', () => {
+                const result = component.formatYearRange(2005, 2006, LanguageEnum.EN);
+                expect(result).toBe('2005 - 2006 (1 year)');
+            });
+
+            it('should return "1 год" for single year duration in Russian', () => {
+                const result = component.formatYearRange(2005, 2006, LanguageEnum.RU);
+                expect(result).toBe('2005 - 2006 (1 год)');
+            });
+        });
+
+        describe('Integration - Education Duration Rendering', () => {
+            it('should render education duration in the template', () => {
+                fixture.detectChanges();
+                const compiled = fixture.nativeElement as HTMLElement;
+                const educationSection = compiled.querySelector('.education-section');
+                expect(educationSection).toBeTruthy();
+
+                const durations = compiled.querySelectorAll('.education-section .duration');
+                expect(durations.length).toBeGreaterThan(0);
+            });
+
+            it('should display year range in duration element', () => {
+                fixture.detectChanges();
+                const compiled = fixture.nativeElement as HTMLElement;
+                const durations = compiled.querySelectorAll('.education-section .duration');
+                expect(durations.length).toBeGreaterThan(0);
+
+                const firstDuration = durations[0]?.textContent?.trim() ?? '';
+                expect(firstDuration).toMatch(/\d{4}/); // Should contain a year
+            });
+        });
+    });
+
     // afterEach(() => {
     //     TestBed.resetTestingModule();
     // });
