@@ -83,11 +83,15 @@ body {
             subtitle-text-weight: 400
         )
     );
-    @include mat.list-overrides(
-        (
-            list-item-one-line-container-height: 65px
-        )
-    );
+    // Drop-down menu list override
+    .toolbar-wrapper {
+        @include mat.list-overrides(
+            (
+                list-item-container-color: var(--mat-sys-primary),
+                list-item-one-line-container-height: 65px
+            )
+        );
+    }
 
     .mobile-menu {
         @include mat.list-overrides(
