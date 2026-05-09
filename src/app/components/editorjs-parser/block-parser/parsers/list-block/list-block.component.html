@@ -4,9 +4,9 @@
             @for (text of item.data.items; let i = $index; track identify(i, text)) {
                 <li [class]="currentClasses.unordered">
                     @if (isStringInstance(text)) {
-                        <span [innerHTML]="text"></span>
+                        <span class="list-item-content" [innerHTML]="text"> </span>
                     } @else {
-                        <span [innerHTML]="$any(text).content"></span>
+                        <span class="list-item-content" [innerHTML]="$any(text).content"></span>
                         @if ($any(text).items.length > 0) {
                             <app-list-block
                                 [item]="{
@@ -27,9 +27,9 @@
             @for (text of item.data.items; let i = $index; track identify(i, text)) {
                 <li [class]="currentClasses.ordered">
                     @if (isStringInstance(text)) {
-                        <span [innerHTML]="text"></span>
+                        <span class="list-item-content" [innerHTML]="text"></span>
                     } @else {
-                        <span [innerHTML]="$any(text).content"></span>
+                        <span class="list-item-content" [innerHTML]="$any(text).content"></span>
                         @if ($any(text).items.length > 0) {
                             <app-list-block
                                 [item]="{

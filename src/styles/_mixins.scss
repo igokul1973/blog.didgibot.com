@@ -12,6 +12,14 @@
             letter-spacing: var(--mat-sys-display-large-tracking);
             margin: 0.3em 0 16px;
         }
+
+        @media screen and (max-width: vars.$small-screen-width) {
+            font-size: vars.$small-screen-h1-font-size;
+            line-height: vars.$small-screen-line-height;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
     }
 
     h2 {
@@ -24,6 +32,14 @@
             letter-spacing: var(--mat-sys-display-medium-tracking);
             margin: 0.5em 0 16px;
         }
+
+        @media screen and (max-width: vars.$small-screen-width) {
+            font-size: vars.$small-screen-h2-font-size;
+            line-height: vars.$small-screen-line-height;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
     }
 
     h3 {
@@ -35,6 +51,14 @@
             font: var(--mat-sys-display-small);
             letter-spacing: var(--mat-sys-display-small-tracking);
             margin: 0.6em 0 14px;
+        }
+
+        @media screen and (max-width: vars.$small-screen-width) {
+            font-size: vars.$small-screen-h3-font-size;
+            line-height: vars.$small-screen-line-height;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
     }
 
