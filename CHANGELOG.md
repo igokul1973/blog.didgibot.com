@@ -1,3 +1,10 @@
+## [1.3.8](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.7...v1.3.8) (2026-05-09)
+
+
+### Bug Fixes
+
+* stylistic fixes for Home page and CV page - made it compatible with theme change ([ea98505](https://github.com/igokul1973/blog.didgibot.com/commit/ea98505fdd6b5860318731029b36221a26a85a63))
+
 ## [1.3.7](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.6...v1.3.7) (2026-05-09)
 
 
