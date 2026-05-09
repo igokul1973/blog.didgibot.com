@@ -244,7 +244,7 @@ describe('CvComponent', () => {
             const h2 = compiled.querySelector('.contact-section h2');
             expect(h2?.textContent).toContain('Igor Kulebyakin');
             const contactSection = compiled.querySelector('.contact-section');
-            expect(contactSection?.textContent).toContain('Javascript Fullstack Developer');
+            expect(contactSection?.textContent).toContain('Javascript/Python Fullstack Developer');
             expect(contactSection?.textContent?.length).toBeGreaterThan(0);
 
             // Contact links
