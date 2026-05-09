@@ -1,9 +1,9 @@
 @use '../../../styles/variables' as vars;
 
 // GLOBAL ANTI-TRUNCATION OVERRIDE - This must come first
-::ng-deep .cv,
-::ng-deep .cv *,
-::ng-deep app-cv,
+// ::ng-deep .cv,
+// ::ng-deep .cv *,
+// ::ng-deep app-cv,
 ::ng-deep app-cv * {
     overflow: visible !important;
     text-overflow: unset !important;
@@ -19,61 +19,7 @@
     max-width: 900px;
     margin: 0 auto;
     padding: 2rem;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-
-    // Override all text truncation globally
-    * {
-        overflow: visible !important;
-        text-overflow: unset !important;
-        white-space: normal !important;
-        word-wrap: break-word !important;
-        word-break: break-word !important;
-    }
-
-    // Angular Material specific overrides - ALL possible classes
-    .mdc-list-item__primary-text,
-    .mat-mdc-list-item-unscoped-content,
-    .mdc-list-item__content,
-    .mat-mdc-list-item-content,
-    .mdc-deprecated-list-item__text,
-    .mat-list-text,
-    .mat-list-item-content,
-    .mdc-list-item__text,
-    .mat-mdc-list-item-text,
-    .mdc-list-item__secondary-text,
-    .mat-mdc-list-item-secondary-text,
-    .mat-line,
-    .mat-mdc-line {
-        overflow: visible !important;
-        text-overflow: unset !important;
-        white-space: normal !important;
-        word-wrap: break-word !important;
-        word-break: break-word !important;
-        height: auto !important;
-        min-height: auto !important;
-        display: block !important;
-    }
-
-    // Force all text elements to display fully (except li to preserve bullets and span for skills)
-    p,
-    div,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        overflow: visible !important;
-        text-overflow: unset !important;
-        white-space: normal !important;
-        word-wrap: break-word !important;
-        word-break: break-word !important;
-        height: auto !important;
-        min-height: auto !important;
-        display: block !important;
-    }
 
     .contact-section {
         text-align: center;
@@ -81,7 +27,6 @@
         padding: 0.75rem;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         border-radius: 12px;
-        color: white;
         position: relative;
         overflow: hidden;
 
@@ -106,11 +51,8 @@
 
         p {
             margin: 0.2rem 0;
-            font-size: 0.9rem;
-            opacity: 0.95;
 
             a {
-                color: #ffffff;
                 text-decoration: none;
                 font-weight: 500;
                 transition: all 0.3s ease;
@@ -155,17 +97,12 @@
     }
 
     .summary-section {
-        margin-bottom: 3rem;
         padding: 2rem;
-        background: #ffffff;
         border-radius: 12px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         border-left: 4px solid #667eea;
 
         h3 {
-            color: #2d3748;
-            font-size: 1.5rem;
-            font-weight: 600;
             display: flex;
             align-items: center;
 
@@ -175,37 +112,23 @@
                 font-size: 1.25rem;
             }
         }
-
-        p {
-            line-height: 1.8;
-            text-align: justify;
-            color: #4a5568;
-            font-size: 1.05rem;
-            white-space: pre-line !important;
-        }
     }
 
     .experience-section,
     .education-section,
     .skills-section,
     .portfolio-section {
-        margin-bottom: 3rem;
-
+        margin-bottom: -1.5rem;
         h3 {
             margin-bottom: 1.2rem;
-            color: #2d3748;
-            font-size: 1.5rem;
-            font-weight: 600;
             display: flex;
             align-items: center;
-            border-bottom: 2px solid #e2e8f0;
         }
 
         // Apply summary-section styling to mat-list-items
         .mat-mdc-list-item {
-            background: #ffffff !important;
             padding: 16px 24px 16px;
-            margin: 0px 0px 32px;
+            margin: 0 0 32px;
             border-radius: 12px !important;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
             border-left: 4px solid #667eea !important;
@@ -230,7 +153,6 @@
             height: auto !important;
             max-height: none !important;
             overflow: visible !important;
-            background: transparent;
             padding: 0;
 
             mat-list-item {
@@ -240,7 +162,6 @@
                 white-space: normal !important;
                 margin-bottom: 2rem;
                 padding: 1.5rem;
-                background: #ffffff;
                 border-radius: 12px;
                 box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
                 border-left: 4px solid #667eea;
@@ -266,7 +187,6 @@
             p {
                 margin: 0.25rem 0;
                 font-size: 0.95rem;
-                color: #4a5568;
 
                 &.title {
                     font-weight: 600;
@@ -294,7 +214,6 @@
                 li {
                     margin-bottom: 0.75rem;
                     line-height: 1.6;
-                    color: #4a5568;
                     position: relative;
                     list-style-type: disc !important;
                     list-style-position: outside !important;
@@ -339,34 +258,27 @@
             justify-content: space-between;
             align-items: baseline;
 
-            h4.institution {
-                margin: 0 0 -0.25rem 0;
-                color: #2d3748;
-                font-weight: 600;
-                font-size: 1.1rem;
+            h6.institution {
+                margin: 0 0 0.25rem 0;
             }
         }
 
         p {
             span.heading {
-                color: #2d3748;
                 font-weight: 600;
             }
             &.duration {
-                color: #718096;
                 font-style: italic;
                 font-size: 0.875rem;
                 margin: 0 0 0rem 0;
             }
             &.degree {
                 margin: 0 0 0.25rem 0;
-                color: #2d3748;
                 font-size: 0.95rem;
             }
             &.field-of-study {
                 margin: 0.25rem 0;
                 font-size: 0.95rem;
-                color: #4a5568;
             }
         }
     }
@@ -514,9 +426,6 @@
 // Portfolio styling - matching summary-section
 .portfolio-section {
     .mat-mdc-list-item {
-        background: #3b3939 !important;
-        padding: 32px !important;
-        margin: 0px 0px 48px !important;
         border-radius: 12px !important;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
         border-left: 4px solid #667eea !important;
@@ -530,15 +439,13 @@
         .portfolio-item {
             h4 {
                 margin: 0 0 0.625rem 0 !important;
-                font-size: 1.3em !important;
+                font-size: 1.3em;
                 font-weight: 600;
                 line-height: 1.4 !important;
             }
 
             p {
                 margin: 0.0625rem 0 !important;
-                font-size: 1rem !important;
-                line-height: 1.4 !important;
             }
 
             .technologies-section {
@@ -546,9 +453,7 @@
 
                 h6 {
                     margin: 0.5rem 0 0.25rem 0 !important;
-                    font-size: 1.3rem !important;
-                    // font-weight: 600;
-                    line-height: 1.4 !important;
+                    font-size: 1.3em;
                 }
 
                 mat-chip-listbox {

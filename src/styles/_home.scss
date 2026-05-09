@@ -2,7 +2,7 @@
 @use 'palettes' as p;
 
 $cursor-color: p.get-palette-colors(p.$warning-palette, 80);
-$card-initial-position: -1000px;
+$card-initial-position: -1900px;
 $card-final-position: 0;
 $card-headline-tablet-width: 19rem;
 $card-headline-width: 24.5rem;

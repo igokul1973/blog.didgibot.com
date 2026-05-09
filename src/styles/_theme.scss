@@ -85,7 +85,6 @@ body {
     );
     @include mat.list-overrides(
         (
-            list-item-container-color: var(--mat-sys-primary),
             list-item-one-line-container-height: 65px
         )
     );
