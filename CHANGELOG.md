@@ -1,3 +1,10 @@
+## [1.3.5](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.4...v1.3.5) (2026-05-09)
+
+
+### Bug Fixes
+
+* in the title on CV page ([4657947](https://github.com/igokul1973/blog.didgibot.com/commit/46579472a8df4e19e01794ef85b40e1062773e78))
+
 ## [1.3.4](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.3...v1.3.4) (2026-05-08)
 
 
