@@ -1,3 +1,10 @@
+## [1.3.9](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.8...v1.3.9) (2026-05-09)
+
+
+### Bug Fixes
+
+* styling for drop-down menu that I broke on last commit ([ac53fdc](https://github.com/igokul1973/blog.didgibot.com/commit/ac53fdc44e9dae9837a4485ae67652352ac8eb20))
+
 ## [1.3.8](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.7...v1.3.8) (2026-05-09)
 
 
