@@ -5,13 +5,10 @@
 @use 'mixins' as m;
 @use 'sass:color';
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: var(--mat-sys-primary);
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 html,
@@ -19,6 +16,7 @@ body {
     color-scheme: light dark;
     height: 100%;
     margin: 0;
+    box-sizing: border-box;
 
     @include mat.theme(
         (
@@ -139,6 +137,15 @@ body {
         background-color: var(--mat-sys-secondary-container);
         color: var(--mat-sys-on-secondary-container);
     }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--mat-sys-primary);
 }
 
 .info {

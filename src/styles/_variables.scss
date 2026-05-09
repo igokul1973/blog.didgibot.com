@@ -13,6 +13,7 @@ $content-mobile-padding: 1rem;
 $footer-min-height: 2.5rem;
 $card-padding-mobile: 1rem;
 $card-padding: 2rem;
+$body-min-width: 320px;
 
 :root {
     --mat-sys-tertiary-25: #{map.get(p.$palettes, tertiary, 25)};
