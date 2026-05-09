@@ -1,3 +1,10 @@
+## [1.3.6](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.5...v1.3.6) (2026-05-09)
+
+
+### Bug Fixes
+
+* styling of pages (width) for mobile devices, styling of code block (width overflow) on Article ([9e1ec7a](https://github.com/igokul1973/blog.didgibot.com/commit/9e1ec7a152559feaed0ccb3d51f1583d6ad18c20))
+
 ## [1.3.5](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.4...v1.3.5) (2026-05-09)
 
 
