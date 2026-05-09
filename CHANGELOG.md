@@ -1,3 +1,10 @@
+## [1.3.7](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.6...v1.3.7) (2026-05-09)
+
+
+### Bug Fixes
+
+* heading and list-block styles (wrapping of words) ([935591c](https://github.com/igokul1973/blog.didgibot.com/commit/935591c977dc945ebb3505d8af2796a6d5539e3f))
+
 ## [1.3.6](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.5...v1.3.6) (2026-05-09)
 
 
