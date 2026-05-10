@@ -1,3 +1,10 @@
+## [1.3.13](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.12...v1.3.13) (2026-05-10)
+
+
+### Bug Fixes
+
+* the AppComponent now has synchronous language detection, LanguageSwitcherComponent simplified ([97646b4](https://github.com/igokul1973/blog.didgibot.com/commit/97646b42e5d0f30a03b2dd16fd0139475d4c4128))
+
 ## [1.3.12](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.11...v1.3.12) (2026-05-10)
 
 
