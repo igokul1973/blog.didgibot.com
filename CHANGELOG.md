@@ -1,3 +1,10 @@
+## [1.3.10](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.9...v1.3.10) (2026-05-10)
+
+
+### Bug Fixes
+
+* relative to absolute scss imports, code blocks in articles font size for mobile screen size ([2f55e9a](https://github.com/igokul1973/blog.didgibot.com/commit/2f55e9adb7e93d71bfd116104972396ceb393fd7))
+
 ## [1.3.9](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.8...v1.3.9) (2026-05-09)
 
 
