@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { delay, distinctUntilChanged, map, merge, Observable, of, switchMap } from 'rxjs';
+import { distinctUntilChanged, map, merge, Observable, of, switchMap } from 'rxjs';
 import { LanguageEnum } from 'types/translation';
 
 @Injectable({
@@ -54,7 +54,6 @@ export class UrlService {
     // Observable approach for reactive updates
     getCurrentRouteParam$(param: string) {
         return of(null).pipe(
-            delay(500),
             switchMap(() => {
                 const route: ActivatedRoute | null = this.activatedRoute.root;
 

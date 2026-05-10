@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, map, mergeMap, Observable, of, switchMap } from 'rxjs';
+import { LanguageEnum } from 'types/translation';
 import { InitializationService } from '../../services/initialization/initialization.service';
 import { CookieConsentComponent } from '../cookie-consent/cookie-consent.component';
 import { FooterComponent } from '../footer/footer.component';
@@ -53,6 +54,24 @@ export class AppComponent implements OnInit, AfterViewInit {
                 this.analyticsService.init();
             }
         });
+
+        this.router.events
+            .pipe(
+                filter((e) => e instanceof NavigationEnd),
+                map(() => {
+                    const root = this.activatedRoute.root;
+                    const language = root.snapshot.paramMap.get('language');
+                    if (!language && root.children.length) {
+                        return root.children[0].snapshot.paramMap.get('language');
+                    }
+                    return language;
+                })
+            )
+            .subscribe((language) => {
+                document.documentElement.lang = language || 'en';
+                // Update service signal
+                this.articleService.selectedLanguage.set((language || 'en') as LanguageEnum);
+            });
 
         this.routeName$ = this.router.events.pipe(
             filter((e) => e instanceof NavigationEnd),

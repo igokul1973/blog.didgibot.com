@@ -3,10 +3,19 @@
         <!-- Contact Section -->
         <section class="contact-section">
             <h2 id="cv-title">{{ contact().name }}</h2>
-            <p>{{ contact().title }}</p>
-            <p>{{ display }}</p>
+            <p class="info">{{ contact().title }}</p>
+            <p class="info">{{ display }}</p>
             <p>
                 <a href="mailto:{{ contact().email }}">{{ contact().email }}</a>
+            </p>
+            <p>
+                <a href="{{ contact().github }}" target="_blank" rel="noopener noreferrer">
+                    @if (articleService.selectedLanguage() === languageEnum.RU) {
+                        GitHub профиль
+                    } @else {
+                        GitHub Profile
+                    }
+                </a>
             </p>
             <p>
                 <a href="{{ contact().linkedin }}" target="_blank" rel="noopener noreferrer">
@@ -23,15 +32,6 @@
                         HeadHunter профиль
                     } @else {
                         HeadHunter Profile
-                    }
-                </a>
-            </p>
-            <p>
-                <a href="{{ contact().github }}" target="_blank" rel="noopener noreferrer">
-                    @if (articleService.selectedLanguage() === languageEnum.RU) {
-                        GitHub профиль
-                    } @else {
-                        GitHub Profile
                     }
                 </a>
             </p>

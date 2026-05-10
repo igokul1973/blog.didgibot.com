@@ -2,7 +2,6 @@ import { ArticleService } from '@/app/services/article/article.service';
 import { UrlService } from '@/app/services/url/url.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Subject, Subscription } from 'rxjs';
 import { LanguageEnum } from 'types/translation';
 import { vi } from 'vitest';
 import { LanguageSwitcherComponent } from './language-switcher.component';
@@ -12,7 +11,6 @@ describe('LanguageSwitcherComponent', () => {
     let fixture: ComponentFixture<LanguageSwitcherComponent>;
     let urlServiceSpy: {
         replaceLanguageParamInUrl: ReturnType<typeof vi.fn>;
-        watchLanguageParam: ReturnType<typeof vi.fn>;
     };
 
     type LanguageSignalMock = ((...args: unknown[]) => LanguageEnum) & {
@@ -24,11 +22,8 @@ describe('LanguageSwitcherComponent', () => {
     };
 
     let selectedLanguageSignalMock: LanguageSignalMock;
-    let languageParamSubject: Subject<LanguageEnum | null>;
 
     beforeEach(async () => {
-        languageParamSubject = new Subject<LanguageEnum | null>();
-
         selectedLanguageSignalMock = vi.fn(() => LanguageEnum.EN) as unknown as LanguageSignalMock;
         selectedLanguageSignalMock.set = vi.fn();
 
@@ -37,8 +32,7 @@ describe('LanguageSwitcherComponent', () => {
         };
 
         urlServiceSpy = {
-            replaceLanguageParamInUrl: vi.fn(),
-            watchLanguageParam: vi.fn(() => languageParamSubject.asObservable())
+            replaceLanguageParamInUrl: vi.fn()
         };
 
         await TestBed.configureTestingModule({
@@ -70,20 +64,6 @@ describe('LanguageSwitcherComponent', () => {
         expect((matFormField.nativeElement as HTMLElement).classList.contains('language-switcher')).toBe(true);
     });
 
-    it('should default selected language to EN when no language param is present', () => {
-        languageParamSubject.next(null);
-        fixture.detectChanges();
-
-        expect(selectedLanguageSignalMock.set).toHaveBeenCalledWith(LanguageEnum.EN);
-    });
-
-    it('should update selected language when language param changes', () => {
-        languageParamSubject.next(LanguageEnum.RU);
-        fixture.detectChanges();
-
-        expect(selectedLanguageSignalMock.set).toHaveBeenCalledWith(LanguageEnum.RU);
-    });
-
     it('should call UrlService to update URL when language is changed from the UI', () => {
         const matSelect = fixture.debugElement.query(By.css('mat-select'));
 
@@ -91,15 +71,5 @@ describe('LanguageSwitcherComponent', () => {
         fixture.detectChanges();
 
         expect(urlServiceSpy.replaceLanguageParamInUrl).toHaveBeenCalledWith(LanguageEnum.RU);
-    });
-
-    it('should unsubscribe from subscriptions on ngOnDestroy', () => {
-        const unsubscribeSpy = vi.spyOn(Subscription.prototype, 'unsubscribe');
-
-        component.ngOnDestroy();
-
-        expect(unsubscribeSpy).toHaveBeenCalled();
-
-        unsubscribeSpy.mockRestore();
     });
 });

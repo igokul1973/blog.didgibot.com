@@ -78,12 +78,12 @@ describe('AppComponent', () => {
         };
 
         mockArticleService = {
-            selectedLanguage: signal(LanguageEnum.EN),
+            selectedLanguage: signal(LanguageEnum.EN) as WritableSignal<LanguageEnum>,
             homePageArticles: signal([]),
             watchArticles: articleWatchArticlesSpy,
             getArticleBySlug: vi.fn(() => of(null)),
             setSearchQuery: setSearchQuerySpy
-        };
+        } as Partial<ArticleService>;
 
         cookieBannerSignal = signal(false);
 
@@ -295,5 +295,44 @@ describe('AppComponent', () => {
         // Cleanup
         document.body.classList.remove('dark');
         win.matchMedia = originalMatchMedia;
+    });
+
+    it('sets document language and updates article service when language param is present', async () => {
+        const router = TestBed.inject(Router);
+        const fixture = TestBed.createComponent(AppComponent);
+
+        fixture.detectChanges();
+
+        await router.navigateByUrl('/en');
+        fixture.detectChanges();
+
+        expect(document.documentElement.lang).toBe('en');
+        expect(mockArticleService.selectedLanguage?.()).toBe(LanguageEnum.EN);
+    });
+
+    it('defaults to english when language param is not present', async () => {
+        const router = TestBed.inject(Router);
+        const fixture = TestBed.createComponent(AppComponent);
+
+        fixture.detectChanges();
+
+        await router.navigateByUrl('/');
+        fixture.detectChanges();
+
+        expect(document.documentElement.lang).toBe('en');
+        expect(mockArticleService.selectedLanguage?.()).toBe(LanguageEnum.EN);
+    });
+
+    it('updates language when navigating to different language route', async () => {
+        const router = TestBed.inject(Router);
+        const fixture = TestBed.createComponent(AppComponent);
+
+        fixture.detectChanges();
+
+        await router.navigateByUrl('/ru');
+        fixture.detectChanges();
+
+        expect(document.documentElement.lang).toBe('ru');
+        expect(mockArticleService.selectedLanguage?.()).toBe(LanguageEnum.RU);
     });
 });
