@@ -1,6 +1,6 @@
-@use '../../../styles/variables' as vars;
-@use '../../../styles/home' as home;
-@use '../../../styles/header' as header;
+@use 'variables' as vars;
+@use 'home' as home;
+@use 'header' as header;
 
 .logo {
     cursor: pointer;
