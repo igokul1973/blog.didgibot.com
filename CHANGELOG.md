@@ -1,3 +1,10 @@
+## [1.3.12](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.11...v1.3.12) (2026-05-10)
+
+
+### Bug Fixes
+
+* the mobile menu highlighting of current page when the url is on Home page ([0c33600](https://github.com/igokul1973/blog.didgibot.com/commit/0c33600bf0f85661bcb3d2bb45b7b1298b58f415))
+
 ## [1.3.11](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.10...v1.3.11) (2026-05-10)
 
 
