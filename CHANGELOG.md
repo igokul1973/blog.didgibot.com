@@ -1,3 +1,10 @@
+## [1.3.14](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.13...v1.3.14) (2026-05-10)
+
+
+### Bug Fixes
+
+* add i18n for header, menu, search field, and PDF download tooltips ([c47cb3a](https://github.com/igokul1973/blog.didgibot.com/commit/c47cb3ab775e5cc313978d71c74d5de1511f31e5))
+
 ## [1.3.13](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.12...v1.3.13) (2026-05-10)
 
 
