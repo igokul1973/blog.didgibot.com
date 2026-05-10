@@ -1,7 +1,18 @@
+@use 'variables' as var;
+
 .list-item-content {
     white-space: pre-wrap;
     word-break: break-word;
     display: inline-block;
     max-width: 100%;
     min-width: 0;
+    vertical-align: top;
+}
+
+ul,
+ol {
+    padding-inline-start: 20px;
+    @media screen and (min-width: var.$mobile-width) {
+        padding-inline-start: 40px;
+    }
 }
