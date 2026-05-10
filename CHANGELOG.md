@@ -1,3 +1,10 @@
+## [1.3.11](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.10...v1.3.11) (2026-05-10)
+
+
+### Bug Fixes
+
+* list markers alignment on list-block component, ul and ol left padding ([1da4699](https://github.com/igokul1973/blog.didgibot.com/commit/1da469982e9c5724b7b69842fd60cd9d3e0ba52e))
+
 ## [1.3.10](https://github.com/igokul1973/blog.didgibot.com/compare/v1.3.9...v1.3.10) (2026-05-10)
 
 
