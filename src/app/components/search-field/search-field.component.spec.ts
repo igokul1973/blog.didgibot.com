@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Apollo } from 'apollo-angular';
+import { vi } from 'vitest';
+
+import { ArticleService } from '@/app/services/article/article.service';
 import { SearchFieldComponent } from './search-field.component';
 
 // Minimal ResizeObserver mock for jsdom/Vitest environment
@@ -47,9 +51,32 @@ describe('SearchFieldComponent', () => {
     let component: SearchFieldComponent;
     let fixture: ComponentFixture<SearchFieldComponent>;
 
+    type LanguageSignalMock = ((...args: unknown[]) => string) & {
+        set: (language: string) => void;
+    };
+
+    let selectedLanguageSignalMock: LanguageSignalMock;
+
     beforeEach(async () => {
+        selectedLanguageSignalMock = vi.fn(() => 'en') as unknown as LanguageSignalMock;
+        selectedLanguageSignalMock.set = vi.fn();
+
+        const apolloMock = {
+            watchQuery: vi.fn(),
+            query: vi.fn(),
+            mutate: vi.fn()
+        } as Partial<Apollo>;
+
+        const articleServiceStub = {
+            selectedLanguage: selectedLanguageSignalMock
+        } as unknown as ArticleService;
+
         await TestBed.configureTestingModule({
-            imports: [SearchFieldComponent]
+            imports: [SearchFieldComponent],
+            providers: [
+                { provide: Apollo, useValue: apolloMock },
+                { provide: ArticleService, useValue: articleServiceStub }
+            ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(SearchFieldComponent);

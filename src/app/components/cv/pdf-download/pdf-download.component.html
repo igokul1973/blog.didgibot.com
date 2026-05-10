@@ -8,9 +8,9 @@
     class="pdf-download-btn"
     (click)="onDownloadClick()"
     [disabled]="isDownloading()"
-    [attr.aria-label]="isDownloading() ? 'Downloading CV PDF, please wait' : 'Download CV as PDF'"
+    [attr.aria-label]="isDownloading() ? t().downloadingAriaLabel : t().downloadTooltip"
     [attr.aria-busy]="isDownloading()"
-    matTooltip="Download CV as PDF"
+    matTooltip="{{ t().downloadTooltip }}"
     matTooltipPosition="above"
     type="button"
 >
@@ -19,7 +19,7 @@
     </mat-icon>
 
     @if (isDownloading()) {
-        <span class="download-text" aria-hidden="true">Downloading...</span>
+        <span class="download-text" aria-hidden="true">{{ t().downloadingText }}</span>
     }
 
     <!-- Loading indicator for better UX -->

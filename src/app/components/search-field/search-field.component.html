@@ -11,7 +11,7 @@
     >
         <input
             matInput
-            placeholder="Search (min 3 characters)"
+            placeholder="{{ t().placeholder }}"
             [(ngModel)]="searchQuery"
             (ngModelChange)="changeSearchQuery($event)"
             (focus)="expandInput()"
@@ -22,12 +22,12 @@
         matSuffix
         [matTooltip]="
             isMobile && isExpanded() && searchQuery()
-                ? 'Reset search'
+                ? t().resetSearch
                 : !isMobile && isExpanded() && searchQuery()
-                  ? 'Close and reset search'
+                  ? t().closeAndResetSearch
                   : !isMobile && isExpanded() && !searchQuery()
-                    ? 'Close search'
-                    : 'Search'
+                    ? t().closeSearch
+                    : t().search
         "
         (click)="toggleInput()"
         [ngClass]="{

@@ -94,6 +94,21 @@ export class PdfDownloadComponent {
     readonly hasError = computed(() => !!this.errorSignal());
     readonly showProgress = computed(() => this.isDownloadingSignal() && this.progressSignal() > 0);
 
+    private readonly translations = {
+        [LanguageEnum.EN]: {
+            downloadTooltip: 'Download CV as PDF',
+            downloadingAriaLabel: 'Downloading CV PDF, please wait',
+            downloadingText: 'Downloading...'
+        },
+        [LanguageEnum.RU]: {
+            downloadTooltip: 'Скачать резюме в PDF',
+            downloadingAriaLabel: 'Загрузка резюме в PDF, пожалуйста подождите',
+            downloadingText: 'Загрузка...'
+        }
+    };
+
+    protected readonly t = computed(() => this.translations[this.currentLanguageSignal()]);
+
     constructor() {
         // Setup debounced click handler
         this.clickSubject

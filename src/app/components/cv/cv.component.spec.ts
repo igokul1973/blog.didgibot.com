@@ -11,67 +11,6 @@ import { CvComponent } from './cv.component';
 import { IResumeData } from './types';
 
 describe('CvComponent', () => {
-    // ─── Error Handling Tests ─────────────────────────────────────────────
-
-    // describe('Error handling and edge cases', () => {
-    //     it('handles transformToLocalized catch block when resume data is corrupted', async () => {
-    //         const malformedResumeDataFactory = (): IResumeData => {
-    //             const malformedResumeData: IResumeData = {
-    //                 ...resumeData,
-    //                 education: [
-    //                     {
-    //                         ...resumeData.education[0],
-    //                         fieldOfStudy: undefined
-    //                     }
-    //                 ]
-    //             } as unknown as IResumeData;
-
-    //             return malformedResumeData;
-    //         };
-
-    //         const languageSignal = signal<LanguageEnum>(LanguageEnum.EN);
-
-    //         const mockArticleService: Partial<ArticleService> = {
-    //             selectedLanguage: languageSignal,
-    //             homePageArticles: signal([]),
-    //             setSearchQuery: vi.fn()
-    //         };
-
-    //         const mockApollo: Partial<Apollo> = {
-    //             watchQuery: vi.fn(() => ({
-    //                 valueChanges: of({ data: { articles: [] } })
-    //             })) as unknown as Apollo['watchQuery']
-    //         };
-
-    //         await TestBed.configureTestingModule({
-    //             imports: [CvComponent],
-    //             providers: [
-    //                 // eslint-disable-next-line @typescript-eslint/no-deprecated
-    //                 provideNoopAnimations(),
-    //                 { provide: ArticleService, useValue: mockArticleService },
-    //                 { provide: Apollo, useValue: mockApollo }
-    //             ]
-    //         })
-    //             .overrideComponent(CvComponent, {
-    //                 set: {
-    //                     providers: [{ provide: RESUME_DATA_TOKEN, useFactory: malformedResumeDataFactory }]
-    //                 }
-    //             })
-    //             .compileComponents();
-
-    //         const fixture2 = TestBed.createComponent(CvComponent);
-    //         fixture2.detectChanges();
-    //         // This should trigger the error handling in transformToLocalized catch block
-    //         // The component should handle the error gracefully without throwing
-    //         expect(() => fixture2.detectChanges()).not.toThrow();
-
-    //         // Component should still be created and handle the error gracefully
-    //         expect(fixture2.componentInstance).toBeTruthy();
-    //     });
-    // });
-
-    // ─── Resume JSON Structure Tests (no TestBed, pure data) ─────────────
-
     describe('Resume JSON structure validation', () => {
         const data = resumeData as unknown as IResumeData;
 
@@ -238,7 +177,7 @@ describe('CvComponent', () => {
 
             // CV title heading
             const h1 = compiled.querySelector('h1');
-            expect(h1?.textContent).toContain('Curriculum Vitae');
+            expect(h1?.textContent).toContain(' CV / Resume ');
 
             // Contact section - English personal info
             const h2 = compiled.querySelector('.contact-section h2');
@@ -607,8 +546,4 @@ describe('CvComponent', () => {
             });
         });
     });
-
-    // afterEach(() => {
-    //     TestBed.resetTestingModule();
-    // });
 });

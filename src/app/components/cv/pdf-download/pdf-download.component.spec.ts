@@ -354,4 +354,28 @@ describe('PdfDownloadComponent', () => {
             expect(clickSpy).not.toHaveBeenCalled();
         });
     });
+
+    // ─── Internationalization ─────────────────────────────────────────────────────
+
+    describe('Internationalization', () => {
+        it('should display English aria-label when language is EN', () => {
+            component.currentLanguage = LanguageEnum.EN;
+            fixture.detectChanges();
+
+            const compiled = fixture.nativeElement as HTMLElement;
+            const button = compiled.querySelector('button') as HTMLButtonElement;
+
+            expect(button?.getAttribute('aria-label')).toBe('Download CV as PDF');
+        });
+
+        it('should display Russian aria-label when language is RU', () => {
+            component.currentLanguage = LanguageEnum.RU;
+            fixture.detectChanges();
+
+            const compiled = fixture.nativeElement as HTMLElement;
+            const button = compiled.querySelector('button') as HTMLButtonElement;
+
+            expect(button?.getAttribute('aria-label')).toBe('Скачать резюме в PDF');
+        });
+    });
 });

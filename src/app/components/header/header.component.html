@@ -9,7 +9,7 @@
     <mat-toolbar color="primary" class="toolbar">
         <div class="logo" [routerLink]="['/', selectedLanguage()]">
             <span class="head">didgibot</span>
-            <span [style.visibility]="isExpanded() ? 'hidden' : 'visible'" class="motto">personal blog</span>
+            <span [style.visibility]="isExpanded() ? 'hidden' : 'visible'" class="motto">{{ t().motto }}</span>
         </div>
         <span class="spacer"></span>
         <div class="icons">
@@ -18,8 +18,8 @@
                 mat-icon-button
                 [routerLink]="['/', selectedLanguage(), 'blog']"
                 class="header-icon pop-later"
-                aria-label="Blog page"
-                matTooltip="Blog page"
+                aria-label="{{ t().blogTooltip }}"
+                matTooltip="{{ t().blogTooltip }}"
             >
                 <mat-icon class="error">article</mat-icon>
             </button>
@@ -27,8 +27,8 @@
                 mat-icon-button
                 [routerLink]="['/', selectedLanguage(), 'cv']"
                 class="header-icon pop-later"
-                aria-label="Curriculum Vitae page"
-                matTooltip="Curriculum Vitae"
+                aria-label="{{ t().cvTooltip }}"
+                matTooltip="{{ t().cvTooltip }}"
             >
                 <mat-icon class="primary">description</mat-icon>
             </button>
@@ -38,12 +38,17 @@
             <!-- <button mat-icon-button class="header-icon pop-later" aria-label="Share the article">
                 <mat-icon class="success">share</mat-icon>
             </button> -->
-            <app-language-switcher class="header-icon" matTooltip="Language switcher" />
+            <app-language-switcher
+                class="header-icon"
+                matTooltip="{{ t().languageSwitcherTooltip }}"
+                aria-label="{{ t().languageSwitcherTooltip }}"
+            />
             <button
                 mat-icon-button
                 (click)="toggleMode()"
                 [ngClass]="{ info: mode() === 'light', 'header-icon': true }"
-                matTooltip="Brightness mode"
+                matTooltip="{{ t().brightnessModeTooltip }}"
+                aria-label="{{ t().brightnessModeTooltip }}"
             >
                 @if (mode() === 'light') {
                     <mat-icon>wb_sunny</mat-icon>
@@ -54,7 +59,7 @@
             <button
                 mat-icon-button
                 class="menu-icon pop-later"
-                aria-label="Sandwich menu"
+                aria-label="{{ t().sandwichMenuTooltip }}"
                 (click)="toggleTabletMenu()"
                 #sandwich
             >
@@ -67,11 +72,11 @@
         <mat-list-item role="listitem">
             <div class="icons-mobile dark">
                 <div>
-                    <span> Language: </span>
+                    <span> {{ t().language }} </span>
                     <app-language-switcher />
                 </div>
                 <div>
-                    <span> Mode: </span>
+                    <span> {{ t().mode }} </span>
                     <button mat-icon-button (click)="toggleMode()" [ngClass]="{ info: mode() === 'light' }">
                         @if (mode() === 'light') {
                             <mat-icon>wb_sunny</mat-icon>
@@ -94,7 +99,7 @@
             (click)="toggleTabletMenu()"
             (onKeyPress)="toggleTabletMenu()"
         >
-            Home
+            {{ t().home }}
         </mat-list-item>
         <mat-list-item
             class="menu-item"
@@ -104,7 +109,7 @@
             (click)="toggleTabletMenu()"
             (onKeyPress)="toggleTabletMenu()"
         >
-            Blog
+            {{ t().blog }}
         </mat-list-item>
         <mat-list-item
             class="menu-item"
@@ -114,7 +119,7 @@
             (click)="toggleTabletMenu()"
             (onKeyPress)="toggleTabletMenu()"
         >
-            My CV
+            {{ t().myCv }}
         </mat-list-item>
     </mat-action-list>
 </section>

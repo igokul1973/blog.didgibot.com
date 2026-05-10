@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {
     AfterViewInit,
     Component,
+    computed,
     ElementRef,
     HostListener,
     inject,
@@ -23,6 +24,7 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { debounceTime, Observable, Subscription } from 'rxjs';
+import { LanguageEnum } from 'types/translation';
 import { InitializationService } from '../../services/initialization/initialization.service';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 import { SearchFieldComponent } from '../search-field/search-field.component';
@@ -78,6 +80,52 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     protected isExpanded = signal(false);
 
     private readonly subscriptions: Subscription[] = [];
+
+    private readonly translations: Record<
+        LanguageEnum,
+        {
+            language: string;
+            mode: string;
+            home: string;
+            blog: string;
+            myCv: string;
+            blogTooltip: string;
+            cvTooltip: string;
+            languageSwitcherTooltip: string;
+            brightnessModeTooltip: string;
+            sandwichMenuTooltip: string;
+            motto: string;
+        }
+    > = {
+        [LanguageEnum.EN]: {
+            language: 'Language:',
+            mode: 'Mode:',
+            home: 'Home',
+            blog: 'Blog',
+            myCv: 'My CV',
+            blogTooltip: 'Blog page',
+            cvTooltip: 'Curriculum Vitae',
+            languageSwitcherTooltip: 'Language switcher',
+            brightnessModeTooltip: 'Brightness mode',
+            sandwichMenuTooltip: 'Sandwich menu',
+            motto: 'personal blog'
+        },
+        [LanguageEnum.RU]: {
+            language: 'Язык:',
+            mode: 'Режим:',
+            home: 'Главная',
+            blog: 'Блог',
+            myCv: 'Мое резюме',
+            blogTooltip: 'Страница блога',
+            cvTooltip: 'Резюме',
+            languageSwitcherTooltip: 'Переключатель языка',
+            brightnessModeTooltip: 'Режим яркости',
+            sandwichMenuTooltip: 'Меню',
+            motto: 'персональный блог'
+        }
+    };
+
+    protected readonly t = computed(() => this.translations[this.selectedLanguage()]);
 
     @HostListener('document:mousedown', ['$event'])
     @HostListener('document:touchstart', ['$event'])

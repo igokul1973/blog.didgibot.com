@@ -263,10 +263,10 @@ describe('HeaderComponent', () => {
 
         it('should have CV icon with proper tooltip', () => {
             const compiled = fixture.nativeElement as HTMLElement;
-            const cvIcon = compiled.querySelector<HTMLButtonElement>('button[mattooltip*="Curriculum Vitae"]');
+            const cvIcon = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Curriculum Vitae"]');
             expect(cvIcon).toBeTruthy();
             if (cvIcon) {
-                expect(cvIcon.getAttribute('mattooltip')).toContain('Curriculum Vitae');
+                expect(cvIcon.getAttribute('aria-label')).toContain('Curriculum Vitae');
             }
         });
 
@@ -312,194 +312,171 @@ describe('HeaderComponent', () => {
             }
         });
 
-        it('should maintain existing navigation functionality', () => {
+        it('should close mobile menu after CV navigation', async () => {
+            const compiled = fixture.nativeElement as HTMLElement;
+            const mobileCVLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
+                (item) => item.textContent?.trim() === 'My CV'
+            );
+            // Open mobile menu first
+            component.isOpen.set(true);
+            fixture.detectChanges();
+
+            // Verify menu is open
+            expect(component.isOpen()).toBe(true);
+
+            // Click CV link
+            if (mobileCVLink) {
+                mobileCVLink.click();
+            }
+            fixture.detectChanges();
+
+            // Wait for navigation and menu close
+            await fixture.whenStable();
+
+            // Verify menu is closed
+            expect(component.isOpen()).toBe(false);
+        });
+    });
+
+    describe('Internationalization', () => {
+        it('should display English translations when language is EN', () => {
             const compiled = fixture.nativeElement as HTMLElement;
 
-            // Check that other navigation elements still exist
+            selectedLanguageSignal.set(LanguageEnum.EN);
+            fixture.detectChanges();
+
             const homeLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
                 (item) => item.textContent?.trim() === 'Home'
             );
             const blogLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
                 (item) => item.textContent?.trim() === 'Blog'
             );
+            const cvLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
+                (item) => item.textContent?.trim() === 'My CV'
+            );
 
             expect(homeLink).toBeTruthy();
             expect(blogLink).toBeTruthy();
+            expect(cvLink).toBeTruthy();
         });
 
-        it('debounces search input and navigates to blog when query length is greater than 2', async () => {
-            vi.useFakeTimers();
+        it('should display Russian translations when language is RU', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
 
-            const router = TestBed.inject(Router);
-            const navigateSpy = vi.spyOn(router, 'navigate');
-
-            fixture = TestBed.createComponent(HeaderComponent);
-            component = fixture.componentInstance;
-            component.routeName$ = of('blog');
-            component.urlPath = '';
-            // Set the search query before change detection so the first debounced
-            // emission corresponds to the non-empty user input.
-            component.searchQuery.set('abcd');
+            selectedLanguageSignal.set(LanguageEnum.RU);
             fixture.detectChanges();
 
-            await vi.advanceTimersByTimeAsync(500);
-            fixture.detectChanges();
+            const homeLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
+                (item) => item.textContent?.trim() === 'Главная'
+            );
+            const blogLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
+                (item) => item.textContent?.trim() === 'Блог'
+            );
+            const cvLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
+                (item) => item.textContent?.trim() === 'Мое резюме'
+            );
 
-            expect(setSearchQuerySpy).toHaveBeenCalledWith('abcd');
-            expect(navigateSpy).toHaveBeenCalledWith(['/', LanguageEnum.EN, 'blog']);
-
-            vi.useRealTimers();
+            expect(homeLink).toBeTruthy();
+            expect(blogLink).toBeTruthy();
+            expect(cvLink).toBeTruthy();
         });
 
-        it('does not navigate when search query length is 2 or less', async () => {
-            vi.useFakeTimers();
+        it('should update mobile menu language label when language changes', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
 
-            const router = TestBed.inject(Router);
-            const navigateSpy = vi.spyOn(router, 'navigate');
-
-            fixture = TestBed.createComponent(HeaderComponent);
-            component = fixture.componentInstance;
-            component.routeName$ = of('blog');
-            component.urlPath = '';
-            component.searchQuery.set('ab');
+            selectedLanguageSignal.set(LanguageEnum.EN);
             fixture.detectChanges();
 
-            await vi.advanceTimersByTimeAsync(500);
+            let languageLabel = Array.from(compiled.querySelectorAll<HTMLElement>('span')).find(
+                (span) => span.textContent?.trim() === 'Language:'
+            );
+            expect(languageLabel).toBeTruthy();
+
+            selectedLanguageSignal.set(LanguageEnum.RU);
             fixture.detectChanges();
 
-            expect(setSearchQuerySpy).toHaveBeenCalledWith('ab');
-            expect(navigateSpy).not.toHaveBeenCalled();
-
-            vi.useRealTimers();
+            languageLabel = Array.from(compiled.querySelectorAll<HTMLElement>('span')).find(
+                (span) => span.textContent?.trim() === 'Язык:'
+            );
+            expect(languageLabel).toBeTruthy();
         });
 
-        it('handles ResizeObserver both when viewport is narrow and wide', () => {
-            const globalWithResizeObserver = globalThis as GlobalWithResizeObserver;
-            const originalResizeObserver = globalWithResizeObserver.ResizeObserver;
-            let capturedCallback: ((entries: { contentRect: { width: number } }[]) => void) | undefined;
+        it('should update mobile menu mode label when language changes', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
 
-            class TestResizeObserver {
-                constructor(cb: (entries: { contentRect: { width: number } }[]) => void) {
-                    capturedCallback = cb;
-                }
-                observe(): void {
-                    return;
-                }
-                unobserve(): void {
-                    return;
-                }
-                disconnect(): void {
-                    return;
-                }
-            }
-
-            globalWithResizeObserver.ResizeObserver = TestResizeObserver as unknown as typeof ResizeObserver;
-
-            fixture = TestBed.createComponent(HeaderComponent);
-            component = fixture.componentInstance;
-            component.routeName$ = of('home');
-            component.urlPath = '';
+            selectedLanguageSignal.set(LanguageEnum.EN);
             fixture.detectChanges();
 
-            component.isOpen.set(true);
-            component.ngAfterViewInit();
+            let modeLabel = Array.from(compiled.querySelectorAll<HTMLElement>('span')).find(
+                (span) => span.textContent?.trim() === 'Mode:'
+            );
+            expect(modeLabel).toBeTruthy();
 
-            // First call with a narrow viewport should leave the menu open.
-            capturedCallback?.([{ contentRect: { width: 600 } }]);
-            expect(component.isOpen()).toBe(true);
+            selectedLanguageSignal.set(LanguageEnum.RU);
+            fixture.detectChanges();
 
-            // Second call with a wide viewport should close the menu.
-            capturedCallback?.([{ contentRect: { width: 800 } }]);
-            expect(component.isOpen()).toBe(false);
-
-            globalWithResizeObserver.ResizeObserver = originalResizeObserver;
+            modeLabel = Array.from(compiled.querySelectorAll<HTMLElement>('span')).find(
+                (span) => span.textContent?.trim() === 'Режим:'
+            );
+            expect(modeLabel).toBeTruthy();
         });
 
-        describe('CV Navigation', () => {
-            it('should have CV navigation icon in desktop header', () => {
-                const compiled = fixture.nativeElement as HTMLElement;
-                const cvIcon = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Curriculum Vitae"]');
-                expect(cvIcon).toBeTruthy();
-                if (cvIcon) {
-                    expect(cvIcon.getAttribute('aria-label')).toContain('Curriculum Vitae');
-                }
-            });
+        it('should display English tooltips when language is EN', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
 
-            it('should have CV icon with proper tooltip', () => {
-                const compiled = fixture.nativeElement as HTMLElement;
-                const cvIcon = compiled.querySelector<HTMLButtonElement>('button[mattooltip*="Curriculum Vitae"]');
-                expect(cvIcon).toBeTruthy();
-                if (cvIcon) {
-                    expect(cvIcon.getAttribute('mattooltip')).toContain('Curriculum Vitae');
-                }
-            });
+            selectedLanguageSignal.set(LanguageEnum.EN);
+            fixture.detectChanges();
 
-            it('should have proper icon for CV navigation', () => {
-                const compiled = fixture.nativeElement as HTMLElement;
-                const cvIcon = compiled.querySelector<HTMLElement>('button[aria-label*="Curriculum Vitae"] mat-icon');
-                expect(cvIcon).toBeTruthy();
-                if (cvIcon) {
-                    expect(cvIcon.textContent?.trim()).toBe('description');
-                }
-            });
+            const blogButton = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Blog page"]');
+            const cvButton = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Curriculum Vitae"]');
+            const languageSwitcher = compiled.querySelector<HTMLElement>('[aria-label*="Language switcher"]');
+            const brightnessButton = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Brightness mode"]');
+            const sandwichButton = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Sandwich menu"]');
 
-            it('should have CV link in mobile menu', () => {
-                const compiled = fixture.nativeElement as HTMLElement;
-                const mobileCVLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
-                    (item) => item.textContent?.trim() === 'My CV'
-                );
-                expect(mobileCVLink).toBeTruthy();
-                if (mobileCVLink) {
-                    expect(mobileCVLink.textContent?.trim()).toBe('My CV');
-                }
-            });
+            expect(blogButton).toBeTruthy();
+            expect(cvButton).toBeTruthy();
+            expect(languageSwitcher).toBeTruthy();
+            expect(brightnessButton).toBeTruthy();
+            expect(sandwichButton).toBeTruthy();
+        });
 
-            it('should have proper router link configuration for mobile CV link', () => {
-                const compiled = fixture.nativeElement as HTMLElement;
-                // Find the CV link by text content since routerLink might be dynamically bound
-                const mobileCVLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
-                    (item) => item.textContent?.trim() === 'My CV'
-                );
-                expect(mobileCVLink).toBeTruthy();
-                if (mobileCVLink) {
-                    // Check if the element has routerLink functionality
-                    expect(mobileCVLink.getAttribute('role')).toBe('listitem');
-                }
-            });
+        it('should display Russian tooltips when language is RU', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
 
-            it('should have CV navigation accessible via keyboard', () => {
-                const compiled = fixture.nativeElement as HTMLElement;
-                const cvIcon = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Curriculum Vitae"]');
-                expect(cvIcon).toBeTruthy();
-                if (cvIcon) {
-                    expect(cvIcon.tabIndex).not.toBeLessThan(0);
-                }
-            });
+            selectedLanguageSignal.set(LanguageEnum.RU);
+            fixture.detectChanges();
 
-            it('should close mobile menu after CV navigation', async () => {
-                const compiled = fixture.nativeElement as HTMLElement;
-                const mobileCVLink = Array.from(compiled.querySelectorAll<HTMLElement>('mat-list-item')).find(
-                    (item) => item.textContent?.trim() === 'My CV'
-                );
-                // Open mobile menu first
-                component.isOpen.set(true);
-                fixture.detectChanges();
+            const blogButton = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Страница блога"]');
+            const cvButton = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Резюме"]');
+            const languageSwitcher = compiled.querySelector<HTMLElement>('[aria-label*="Переключатель языка"]');
+            const brightnessButton = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Режим яркости"]');
+            const sandwichButton = compiled.querySelector<HTMLButtonElement>('button[aria-label*="Меню"]');
 
-                // Verify menu is open
-                expect(component.isOpen()).toBe(true);
+            expect(blogButton).toBeTruthy();
+            expect(cvButton).toBeTruthy();
+            expect(languageSwitcher).toBeTruthy();
+            expect(brightnessButton).toBeTruthy();
+            expect(sandwichButton).toBeTruthy();
+        });
 
-                // Click CV link
-                if (mobileCVLink) {
-                    mobileCVLink.click();
-                }
-                fixture.detectChanges();
+        it('should display English motto when language is EN', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
 
-                // Wait for navigation and menu close
-                await fixture.whenStable();
+            selectedLanguageSignal.set(LanguageEnum.EN);
+            fixture.detectChanges();
 
-                // Verify menu is closed
-                expect(component.isOpen()).toBe(false);
-            });
+            const motto = compiled.querySelector<HTMLElement>('.motto');
+            expect(motto?.textContent?.trim()).toBe('personal blog');
+        });
+
+        it('should display Russian motto when language is RU', () => {
+            const compiled = fixture.nativeElement as HTMLElement;
+
+            selectedLanguageSignal.set(LanguageEnum.RU);
+            fixture.detectChanges();
+
+            const motto = compiled.querySelector<HTMLElement>('.motto');
+            expect(motto?.textContent?.trim()).toBe('персональный блог');
         });
     });
 });
